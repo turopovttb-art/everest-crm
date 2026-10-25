@@ -105,51 +105,111 @@
         <div id="markazlarGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </main>
 
-    <!-- 2. UNIVERSAL KIRISH FORMASI -->
+    <!-- 2. UNIVERSAL KIRISH VA RO'YXATDAN O'TISH FORMASI -->
     <div id="sahifaAuth" class="hidden min-h-[85vh] flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-8 rounded-3xl shadow-2xl w-full max-w-md">
-            <div class="text-center mb-6">
-                <div class="w-12 h-12 bg-blue-600/10 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl">
-                    <i class="fa-solid fa-user-lock"></i>
-                </div>
-                <h2 class="text-2xl font-black text-slate-900 dark:text-white">Tizimga Kirish</h2>
-                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">O'z rolingizni tanlang va profilga kiring</p>
-            </div>
-
-            <div class="grid grid-cols-3 bg-slate-100 dark:bg-slate-950 p-1 rounded-2xl border border-slate-200 dark:border-slate-800 mb-5 text-xs font-bold text-center">
-                <button type="button" onclick="tanlaRol('markaz')" id="tab-markaz" class="py-2 rounded-xl bg-blue-600 text-white shadow transition flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-building-columns"></i> Markaz
+            
+            <div class="grid grid-cols-2 bg-slate-100 dark:bg-slate-950 p-1.5 rounded-2xl border border-slate-200 dark:border-slate-800 mb-6 text-xs font-bold text-center">
+                <button type="button" onclick="almashtirAuthRejim('kirish')" id="btnAuthKirish" class="py-2.5 rounded-xl bg-blue-600 text-white shadow transition">
+                    <i class="fa-solid fa-right-to-bracket mr-1"></i> Kirish
                 </button>
-                <button type="button" onclick="tanlaRol('ustoz')" id="tab-ustoz" class="py-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-chalkboard-user"></i> Ustoz
-                </button>
-                <button type="button" onclick="tanlaRol('oquvchi')" id="tab-oquvchi" class="py-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5">
-                    <i class="fa-solid fa-user-graduate"></i> O'quvchi
+                <button type="button" onclick="almashtirAuthRejim('reg')" id="btnAuthReg" class="py-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-white transition">
+                    <i class="fa-solid fa-user-plus mr-1"></i> Ro'yxatdan O'tish
                 </button>
             </div>
 
-            <form onsubmit="event.preventDefault(); tizimgaKirish();" class="space-y-4 text-xs font-bold">
-                <div>
-                    <label class="block uppercase text-slate-500 mb-1">Identifikator (Login)</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="text" id="kirishLogin" placeholder="Loginni kiriting" required class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 focus:border-blue-500 rounded-xl pl-9 pr-4 py-3 text-sm font-bold outline-none text-slate-900 dark:text-white">
-                    </div>
+            <!-- TIZIMGA KIRISH BLOKI -->
+            <div id="blokTizimgaKirish">
+                <div class="text-center mb-5">
+                    <h2 class="text-xl font-black text-slate-900 dark:text-white">Tizimga Kirish</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">O'z rolingizni tanlang va profilga kiring</p>
                 </div>
-                <div>
-                    <label class="block uppercase text-slate-500 mb-1">Maxfiy Parol</label>
-                    <div class="relative">
-                        <i class="fa-solid fa-key absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                        <input type="password" id="kirishParol" placeholder="••••••••" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 focus:border-blue-500 rounded-xl pl-9 pr-4 py-3 text-sm font-bold outline-none text-slate-900 dark:text-white">
-                    </div>
+
+                <div class="grid grid-cols-3 bg-slate-100 dark:bg-slate-950 p-1 rounded-2xl border border-slate-200 dark:border-slate-800 mb-5 text-xs font-bold text-center">
+                    <button type="button" onclick="tanlaRol('markaz')" id="tab-markaz" class="py-2 rounded-xl bg-blue-600 text-white shadow transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-building-columns"></i> Markaz
+                    </button>
+                    <button type="button" onclick="tanlaRol('ustoz')" id="tab-ustoz" class="py-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-chalkboard-user"></i> Ustoz
+                    </button>
+                    <button type="button" onclick="tanlaRol('oquvchi')" id="tab-oquvchi" class="py-2 rounded-xl text-slate-500 dark:text-slate-400 hover:text-white transition flex items-center justify-center gap-1.5">
+                        <i class="fa-solid fa-user-graduate"></i> O'quvchi
+                    </button>
                 </div>
-                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-500/20 text-xs flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-arrow-right-to-bracket"></i> Tizimga Kirish
-                </button>
-                <button type="button" onclick="ochishSahifa('marketplace')" class="w-full text-center text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 pt-1">
-                    ← Asosiy vitrinaga qaytish
-                </button>
-            </form>
+
+                <form onsubmit="event.preventDefault(); tizimgaKirish();" class="space-y-4 text-xs font-bold">
+                    <div>
+                        <label class="block uppercase text-slate-500 mb-1">Identifikator (Login)</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-user absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="kirishLogin" placeholder="Loginni kiriting" required class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 focus:border-blue-500 rounded-xl pl-9 pr-4 py-3 text-sm font-bold outline-none text-slate-900 dark:text-white">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block uppercase text-slate-500 mb-1">Maxfiy Parol</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-key absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="password" id="kirishParol" placeholder="••••••••" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 focus:border-blue-500 rounded-xl pl-9 pr-4 py-3 text-sm font-bold outline-none text-slate-900 dark:text-white">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-500/20 text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> Tizimga Kirish
+                    </button>
+                </form>
+            </div>
+
+            <!-- RO'YXATDAN O'TISH BLOKI -->
+            <div id="blokRoyxatdanOtish" class="hidden space-y-4">
+                <div class="text-center mb-3">
+                    <h2 class="text-xl font-black text-slate-900 dark:text-white">Yangi Akkaunt Ochish</h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">O'quvchi yoki O'qituvchi sifatida a'zo bo'ling</p>
+                </div>
+
+                <form onsubmit="event.preventDefault(); tezkorRegistratsiya();" class="space-y-3.5 text-xs font-bold">
+                    <div>
+                        <label class="block uppercase text-slate-500 mb-1">Qaysi Markazga a'zosiz? *</label>
+                        <select id="regTanlanganMarkaz" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-sm font-bold outline-none text-slate-900 dark:text-white"></select>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 bg-slate-100 dark:bg-slate-950 p-1 rounded-xl">
+                        <button type="button" onclick="tanlaRegRol('oquvchi')" id="regRol-oquvchi" class="py-2 rounded-lg bg-blue-600 text-white font-bold text-center">
+                            🎓 O'quvchi
+                        </button>
+                        <button type="button" onclick="tanlaRegRol('ustoz')" id="regRol-ustoz" class="py-2 rounded-lg text-slate-400 font-bold text-center">
+                            👨‍🏫 O'qituvchi
+                        </button>
+                    </div>
+
+                    <div>
+                        <label class="block uppercase text-slate-500 mb-1">To'liq Ism va Familiyangiz *</label>
+                        <input type="text" id="regIsm" required placeholder="Masalan: Tolibjon Turopov" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-sm outline-none font-bold">
+                    </div>
+
+                    <div>
+                        <label class="block uppercase text-slate-500 mb-1">Fan / Yo'nalish *</label>
+                        <input type="text" id="regFan" required placeholder="Masalan: IT Dasturlash yoki IELTS" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-sm outline-none">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block uppercase text-slate-500 mb-1">O'zingizga Login *</label>
+                            <input type="text" id="regLogin" required placeholder="tolibjon" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-sm outline-none font-mono font-bold">
+                        </div>
+                        <div>
+                            <label class="block uppercase text-slate-500 mb-1">Parol *</label>
+                            <input type="password" id="regParol" required placeholder="12345" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-3 text-sm outline-none font-bold">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-emerald-500/20 text-xs flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-check"></i> Ro'yxatdan O'tish va Kirish
+                    </button>
+                </form>
+            </div>
+
+            <button type="button" onclick="ochishSahifa('marketplace')" class="w-full text-center text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-300 pt-4 block">
+                ← Asosiy vitrinaga qaytish
+            </button>
         </div>
     </div>
 
@@ -192,7 +252,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
                 <h2 class="font-black text-sm flex items-center gap-2 text-emerald-500">
-                    <i class="fa-solid fa-users-viewfinder"></i> O'quvchilar Reestri (Ota-ona Telegram ID bilan)
+                    <i class="fa-solid fa-users-viewfinder"></i> O'quvchilar Reestri (Telegram ID bilan)
                 </h2>
                 <div class="overflow-x-auto max-h-80 custom-scroll">
                     <table class="w-full text-left text-xs">
@@ -271,7 +331,7 @@
                         </h2>
                         <p class="text-xs text-slate-500 mt-1">
                             Sana: <span id="bugungiSanaMatn" class="font-mono font-bold text-blue-500"></span> • 
-                            <span class="text-emerald-500 font-bold"><i class="fa-brands fa-telegram"></i> Bot orqali to'g'ridan-to'g'ri integratsiya faol</span>
+                            <span class="text-emerald-500 font-bold"><i class="fa-brands fa-telegram"></i> Bot integratsiyasi faol</span>
                         </p>
                     </div>
                     <button onclick="ochishModal('modalYangiOquvchi')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center gap-1.5 shadow">
@@ -326,7 +386,6 @@
                         <h2 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
                             <i class="fa-solid fa-chalkboard-user text-indigo-500"></i> Markaz O'qituvchilari
                         </h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Ustozlar ma'lumotlarini boshqarish va tahrirlash</p>
                     </div>
                     <button onclick="ochishModal('modalYangiUstoz')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center gap-1.5 shadow">
                         <i class="fa-solid fa-plus-circle"></i> + Yangi O'qituvchi Qo'shish
@@ -357,7 +416,6 @@
                         <h2 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2">
                             <i class="fa-solid fa-user-graduate text-blue-500"></i> O'quvchilar & To'lov Holatlari
                         </h2>
-                        <p class="text-xs text-slate-500 mt-0.5">O'quvchilar ro'yxati, to'lov cheklari va Telegram ID lari</p>
                     </div>
                     <button onclick="ochishModal('modalYangiOquvchi')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition flex items-center gap-1.5 shadow">
                         <i class="fa-solid fa-plus-circle"></i> + O'quvchi Qo'shish
@@ -389,7 +447,6 @@
                         <h2 class="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
                             <i class="fa-solid fa-bullhorn text-indigo-500"></i> E'lon Berish
                         </h2>
-                        <p class="text-xs text-slate-500 mt-1">Ushbu e'lon o'quvchilarning shaxsiy kabinetida aks etadi.</p>
                     </div>
 
                     <div class="space-y-3 text-xs font-bold">
@@ -415,7 +472,6 @@
                         <h2 class="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
                             <i class="fa-solid fa-credit-card text-amber-500"></i> Markaz Plastik Kartasi
                         </h2>
-                        <p class="text-xs text-slate-500 mt-1">Ushbu ma'lumotlar o'quvchilaringiz kabinetida to'lov uchun aks etadi.</p>
                     </div>
 
                     <div class="space-y-3 text-xs font-bold">
@@ -597,10 +653,7 @@
         </div>
     </div>
 
-    <!-- ======================================================== -->
-    <!-- 7. MODALLAR                                              -->
-    <!-- ======================================================== -->
-
+    <!-- 7. MODALLAR -->
     <!-- MODAL: KURSGA YOZILISH -->
     <div id="modalArizaQoldirish" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-md p-6 md:p-8 space-y-4 shadow-2xl">
@@ -762,7 +815,7 @@
         </div>
     </div>
 
-    <!-- MODAL: YANGI O'QUVCHI (TELEGRAM CHAT ID BILAN) -->
+    <!-- MODAL: YANGI O'QUVCHI (MARKAZ ADMINI QO'SHISHI UCHUN) -->
     <div id="modalYangiOquvchi" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-md p-6 space-y-4 shadow-xl">
             <h3 class="text-base font-black">Yangi O'quvchi Qo'shish</h3>
@@ -773,7 +826,7 @@
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1 uppercase">Ota-ona yoki O'quvchi Telegram Chat ID (Ixtiyoriy)</label>
-                    <input type="text" id="mOqChatId" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-3 outline-none font-mono" placeholder="Masalan: 8332325317 (Bo'sh qolsa adminga boradi)">
+                    <input type="text" id="mOqChatId" class="w-full bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-xl p-3 outline-none font-mono" placeholder="Masalan: 8332325317">
                 </div>
                 <div>
                     <label class="block text-slate-500 mb-1 uppercase">Guruh / Fan *</label>
@@ -867,38 +920,27 @@
         </div>
     </div>
 
-    <!-- ======================================================== -->
-    <!-- JAVASCRIPT: TELEGRAM BOT INTEGRATSIYASI & DASTUR MOTORI  -->
-    <!-- ======================================================== -->
+    <!-- JAVASCRIPT: MOTOR VA TELEGRAM INTEGRATSIYASI -->
     <script>
-        // TELEGRAM BOT SOZLAMALARI (SIZNING TO'G'RI MA'LUMOTLARINGIZ)
         const TG_BOT_TOKEN = "8952625874:AAGdtnmNZ_CIB7jvNEAuHggdmAcMsTL5cUc";
         const DEFAULT_ADMIN_CHAT_ID = "8332325317";
 
-        // TELEGRAM BOTGA XABAR YUBORISH AVTOMATIK FUNKSIYASI
         async function yuborishTelegramXabar(matn, targetChatId = null) {
             const chatId = targetChatId || DEFAULT_ADMIN_CHAT_ID;
             const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
-
             try {
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: chatId,
-                        text: matn,
-                        parse_mode: 'HTML'
-                    })
+                    body: JSON.stringify({ chat_id: chatId, text: matn, parse_mode: 'HTML' })
                 });
                 const res = await response.json();
                 if (res.ok) {
                     showToast("Xabar to'g'ridan-to'g'ri Telegram bot orqali yetkazildi!", "success");
                 } else {
-                    console.warn("Telegram xatolik:", res);
                     showToast("Telegram bildirishnoma yetib bormadi (Botga /start bosing)", "warning");
                 }
             } catch (err) {
-                console.error("Tarmoq xatosi:", err);
                 showToast("Tarmoq xatosi: Telegramga ulanib bo'lmadi", "error");
             }
         }
@@ -906,11 +948,7 @@
         function showToast(xabar, tur = 'success') {
             var container = document.getElementById('toastContainer');
             var toast = document.createElement('div');
-            var bgRang = tur === 'success' 
-                ? 'bg-emerald-600 text-white' 
-                : tur === 'error' 
-                    ? 'bg-rose-600 text-white' 
-                    : 'bg-amber-500 text-white';
+            var bgRang = tur === 'success' ? 'bg-emerald-600 text-white' : tur === 'error' ? 'bg-rose-600 text-white' : 'bg-amber-500 text-white';
             var ikon = tur === 'success' ? 'fa-circle-check' : tur === 'error' ? 'fa-circle-xmark' : 'fa-triangle-exclamation';
 
             toast.className = `px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2.5 text-xs font-bold toast-animate ${bgRang} pointer-events-auto`;
@@ -929,7 +967,6 @@
             var val = input.value.replace(/\D/g, '');
             if (val.startsWith('998')) val = val.substring(3);
             val = val.substring(0, 9);
-
             var res = '+998';
             if (val.length > 0) res += ' (' + val.substring(0, 2);
             if (val.length >= 2) res += ') ' + val.substring(2, 5);
@@ -986,6 +1023,7 @@
 
         var tanlanganKategoriya = "barchasi";
         var joriyRol = "markaz";
+        var regRol = "oquvchi";
         var faolMarkaz = null;
         var faolUstoz = null;
         var faolOquvchi = null;
@@ -1008,7 +1046,6 @@
         function loginMavjudmi(login, istisnoLogin = null) {
             login = login.toLowerCase();
             if (login === "nvmtrpv") return true;
-
             for (var m of markazlar) {
                 if (m.login.toLowerCase() === login && m.login.toLowerCase() !== istisnoLogin) return true;
                 for (var u of m.ustozlar) {
@@ -1019,6 +1056,101 @@
                 }
             }
             return false;
+        }
+
+        function almashtirAuthRejim(rejim) {
+            var btnKirish = document.getElementById('btnAuthKirish');
+            var btnReg = document.getElementById('btnAuthReg');
+            var blokKirish = document.getElementById('blokTizimgaKirish');
+            var blokReg = document.getElementById('blokRoyxatdanOtish');
+
+            if (rejim === 'kirish') {
+                btnKirish.className = "py-2.5 rounded-xl bg-blue-600 text-white shadow transition";
+                btnReg.className = "py-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-white transition";
+                blokKirish.classList.remove('hidden');
+                blokReg.classList.add('hidden');
+            } else {
+                btnReg.className = "py-2.5 rounded-xl bg-blue-600 text-white shadow transition";
+                btnKirish.className = "py-2.5 rounded-xl text-slate-500 dark:text-slate-400 hover:text-white transition";
+                blokKirish.classList.add('hidden');
+                blokReg.classList.remove('hidden');
+                yangilashRegMarkazSelect();
+            }
+        }
+
+        function tanlaRegRol(rol) {
+            regRol = rol;
+            var btnOq = document.getElementById('regRol-oquvchi');
+            var btnUst = document.getElementById('regRol-ustoz');
+            if (rol === 'oquvchi') {
+                btnOq.className = "py-2 rounded-lg bg-blue-600 text-white font-bold text-center";
+                btnUst.className = "py-2 rounded-lg text-slate-400 font-bold text-center";
+            } else {
+                btnUst.className = "py-2 rounded-lg bg-indigo-600 text-white font-bold text-center";
+                btnOq.className = "py-2 rounded-lg text-slate-400 font-bold text-center";
+            }
+        }
+
+        function yangilashRegMarkazSelect() {
+            var sel = document.getElementById('regTanlanganMarkaz');
+            sel.innerHTML = "";
+            markazlar.forEach(function(m) {
+                sel.innerHTML += `<option value="${m.id}">${m.nomi}</option>`;
+            });
+        }
+
+        function tezkorRegistratsiya() {
+            var markazId = parseInt(document.getElementById('regTanlanganMarkaz').value);
+            var ism = document.getElementById('regIsm').value.trim();
+            var fan = document.getElementById('regFan').value.trim();
+            var login = document.getElementById('regLogin').value.trim().toLowerCase();
+            var parol = document.getElementById('regParol').value.trim();
+
+            if (!ism || !fan || !login || !parol) {
+                return showToast("Barcha maydonlarni to'ldiring!", "error");
+            }
+
+            if (loginMavjudmi(login)) {
+                return showToast("Ushbu login tizimda allaqachon mavjud!", "error");
+            }
+
+            var m = markazlar.find(function(item) { return item.id === markazId; });
+            if (!m) return showToast("Markaz tanlanmadi!", "error");
+
+            if (regRol === 'oquvchi') {
+                var yangiOq = {
+                    ism: ism,
+                    chatId: DEFAULT_ADMIN_CHAT_ID,
+                    fan: fan,
+                    login: login,
+                    parol: parol,
+                    ball: 95,
+                    davomat: "keldi",
+                    tolovHolat: "tasdiqlangan"
+                };
+                m.oquvchilar.push(yangiOq);
+                saqlashBaza();
+                faolOquvchi = yangiOq;
+                faolMarkaz = m;
+                saqlashSeans('oquvchi', login, m.id);
+                ochishSahifa('oquvchi');
+                showToast("Ro'yxatdan o'tdingiz va profilingizga kirdingiz!", "success");
+            } else {
+                var yangiUst = {
+                    ism: ism,
+                    fan: fan,
+                    tel: "+998",
+                    login: login,
+                    parol: parol
+                };
+                m.ustozlar.push(yangiUst);
+                saqlashBaza();
+                faolUstoz = yangiUst;
+                faolMarkaz = m;
+                saqlashSeans('ustoz', login, m.id);
+                ochishSahifa('ustoz');
+                showToast("Ustoz sifatida ro'yxatdan o'tdingiz!", "success");
+            }
         }
 
         function saqlashSeans(rol, login, markazId = null) {
@@ -1202,7 +1334,6 @@
                 document.getElementById('arizaIsm').value = "";
                 document.getElementById('arizaTel').value = "";
 
-                // Telegramga ariza haqida xabar yuborish
                 var arizaXabar = `<b>🔔 YANGI KURS ARIZASI!</b>\n\n<b>Markaz:</b> ${m.nomi}\n<b>Mijoz:</b> ${ism}\n<b>Telefon:</b> ${tel}\n<b>Fan:</b> ${fan}\n<b>Sana:</b> ${sanaQator}`;
                 await yuborishTelegramXabar(arizaXabar);
 
@@ -1296,7 +1427,7 @@
         }
 
         function tizimgaKirish() {
-            var login = document.getElementById('kirishLogin').value.trim();
+            var login = document.getElementById('kirishLogin').value.trim().toLowerCase();
             var parol = document.getElementById('kirishParol').value.trim();
 
             if (login === "nvmtrpv") {
@@ -1310,7 +1441,7 @@
 
             if (joriyRol === 'markaz') {
                 var m = markazlar.find(function(item) {
-                    return item.login.toLowerCase() === login.toLowerCase() && item.parol === parol;
+                    return item.login.toLowerCase() === login && item.parol === parol;
                 });
                 if (m) {
                     if (m.holati === 'banned') return showToast("Ushbu markaz bloklangan!", "error");
@@ -1325,7 +1456,7 @@
             if (joriyRol === 'ustoz') {
                 for (var i = 0; i < markazlar.length; i++) {
                     var u = markazlar[i].ustozlar.find(function(item) {
-                        return item.login.toLowerCase() === login.toLowerCase() && item.parol === parol;
+                        return item.login.toLowerCase() === login && item.parol === parol;
                     });
                     if (u) {
                         faolUstoz = u;
@@ -1341,7 +1472,7 @@
             if (joriyRol === 'oquvchi') {
                 for (var j = 0; j < markazlar.length; j++) {
                     var o = markazlar[j].oquvchilar.find(function(item) {
-                        return item.login.toLowerCase() === login.toLowerCase() && item.parol === parol;
+                        return item.login.toLowerCase() === login && item.parol === parol;
                     });
                     if (o) {
                         faolOquvchi = o;
@@ -1354,7 +1485,7 @@
                 }
             }
 
-            showToast("Kiritilgan login yoki parol noto'g'ri!", "error");
+            showToast("Login yoki parol noto'g'ri! Agar yangi bo'lsangiz, yuqoridagi 'Ro'yxatdan O'tish' tugmasini bosing.", "error");
         }
 
         function tizimdanChiqish() {
@@ -1534,7 +1665,6 @@
             });
         }
 
-        // TELEGRAM BOTGA TO'G'RIDAN-TO'G'RI XABAR BORUVCHI DAVOMAT MOTOR
         async function belgilashDavomat(idx, holat) {
             var oquvchi = faolMarkaz.oquvchilar[idx];
             oquvchi.davomat = holat;
@@ -1839,7 +1969,6 @@
             saqlashBaza();
             chizishUstozKabinet();
 
-            // Baholash haqida Telegramga xabar
             var bahoXabar = `<b>⭐️ YANGI BAHOLASH!</b>\n\n` +
                             `<b>O'quvchi:</b> ${oquvchi.ism}\n` +
                             `<b>Ustoz:</b> ${faolUstoz.ism}\n` +
@@ -1923,7 +2052,6 @@
             faolOquvchi.tolovHolat = 'kutilmoqda';
             saqlashBaza();
 
-            // To'lov cheki yuborilgani haqida adminga xabar
             var tolovXabar = `<b>💳 TO'LOV CHEKI YUKLANDI!</b>\n\n` +
                              `<b>O'quvchi:</b> ${faolOquvchi.ism}\n` +
                              `<b>Markaz:</b> ${faolMarkaz.nomi}\n` +
@@ -1996,7 +2124,6 @@
             });
         }
 
-        // Dastlabki yuklanish
         if (!tiklashSeans()) {
             chizishMarketplace();
             yangilashHeaderAuthUI(false);

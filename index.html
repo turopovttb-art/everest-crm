@@ -20,13 +20,13 @@
         .custom-scroll::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.4); border-radius: 4px; }
         @keyframes slideIn { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .toast-animate { animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @media print { body * { visibility: hidden; } #printSertifikatArea, #printSertifikatArea * { visibility: visible; } #printSertifikatArea { position: absolute; left: 0; top: 0; width: 100%; } }
     </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 font-sans min-h-screen transition-colors duration-500 custom-scroll select-none relative">
 
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <!-- HEADER -->
     <header class="sticky top-0 z-40 glass-card px-6 py-3.5 flex justify-between items-center rounded-b-2xl mx-2 mt-1">
         <div class="flex items-center gap-3 cursor-pointer group" onclick="ochishSahifa('marketplace')">
             <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400 to-emerald-700 text-white flex items-center justify-center text-lg font-bold shadow-lg shadow-emerald-500/30 group-hover:scale-105 transition-transform"><i class="fa-solid fa-graduation-cap"></i></div>
@@ -43,14 +43,13 @@
         </div>
     </header>
 
-    <!-- 1. MARKETPLACE -->
     <main id="sahifaMarketplace" class="max-w-7xl mx-auto px-6 py-12 space-y-10">
         <div class="text-center max-w-4xl mx-auto space-y-4 pt-4">
             <span class="bg-emerald-100/50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider border border-emerald-200/50 dark:border-emerald-800/50 inline-flex items-center gap-1.5 backdrop-blur-sm"><i class="fa-solid fa-shield-check"></i> Rasmiy Ta'lim Tarmog'i</span>
             <h1 class="text-4xl md:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.1]">
                 Kelajakni <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-400">eng kuchlilar</span> bilan quring
             </h1>
-            <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base max-w-2xl mx-auto">Zamonaviy kasblar, xalqaro tillar va aniq fanlar bo'yicha eng nufuzli markazlar reytingi.</p>
+            <p class="text-slate-600 dark:text-slate-400 text-sm md:text-base max-w-2xl mx-auto">Zamonaviy kasblar, xalqaro tillar va aniq fanlar bo'yicha eng nufuzli markazlar reytingi va ota-onalar nazorati.</p>
         </div>
 
         <div class="flex flex-wrap items-center justify-center gap-3">
@@ -62,72 +61,51 @@
         <div id="markazlarGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
-    <!-- 2. AUTH -->
     <div id="sahifaAuth" class="hidden min-h-[80vh] flex items-center justify-center p-4">
         <div class="glass-card p-8 rounded-3xl w-full max-w-lg relative overflow-hidden">
             <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
-            
             <div class="grid grid-cols-2 bg-slate-200/50 dark:bg-slate-800/50 p-1.5 rounded-2xl mb-8 text-xs font-bold text-center backdrop-blur-sm">
                 <button type="button" onclick="almashtirAuthRejim('kirish')" id="btnAuthKirish" class="py-2.5 rounded-xl bg-white dark:bg-slate-900 text-emerald-600 shadow-sm transition">Kirish</button>
                 <button type="button" onclick="almashtirAuthRejim('reg')" id="btnAuthReg" class="py-2.5 rounded-xl text-slate-500 hover:text-emerald-600 transition">Ro'yxatdan O'tish</button>
             </div>
 
-            <!-- KIRISH -->
             <div id="blokTizimgaKirish">
-                <div class="grid grid-cols-3 gap-2 mb-6 text-xs font-bold text-center">
-                    <button type="button" onclick="tanlaRol('markaz')" id="tab-markaz" class="py-2.5 rounded-xl bg-emerald-600 text-white shadow-md transition flex items-center justify-center gap-1.5"><i class="fa-solid fa-building"></i> Markaz</button>
-                    <button type="button" onclick="tanlaRol('ustoz')" id="tab-ustoz" class="py-2.5 rounded-xl glass-card transition flex items-center justify-center gap-1.5"><i class="fa-solid fa-chalkboard-user"></i> Ustoz</button>
-                    <button type="button" onclick="tanlaRol('oquvchi')" id="tab-oquvchi" class="py-2.5 rounded-xl glass-card transition flex items-center justify-center gap-1.5"><i class="fa-solid fa-user-graduate"></i> O'quvchi</button>
+                <div class="grid grid-cols-4 gap-1.5 mb-6 text-[10px] font-bold text-center">
+                    <button type="button" onclick="tanlaRol('markaz')" id="tab-markaz" class="py-2.5 rounded-xl bg-emerald-600 text-white shadow-md transition flex flex-col items-center gap-1"><i class="fa-solid fa-building text-sm"></i> Markaz</button>
+                    <button type="button" onclick="tanlaRol('ustoz')" id="tab-ustoz" class="py-2.5 rounded-xl glass-card transition flex flex-col items-center gap-1"><i class="fa-solid fa-chalkboard-user text-sm"></i> Ustoz</button>
+                    <button type="button" onclick="tanlaRol('oquvchi')" id="tab-oquvchi" class="py-2.5 rounded-xl glass-card transition flex flex-col items-center gap-1"><i class="fa-solid fa-user-graduate text-sm"></i> O'quvchi</button>
+                    <button type="button" onclick="tanlaRol('otaona')" id="tab-otaona" class="py-2.5 rounded-xl glass-card transition flex flex-col items-center gap-1"><i class="fa-solid fa-users text-sm"></i> Ota-ona</button>
                 </div>
                 <form onsubmit="event.preventDefault(); tizimgaKirish();" class="space-y-5 text-xs font-bold">
-                    <div>
-                        <label class="block uppercase text-slate-500 mb-1.5 tracking-wider text-[10px]">Identifikator (Login)</label>
-                        <input type="text" id="kirishLogin" placeholder="Login..." required class="w-full glass-card rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500 transition-colors">
-                    </div>
-                    <div>
-                        <label class="block uppercase text-slate-500 mb-1.5 tracking-wider text-[10px]">Parol</label>
-                        <input type="password" id="kirishParol" placeholder="••••••••" required class="w-full glass-card rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500 transition-colors">
-                    </div>
-                    <button type="submit" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-emerald-600 dark:hover:bg-emerald-500 font-black py-4 rounded-xl transition shadow-lg mt-2 text-sm">
-                        Kirish <i class="fa-solid fa-arrow-right ml-1"></i>
-                    </button>
+                    <input type="text" id="kirishLogin" placeholder="Identifikator (Login)" required class="w-full glass-card rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500 transition-colors">
+                    <input type="password" id="kirishParol" placeholder="Parol" required class="w-full glass-card rounded-xl p-3.5 text-sm outline-none focus:border-emerald-500 transition-colors">
+                    <button type="submit" class="w-full bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-emerald-600 dark:hover:bg-emerald-500 font-black py-4 rounded-xl transition shadow-lg mt-2 text-sm">Kirish <i class="fa-solid fa-arrow-right ml-1"></i></button>
                 </form>
             </div>
 
-            <!-- REGISTRATSIYA -->
             <div id="blokRoyxatdanOtish" class="hidden space-y-5">
                 <div class="grid grid-cols-3 gap-2 text-xs font-bold text-center">
                     <button type="button" onclick="tanlaRegRol('oquvchi')" id="regRol-oquvchi" class="py-2.5 rounded-xl bg-emerald-600 text-white shadow-md transition">O'quvchi</button>
                     <button type="button" onclick="tanlaRegRol('ustoz')" id="regRol-ustoz" class="py-2.5 rounded-xl glass-card transition">Ustoz</button>
                     <button type="button" onclick="tanlaRegRol('markaz')" id="regRol-markaz" class="py-2.5 rounded-xl glass-card transition">Yangi Markaz</button>
                 </div>
-
                 <div id="regFormOquvchiUstoz" class="space-y-4 text-xs font-bold">
                     <select id="regTanlanganMarkaz" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none cursor-pointer"></select>
-                    <input type="text" id="regIsm" placeholder="F.I.SH (Masalan: Alisher Valiev)" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none">
+                    <input type="text" id="regIsm" placeholder="F.I.SH" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none">
                     <input type="text" id="regFan" placeholder="Yo'nalish (Masalan: Frontend)" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none">
-                    <div class="grid grid-cols-2 gap-3">
-                        <input type="text" id="regLogin" placeholder="Login yarating" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none font-mono">
-                        <input type="password" id="regParol" placeholder="Parol yarating" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none">
-                    </div>
+                    <div class="grid grid-cols-2 gap-3"><input type="text" id="regLogin" placeholder="Login" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none font-mono"><input type="password" id="regParol" placeholder="Parol" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none"></div>
                     <button type="button" onclick="tezkorRegistratsiya()" class="w-full bg-emerald-600 text-white font-black py-4 rounded-xl shadow-lg text-sm hover:bg-emerald-700 transition">Ro'yxatdan O'tish</button>
                 </div>
-
                 <div id="regFormMarkaz" class="hidden space-y-4 text-xs font-bold max-h-[60vh] overflow-y-auto custom-scroll pr-2">
                     <input type="text" id="regMarkazNomi" placeholder="Markaz Nomi *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none">
                     <select id="regMarkazKat" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none"><option value="IT">Dasturlash (IT)</option><option value="IELTS">Xorijiy Tillar (IELTS)</option><option value="Aniq Fanlar">Aniq Fanlar</option></select>
-                    <div class="grid grid-cols-2 gap-3">
-                        <input type="text" id="regMarkazTel" oninput="formatTel(this)" placeholder="Telefon *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none font-mono">
-                        <input type="text" id="regMarkazManzil" placeholder="Manzil *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none">
-                    </div>
-                    <input type="text" id="regMarkazFanlar" placeholder="O'qitiladigan fanlar (vergul bilan) *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none">
-                    <div class="grid grid-cols-2 gap-3">
-                        <input type="text" id="regMarkazLogin" placeholder="Admin Login *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none font-mono">
-                        <input type="password" id="regMarkazParol" placeholder="Parol *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none">
-                    </div>
+                    <div class="grid grid-cols-2 gap-3"><input type="text" id="regMarkazTel" oninput="formatTel(this)" placeholder="Telefon *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none font-mono"><input type="text" id="regMarkazManzil" placeholder="Manzil *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none"></div>
+                    <input type="text" id="regMarkazFanlar" placeholder="O'qitiladigan fanlar *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none">
+                    <div class="grid grid-cols-2 gap-3"><input type="text" id="regMarkazLogin" placeholder="Admin Login *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none font-mono"><input type="password" id="regMarkazParol" placeholder="Parol *" class="w-full glass-card rounded-xl p-3.5 text-sm outline-none"></div>
                     <button type="button" onclick="tezkorRegistratsiyaMarkaz()" class="w-full bg-emerald-600 text-white font-black py-4 rounded-xl shadow-lg text-sm hover:bg-emerald-700 transition">Markazni Olish</button>
                 </div>
             </div>
+            <button type="button" onclick="ochishSahifa('marketplace')" class="w-full text-center text-xs font-bold text-slate-500 pt-4 block">← Asosiy vitrinaga qaytish</button>
         </div>
     </div>
 
@@ -137,10 +115,7 @@
             <div>
                 <div class="p-6 border-b border-slate-200/30 dark:border-slate-800/50 flex items-center gap-4">
                     <img id="mAdminLogo" class="w-12 h-12 rounded-xl object-cover shadow-md">
-                    <div class="overflow-hidden">
-                        <h2 id="mAdminNomi" class="font-black text-sm text-slate-900 dark:text-white truncate">Markaz</h2>
-                        <p id="mAdminManzil" class="text-[10px] text-slate-500 truncate">Manzil</p>
-                    </div>
+                    <div class="overflow-hidden"><h2 id="mAdminNomi" class="font-black text-sm text-slate-900 dark:text-white truncate">Markaz</h2><p id="mAdminManzil" class="text-[10px] text-slate-500 truncate">Manzil</p></div>
                 </div>
                 <nav class="p-4 space-y-2 text-xs font-bold">
                     <button onclick="markazTabAlmashtir('davomat')" id="mTab-davomat" class="w-full text-left px-4 py-3.5 rounded-xl bg-emerald-600 text-white shadow-md flex items-center gap-3 transition"><i class="fa-solid fa-calendar-check w-4"></i> Boshqaruv & Davomat</button>
@@ -155,41 +130,20 @@
         </aside>
 
         <main class="flex-1 p-6 md:p-8 overflow-y-auto">
-            <!-- TEZKOR STATISTIKA PANEL -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                <div class="glass-card p-5 rounded-2xl border-l-4 border-l-emerald-500">
-                    <p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Jami O'quvchilar</p>
-                    <p id="statOquvchi" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</p>
-                </div>
-                <div class="glass-card p-5 rounded-2xl border-l-4 border-l-blue-500">
-                    <p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">O'qituvchilar</p>
-                    <p id="statUstoz" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</p>
-                </div>
-                <div class="glass-card p-5 rounded-2xl border-l-4 border-l-amber-500">
-                    <p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Yangi Arizalar</p>
-                    <p id="statAriza" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</p>
-                </div>
-                <div class="glass-card p-5 rounded-2xl border-l-4 border-l-purple-500">
-                    <p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Faol Guruhlar</p>
-                    <p id="statGuruh" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</p>
-                </div>
+                <div class="glass-card p-5 rounded-2xl border-l-4 border-l-emerald-500"><p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">O'quvchilar</p><p id="statOquvchi" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</p></div>
+                <div class="glass-card p-5 rounded-2xl border-l-4 border-l-blue-500"><p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">O'qituvchilar</p><p id="statUstoz" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</p></div>
+                <div class="glass-card p-5 rounded-2xl border-l-4 border-l-amber-500"><p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Arizalar</p><p id="statAriza" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</p></div>
+                <div class="glass-card p-5 rounded-2xl border-l-4 border-l-purple-500"><p class="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Guruhlar</p><p id="statGuruh" class="text-2xl font-black text-slate-900 dark:text-white mt-1">0</p></div>
             </div>
 
-            <!-- DAVOMAT -->
             <div id="mBlok-davomat" class="space-y-6">
                 <div class="flex justify-between items-center glass-card p-6 rounded-2xl shadow-sm">
-                    <div>
-                        <h2 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-robot text-emerald-500"></i> Smart Davomat</h2>
-                        <p class="text-xs text-slate-500 mt-1">Sana: <span id="bugungiSanaMatn" class="text-emerald-600 font-bold"></span></p>
-                    </div>
-                    <button onclick="ochishModal('modalYangiOquvchi')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-lg transition">+ O'quvchi</button>
+                    <div><h2 class="text-xl font-black text-slate-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-robot text-emerald-500"></i> Smart Davomat</h2><p class="text-xs text-slate-500 mt-1">Sana: <span id="bugungiSanaMatn" class="text-emerald-600 font-bold"></span></p></div>
+                    <button onclick="ochishModal('modalYangiOquvchi')" class="bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-lg">+ O'quvchi</button>
                 </div>
-                <div class="glass-card rounded-2xl overflow-hidden">
-                    <table class="w-full text-left text-xs"><thead class="bg-slate-200/50 dark:bg-slate-800/50 text-slate-500 uppercase font-black"><tr><th class="p-4">F.I.SH</th><th class="p-4">TG ID</th><th class="p-4">Fan</th><th class="p-4 text-center">Davomat</th></tr></thead><tbody id="mAdminDavomatJadvalTana" class="divide-y divide-slate-200/30 dark:divide-slate-700/30"></tbody></table>
-                </div>
+                <div class="glass-card rounded-2xl overflow-hidden"><table class="w-full text-left text-xs"><thead class="bg-slate-200/50 dark:bg-slate-800/50 text-slate-500 uppercase font-black"><tr><th class="p-4">F.I.SH</th><th class="p-4">TG ID</th><th class="p-4">Fan</th><th class="p-4 text-center">Davomat</th></tr></thead><tbody id="mAdminDavomatJadvalTana" class="divide-y divide-slate-200/30 dark:divide-slate-700/30"></tbody></table></div>
             </div>
-
-            <!-- QOLGAN BLOKLAR -->
             <div id="mBlok-arizalar" class="hidden space-y-6"><div class="glass-card rounded-2xl overflow-hidden"><table class="w-full text-left text-xs"><thead class="bg-slate-200/50 dark:bg-slate-800/50 text-slate-500 uppercase font-black"><tr><th class="p-4">Ism</th><th class="p-4">Telefon</th><th class="p-4">Yo'nalish</th><th class="p-4">Sana</th><th class="p-4 text-center">Harakat</th></tr></thead><tbody id="mAdminArizalarJadvalTana" class="divide-y divide-slate-200/30 dark:divide-slate-700/30"></tbody></table></div></div>
             <div id="mBlok-ustozlar" class="hidden space-y-6"><div class="flex justify-end"><button onclick="ochishModal('modalYangiUstoz')" class="bg-blue-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-lg">+ Ustoz</button></div><div class="glass-card rounded-2xl overflow-hidden"><table class="w-full text-left text-xs"><thead class="bg-slate-200/50 dark:bg-slate-800/50 text-slate-500 uppercase font-black"><tr><th class="p-4">Ism</th><th class="p-4">Fan</th><th class="p-4">Telefon</th><th class="p-4">Login/Parol</th><th class="p-4 text-center">Harakat</th></tr></thead><tbody id="mAdminUstozlarJadvalTana" class="divide-y divide-slate-200/30 dark:divide-slate-700/30"></tbody></table></div></div>
             <div id="mBlok-oquvchilar" class="hidden space-y-6"><div class="glass-card rounded-2xl overflow-hidden"><table class="w-full text-left text-xs"><thead class="bg-slate-200/50 dark:bg-slate-800/50 text-slate-500 uppercase font-black"><tr><th class="p-4">O'quvchi</th><th class="p-4">Chat ID</th><th class="p-4">Fan/Ball</th><th class="p-4">Login/Parol</th><th class="p-4 text-center">To'lov</th><th class="p-4 text-center">Harakat</th></tr></thead><tbody id="mAdminOquvchilarJadvalTana" class="divide-y divide-slate-200/30 dark:divide-slate-700/30"></tbody></table></div></div>
@@ -221,114 +175,100 @@
         </main>
     </div>
 
-    <!-- 5. O'QUVCHI KABINETI -->
+    <!-- 5. O'QUVCHI / OTA-ONA KABINETI -->
     <div id="sahifaOquvchi" class="hidden max-w-5xl mx-auto px-6 py-8 space-y-6">
         <div class="glass-card p-6 rounded-3xl flex justify-between items-center shadow-sm">
             <div class="flex items-center gap-4">
-                <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-white flex items-center justify-center font-bold text-2xl shadow-lg"><i class="fa-solid fa-user-graduate"></i></div>
+                <div id="kabinetAvatar" class="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-white flex items-center justify-center font-bold text-2xl shadow-lg"><i class="fa-solid fa-user-graduate"></i></div>
                 <div><h2 id="oquvchiIsmDisplay" class="font-black text-xl text-slate-900 dark:text-white">Talaba</h2><p id="oquvchiMarkazDisplay" class="text-xs text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">Markaz</p></div>
             </div>
             <button onclick="tizimdanChiqish()" class="px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold shadow-lg transition">Chiqish</button>
         </div>
 
+        <div id="blokSertifikat" class="hidden glass-card p-6 rounded-3xl border-l-4 border-purple-500 flex justify-between items-center">
+            <div><h3 class="font-black text-lg text-slate-900 dark:text-white">🎉 Tabriklaymiz!</h3><p class="text-xs text-slate-500">Sizning ballingiz yuqori, sertifikatni yuklab olishingiz mumkin.</p></div>
+            <button onclick="ochishModal('modalSertifikatView')" class="bg-purple-600 text-white font-bold px-5 py-2.5 rounded-xl text-xs shadow-lg">Sertifikatni Ko'rish</button>
+        </div>
+
         <div id="oquvchiOyTalabasiBlok" class="hidden p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 to-transparent border-l-4 border-emerald-500 flex items-center gap-4">
             <img id="oquvchiOyTalabaRasm" src="" class="w-16 h-16 rounded-xl object-cover shadow-md">
-            <div><span class="text-[10px] font-black uppercase text-emerald-600 tracking-wider">Markaz Faxri</span><h3 id="oquvchiOyTalabaNom" class="text-base font-black text-slate-900 dark:text-white mt-0.5"></h3><p id="oquvchiOyTalabaIzoh" class="text-xs text-slate-500"></p></div>
+            <div><span class="text-[10px] font-black uppercase text-emerald-600 tracking-wider">Markaz Faxri</span><h3 id="oquvchiOyTalabaNom" class="text-base font-black text-slate-900 dark:text-white mt-0.5"></h3></div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div class="glass-card p-6 rounded-3xl border-t-4 border-emerald-500 relative overflow-hidden group">
                 <div class="absolute -right-6 -top-6 text-emerald-500/10 group-hover:scale-110 transition-transform"><i class="fa-solid fa-trophy text-9xl"></i></div>
-                <p class="text-xs font-black uppercase text-slate-400 relative z-10">Reyting</p>
-                <p class="text-4xl font-black mt-2 text-slate-900 dark:text-white relative z-10">#1</p>
-                <p class="text-xs text-slate-500 mt-2 relative z-10">Joriy ball: <b id="oquvchiBallDisplay" class="text-emerald-600">98 / 100</b></p>
+                <p class="text-xs font-black uppercase text-slate-400 relative z-10">Joriy Baho</p>
+                <p id="oquvchiBallDisplay" class="text-4xl font-black mt-2 text-slate-900 dark:text-white relative z-10">98 ball</p>
             </div>
             <div class="glass-card p-6 rounded-3xl border-t-4 border-blue-500">
-                <p class="text-xs font-black uppercase text-slate-400">Bugungi Davomat</p>
+                <p class="text-xs font-black uppercase text-slate-400">So'nggi Davomat</p>
                 <p id="oquvchiDavomatHolat" class="text-3xl font-black mt-2 text-emerald-500"><i class="fa-solid fa-circle-check"></i> Keldi</p>
             </div>
             <div class="glass-card p-6 rounded-3xl border-t-4 border-amber-500 flex flex-col justify-between">
-                <div>
-                    <p class="text-xs font-black uppercase text-slate-400">To'lov</p>
-                    <p id="oquvchiPlastikKarta" class="text-lg font-mono font-black mt-1 text-slate-900 dark:text-white">8600 ••••</p>
-                    <p id="oquvchiKartaEgasi" class="text-[10px] font-bold text-slate-500 uppercase mt-0.5">-</p>
-                </div>
-                <div class="mt-4 pt-3 border-t border-slate-200/50 dark:border-slate-700/50">
+                <div><p class="text-xs font-black uppercase text-slate-400">To'lov Holati</p><p id="oquvchiKartaEgasi" class="text-xs font-bold text-slate-500 uppercase mt-1">-</p><p id="oquvchiPlastikKarta" class="text-lg font-mono font-black mt-0.5 text-slate-900 dark:text-white">8600 ••••</p></div>
+                <div id="tolovYuklashBlok" class="mt-4 pt-3 border-t border-slate-200/50 dark:border-slate-700/50">
                     <div class="flex items-center gap-2"><input type="file" id="oquvchiChekInput" class="text-[10px] w-full text-slate-500"><button onclick="oquvchiChekYuklash()" class="bg-emerald-600 text-white font-bold px-3 py-1.5 rounded-xl text-xs shadow-md">Jo'natish</button></div>
-                    <span id="oquvchiChekHolat" class="block text-[10px] font-bold mt-2"></span>
                 </div>
+                <span id="oquvchiChekHolat" class="block text-[10px] font-bold mt-2"></span>
             </div>
         </div>
 
-        <div class="glass-card rounded-3xl p-6">
-            <h3 class="font-black text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2"><i class="fa-solid fa-bolt text-amber-500"></i> Markaz Yangiliklari</h3>
-            <div id="oquvchiYangiliklarLenta" class="space-y-4"></div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass-card rounded-3xl p-6">
+                <h3 class="font-black text-base text-slate-900 dark:text-white mb-5 flex items-center gap-2"><i class="fa-solid fa-bolt text-amber-500"></i> Markaz Yangiliklari</h3>
+                <div id="oquvchiYangiliklarLenta" class="space-y-4"></div>
+            </div>
+            <div id="sharhQoldirishBlok" class="glass-card rounded-3xl p-6">
+                <h3 class="font-black text-base text-slate-900 dark:text-white mb-3">Markazga baho bering</h3>
+                <select id="sharhBaho" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3 outline-none text-xs font-bold mb-3"><option value="5">⭐⭐⭐⭐⭐ A'lo</option><option value="4">⭐⭐⭐⭐ Yaxshi</option><option value="3">⭐⭐⭐ Qoniqarli</option></select>
+                <textarea id="sharhMatn" rows="2" placeholder="Fikringizni yozing..." class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3 outline-none text-xs mb-3"></textarea>
+                <button onclick="saqlashSharh()" class="w-full bg-amber-500 text-white font-bold py-3 rounded-xl shadow-lg text-xs">Sharhni yuborish</button>
+            </div>
         </div>
     </div>
 
-    <!-- 6. USTOZ KABINETI -->
+    <!-- 6. USTOZ -->
     <div id="sahifaUstoz" class="hidden max-w-5xl mx-auto px-6 py-8 space-y-6">
         <div class="glass-card p-6 rounded-3xl flex justify-between items-center shadow-sm"><div class="flex items-center gap-4"><div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center font-bold text-2xl shadow-lg"><i class="fa-solid fa-chalkboard-user"></i></div><div><h2 id="ustozIsmDisplay" class="font-black text-xl text-slate-900 dark:text-white">Ustoz</h2><p id="ustozFanDisplay" class="text-xs text-blue-500 font-bold uppercase tracking-wider">Fan</p></div></div><button onclick="tizimdanChiqish()" class="px-5 py-2.5 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold shadow-lg transition">Chiqish</button></div>
         <div class="glass-card rounded-3xl overflow-hidden"><table class="w-full text-left text-xs"><thead class="bg-slate-200/50 dark:bg-slate-800/50 text-slate-500 uppercase font-black"><tr><th class="p-4">O'quvchi</th><th class="p-4">Guruh</th><th class="p-4">Ball</th><th class="p-4 text-center">Baho</th></tr></thead><tbody id="ustozOquvchilarTana" class="divide-y divide-slate-200/30 dark:divide-slate-700/30"></tbody></table></div>
     </div>
 
-    <!-- 7. SUPER ADMIN KABINETI -->
+    <!-- 7. SUPER ADMIN -->
     <div id="sahifaSuperAdmin" class="hidden max-w-7xl mx-auto px-6 py-8 space-y-6">
         <div class="glass-card p-6 rounded-3xl flex justify-between items-center"><h1 class="text-2xl font-black text-rose-600 flex items-center gap-2"><i class="fa-solid fa-shield-cat"></i> SUPER ADMIN</h1><button onclick="tizimdanChiqish()" class="px-5 py-2.5 rounded-xl bg-rose-600 text-white text-xs font-bold shadow-lg">Chiqish</button></div>
         <div class="glass-card rounded-3xl p-6"><h2 class="font-black text-base text-slate-900 dark:text-white mb-4">Markazlar</h2><div class="overflow-x-auto"><table class="w-full text-left text-xs"><thead class="bg-slate-200/50 dark:bg-slate-800/50 text-slate-500 uppercase font-black"><tr><th class="p-3">Logo</th><th class="p-3">Nomi</th><th class="p-3">Login/Parol</th><th class="p-3">Aloqa</th><th class="p-3 text-center">Harakat</th></tr></thead><tbody id="superAdminMarkazlarTana" class="divide-y divide-slate-200/30 dark:divide-slate-700/30"></tbody></table></div></div>
     </div>
 
-    <!-- MODALLAR (SHAFFOF) -->
-    <div id="modalArizaQoldirish" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="glass-card rounded-3xl w-full max-w-md p-8 shadow-2xl relative">
-            <button onclick="yopishModal('modalArizaQoldirish')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500 transition">&times;</button>
-            <h3 class="text-xl font-black text-slate-900 dark:text-white mb-1">Kursga Yozilish</h3>
-            <p id="arizaMarkazNomi" class="text-xs text-emerald-600 font-bold mb-6">Markaz Nomi</p>
-            <form onsubmit="event.preventDefault(); yuborishAriza();" class="space-y-4 text-xs font-bold">
-                <input type="text" id="arizaIsm" placeholder="F.I.SH *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none">
-                <input type="text" id="arizaTel" oninput="formatTel(this)" placeholder="Telefon *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none font-mono">
-                <select id="arizaFanSelect" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none"></select>
-                <button type="submit" class="w-full bg-emerald-600 text-white font-black py-4 rounded-xl shadow-lg mt-2 text-sm">Arizani Jo'natish</button>
-            </form>
-        </div>
-    </div>
+    <!-- MODALLAR -->
+    <div id="modalArizaQoldirish" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4"><div class="glass-card rounded-3xl w-full max-w-md p-8 shadow-2xl relative"><button onclick="yopishModal('modalArizaQoldirish')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500">&times;</button><h3 class="text-xl font-black text-slate-900 dark:text-white mb-1">Kursga Yozilish</h3><p id="arizaMarkazNomi" class="text-xs text-emerald-600 font-bold mb-6">Markaz</p><form onsubmit="event.preventDefault(); yuborishAriza();" class="space-y-4 text-xs font-bold"><input type="text" id="arizaIsm" placeholder="F.I.SH *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none"><input type="text" id="arizaTel" oninput="formatTel(this)" placeholder="Telefon *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none font-mono"><select id="arizaFanSelect" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none"></select><button type="submit" class="w-full bg-emerald-600 text-white font-black py-4 rounded-xl shadow-lg mt-2 text-sm">Jo'natish</button></form></div></div>
+    <div id="modalMijozSozlamalar" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4"><div class="glass-card rounded-3xl w-full max-w-sm p-8 shadow-2xl text-center relative"><button onclick="yopishModal('modalMijozSozlamalar')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500">&times;</button><div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4"><i class="fa-solid fa-headset"></i></div><h3 class="text-lg font-black text-slate-900 dark:text-white mb-2">Qo'llab-quvvatlash</h3><a href="tel:+998885751994" class="block bg-slate-100 dark:bg-slate-900 rounded-xl p-4 text-2xl font-black text-blue-600 tracking-wider hover:scale-105 transition-transform">+998 88 575 19 94</a></div></div>
+    <div id="modalRegMarkaz" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"><div class="glass-card rounded-3xl w-full max-w-2xl p-8 my-8 shadow-2xl relative"><button onclick="yopishModal('modalRegMarkaz')" class="absolute top-6 right-6 text-xl font-bold text-slate-400 hover:text-rose-500">&times;</button><h2 class="text-2xl font-black text-slate-900 dark:text-white mb-6">Yangi Markaz Ochish</h2><form onsubmit="event.preventDefault(); saqlashModalMarkaz();" class="space-y-4 text-xs font-bold"><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><input type="text" id="mHeaderNomi" placeholder="Markaz Nomi *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5"><select id="mHeaderKategoriya" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5"><option value="IT">IT</option><option value="IELTS">IELTS</option><option value="Aniq Fanlar">Aniq Fanlar</option></select><input type="text" id="mHeaderTel" placeholder="Telefon *" required oninput="formatTel(this)" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 font-mono"><input type="text" id="mHeaderManzil" placeholder="Manzil *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5"></div><input type="text" id="mHeaderFanlar" placeholder="Fanlar (vergul bilan) *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5"><div class="grid grid-cols-2 gap-4 bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl border border-emerald-200/50 mt-4"><input type="text" id="mHeaderLogin" placeholder="Admin Login *" required class="w-full glass-card rounded-xl p-3.5 font-mono"><input type="password" id="mHeaderParol" placeholder="Parol *" required class="w-full glass-card rounded-xl p-3.5"></div><button type="submit" class="w-full bg-emerald-600 text-white font-black py-4 rounded-xl shadow-lg text-sm mt-4">Tizimga Joylash</button></form></div></div>
+    
+    <!-- ADMIN MODALLARI -->
+    <div id="modalYangiOquvchi" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4"><div class="glass-card p-8 rounded-3xl w-full max-w-md space-y-4 shadow-2xl relative"><button onclick="yopishModal('modalYangiOquvchi')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500">&times;</button><h3 class="text-lg font-black text-slate-900 dark:text-white mb-4">Yangi O'quvchi</h3><div class="space-y-3 text-xs font-bold"><input type="text" id="mOqIsm" placeholder="F.I.SH *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"><input type="text" id="mOqChatId" placeholder="TG Chat ID" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none font-mono text-emerald-600"><input type="text" id="mOqFan" placeholder="Fan *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"><div class="grid grid-cols-2 gap-3"><input type="text" id="mOqLogin" placeholder="Login *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none font-mono"><input type="password" id="mOqParol" placeholder="Parol *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"></div></div><button onclick="saqlashOquvchi()" class="w-full bg-emerald-600 text-white font-black py-3.5 rounded-xl shadow-lg text-xs mt-2">Saqlash</button></div></div>
+    <div id="modalYangiUstoz" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4"><div class="glass-card p-8 rounded-3xl w-full max-w-md space-y-4 shadow-2xl relative"><button onclick="yopishModal('modalYangiUstoz')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500">&times;</button><h3 class="text-lg font-black text-slate-900 dark:text-white mb-4">Yangi Ustoz</h3><div class="space-y-3 text-xs font-bold"><input type="text" id="mUstIsm" placeholder="Ism *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl"><input type="text" id="mUstFan" placeholder="Fan *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl"><input type="text" id="mUstTel" oninput="formatTel(this)" placeholder="Telefon *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl font-mono"><div class="grid grid-cols-2 gap-3"><input type="text" id="mUstLogin" placeholder="Login *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl font-mono"><input type="password" id="mUstParol" placeholder="Parol *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl"></div></div><button onclick="saqlashUstoz()" class="w-full bg-blue-600 text-white font-black py-3.5 rounded-xl shadow-lg text-xs mt-2">Saqlash</button></div></div>
+    <div id="modalTahrirlash" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4"><div class="glass-card p-8 rounded-3xl w-full max-w-md space-y-4 shadow-2xl relative"><button onclick="yopishModal('modalTahrirlash')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500">&times;</button><h3 id="tahrirSarlavha" class="text-lg font-black text-slate-900 dark:text-white mb-4">Tahrirlash</h3><div class="space-y-3 text-xs font-bold"><input type="text" id="tahrirIsm" placeholder="F.I.SH *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl"><div id="tahrirChatIdQator"><input type="text" id="tahrirChatId" placeholder="Telegram ID" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl font-mono"></div><input type="text" id="tahrirFan" placeholder="Fan *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl"><div class="grid grid-cols-2 gap-3"><input type="text" id="tahrirLogin" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl font-mono"><input type="text" id="tahrirParol" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl"></div></div><button onclick="saqlashTahrirlash()" class="w-full bg-emerald-600 text-white font-black py-3.5 rounded-xl shadow-lg text-xs mt-2">Yangilash</button></div></div>
 
-    <div id="modalMijozSozlamalar" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="glass-card rounded-3xl w-full max-w-sm p-8 shadow-2xl text-center relative">
-            <button onclick="yopishModal('modalMijozSozlamalar')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500 transition">&times;</button>
-            <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4"><i class="fa-solid fa-headset"></i></div>
-            <h3 class="text-lg font-black text-slate-900 dark:text-white mb-2">Qo'llab-quvvatlash</h3>
-            <p class="text-xs text-slate-500 mb-6">Texnik yordam markazi bilan bog'lanish</p>
-            <a href="tel:+998885751994" class="block bg-slate-100 dark:bg-slate-900 rounded-xl p-4 text-2xl font-black text-blue-600 tracking-wider hover:scale-105 transition-transform">+998 88 575 19 94</a>
-        </div>
-    </div>
-
-    <!-- MARKAZ QO'SHISH -->
-    <div id="modalRegMarkaz" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-        <div class="glass-card rounded-3xl w-full max-w-2xl p-8 my-8 shadow-2xl relative">
-            <button onclick="yopishModal('modalRegMarkaz')" class="absolute top-6 right-6 text-xl font-bold text-slate-400 hover:text-rose-500 transition">&times;</button>
-            <h2 class="text-2xl font-black text-slate-900 dark:text-white mb-6">Yangi Markaz Ochish</h2>
-            <form onsubmit="event.preventDefault(); saqlashModalMarkaz();" class="space-y-4 text-xs font-bold">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input type="text" id="mHeaderNomi" placeholder="Markaz Nomi *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none">
-                    <select id="mHeaderKategoriya" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none"><option value="IT">IT</option><option value="IELTS">IELTS</option><option value="Aniq Fanlar">Aniq Fanlar</option></select>
-                    <input type="text" id="mHeaderTel" placeholder="Telefon *" required oninput="formatTel(this)" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none font-mono">
-                    <input type="text" id="mHeaderManzil" placeholder="Manzil *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none">
+    <!-- SERTIFIKAT MODALI -->
+    <div id="modalSertifikatView" class="hidden fixed inset-0 z-50 bg-slate-900/90 flex items-center justify-center p-4">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl overflow-hidden relative">
+            <button onclick="yopishModal('modalSertifikatView')" class="absolute top-4 right-4 text-2xl font-bold text-slate-400 hover:text-rose-500 z-10">&times;</button>
+            <div id="printSertifikatArea" class="bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-emerald-50 p-12 text-center border-[16px] border-emerald-600">
+                <h1 class="text-5xl font-black text-emerald-800 mb-2 font-serif uppercase tracking-widest">Sertifikat</h1>
+                <p class="text-sm font-bold text-emerald-600 mb-8 uppercase tracking-widest">A'lo Darajali O'zlashtirish</p>
+                <p class="text-slate-600 text-lg mb-2">Ushbu sertifikat rasman taqdim etiladi:</p>
+                <h2 id="certIsm" class="text-4xl font-black text-slate-900 border-b-2 border-emerald-300 inline-block px-8 pb-2 mb-6">Talaba Ismi</h2>
+                <p class="text-slate-600 text-lg max-w-lg mx-auto leading-relaxed mb-10"><b id="certMarkaz" class="text-slate-800">Markaz</b> o'quv markazining <b id="certFan" class="text-slate-800">Fan</b> yo'nalishini a'lo baholarga yakunlagani uchun minnatdorchilik bilan berildi.</p>
+                <div class="flex justify-between items-end px-12">
+                    <div class="text-left"><p class="text-slate-500 text-xs font-bold uppercase mb-1">Berilgan sana</p><p id="certSana" class="font-black text-slate-800 border-t border-slate-300 pt-1">Sana</p></div>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=EverestCRM+Tasdiqlangan" class="w-24 h-24 border-4 border-emerald-100 rounded-lg">
+                    <div class="text-right"><p class="text-slate-500 text-xs font-bold uppercase mb-1">Markaz Rahbari</p><p class="font-black text-slate-800 border-t border-slate-300 pt-1 signature font-serif italic">Tasdiqlangan</p></div>
                 </div>
-                <input type="text" id="mHeaderFanlar" placeholder="Fanlar (vergul bilan) *" required class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 rounded-xl p-3.5 outline-none">
-                <div class="grid grid-cols-2 gap-4 bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-2xl border border-emerald-200/50 dark:border-emerald-800/50 mt-4">
-                    <input type="text" id="mHeaderLogin" placeholder="Admin Login *" required class="w-full glass-card rounded-xl p-3.5 outline-none font-mono">
-                    <input type="password" id="mHeaderParol" placeholder="Parol *" required class="w-full glass-card rounded-xl p-3.5 outline-none">
-                </div>
-                <button type="submit" class="w-full bg-emerald-600 text-white font-black py-4 rounded-xl shadow-lg text-sm mt-4">Tizimga Joylash</button>
-            </form>
+            </div>
+            <div class="p-4 bg-slate-100 border-t border-slate-200 text-right"><button onclick="window.print()" class="bg-emerald-600 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow-lg"><i class="fa-solid fa-print mr-2"></i> PDF qilib saqlash</button></div>
         </div>
     </div>
-
-    <!-- OQUVCHI/USTOZ QO'SHISH VA TAHRIR -->
-    <div id="modalYangiOquvchi" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4"><div class="glass-card p-8 rounded-3xl w-full max-w-md space-y-4 shadow-2xl relative"><button onclick="yopishModal('modalYangiOquvchi')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500">&times;</button><h3 class="text-lg font-black text-slate-900 dark:text-white mb-4">Yangi O'quvchi</h3><div class="space-y-3 text-xs font-bold"><input type="text" id="mOqIsm" placeholder="F.I.SH *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"><input type="text" id="mOqChatId" placeholder="TG Chat ID (ixtiyoriy)" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none font-mono"><input type="text" id="mOqFan" placeholder="Fan *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"><div class="grid grid-cols-2 gap-3"><input type="text" id="mOqLogin" placeholder="Login *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none font-mono"><input type="password" id="mOqParol" placeholder="Parol *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"></div></div><button onclick="saqlashOquvchi()" class="w-full bg-emerald-600 text-white font-black py-3.5 rounded-xl shadow-lg text-xs mt-2">Saqlash</button></div></div>
-    <div id="modalYangiUstoz" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4"><div class="glass-card p-8 rounded-3xl w-full max-w-md space-y-4 shadow-2xl relative"><button onclick="yopishModal('modalYangiUstoz')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500">&times;</button><h3 class="text-lg font-black text-slate-900 dark:text-white mb-4">Yangi Ustoz</h3><div class="space-y-3 text-xs font-bold"><input type="text" id="mUstIsm" placeholder="Ism *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"><input type="text" id="mUstFan" placeholder="Fan *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"><input type="text" id="mUstTel" oninput="formatTel(this)" placeholder="Telefon *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none font-mono"><div class="grid grid-cols-2 gap-3"><input type="text" id="mUstLogin" placeholder="Login *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none font-mono"><input type="password" id="mUstParol" placeholder="Parol *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"></div></div><button onclick="saqlashUstoz()" class="w-full bg-blue-600 text-white font-black py-3.5 rounded-xl shadow-lg text-xs mt-2">Saqlash</button></div></div>
-    <div id="modalTahrirlash" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4"><div class="glass-card p-8 rounded-3xl w-full max-w-md space-y-4 shadow-2xl relative"><button onclick="yopishModal('modalTahrirlash')" class="absolute top-5 right-5 text-xl font-bold text-slate-400 hover:text-rose-500">&times;</button><h3 id="tahrirSarlavha" class="text-lg font-black text-slate-900 dark:text-white mb-4">Tahrirlash</h3><div class="space-y-3 text-xs font-bold"><input type="text" id="tahrirIsm" placeholder="F.I.SH *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"><div id="tahrirChatIdQator"><input type="text" id="tahrirChatId" placeholder="Telegram ID" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none font-mono"></div><input type="text" id="tahrirFan" placeholder="Fan *" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"><div class="grid grid-cols-2 gap-3"><input type="text" id="tahrirLogin" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none font-mono"><input type="text" id="tahrirParol" class="w-full bg-slate-100/50 dark:bg-slate-900/50 border border-slate-200/50 dark:border-slate-700/50 p-3.5 rounded-xl outline-none"></div></div><button onclick="saqlashTahrirlash()" class="w-full bg-emerald-600 text-white font-black py-3.5 rounded-xl shadow-lg text-xs mt-2">Yangilash</button></div></div>
 
     <!-- JS FIREBASE MOTOR -->
     <script>
@@ -336,11 +276,7 @@
         const TG_BOT_TOKEN = "8952625874:AAGdtnmNZ_CIB7jvNEAuHggdmAcMsTL5cUc";
 
         function getTelegramChatId() { try { if(window.Telegram?.WebApp?.initDataUnsafe?.user) return String(window.Telegram.WebApp.initDataUnsafe.user.id); }catch(e){} return null; }
-        
-        async function yuborishTelegramXabar(matn, targetChatId) {
-            if(!targetChatId) return;
-            try{ await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:targetChatId,text:matn,parse_mode:'HTML'})}); }catch(e){}
-        }
+        async function yuborishTelegramXabar(matn, targetChatId) { if(!targetChatId) return; try{ await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:targetChatId,text:matn,parse_mode:'HTML'})}); }catch(e){} }
 
         function showToast(x, t='success') {
             var c=document.getElementById('toastContainer'), d=document.createElement('div');
@@ -353,7 +289,7 @@
         function formatKarta(i) { var v = i.value.replace(/\D/g,'').substring(0,16), q=[]; for(var j=0; j<v.length; j+=4) q.push(v.substring(j,j+4)); i.value = q.join(' '); }
         function yuklashFayl(i, cb) { if(i.files && i.files[0]) { var r = new FileReader(); r.onload=function(e){cb(e.target.result)}; r.readAsDataURL(i.files[0]); } else cb(null); }
 
-        var markazlar = [], tanlanganKategoriya = "barchasi", joriyRol = "markaz", regRol = "oquvchi", faolMarkaz = null, faolUstoz = null, faolOquvchi = null, arizaTanlanganMarkazId = null, tahrirTuri = null, tahrirIndex = null;
+        var markazlar = [], tanlanganKategoriya = "barchasi", joriyRol = "markaz", regRol = "oquvchi", faolMarkaz = null, faolUstoz = null, faolOquvchi = null, isParent = false, arizaTanlanganMarkazId = null, tahrirTuri = null, tahrirIndex = null;
         var bugun = new Date(), sanaQator = bugun.getFullYear()+"-"+String(bugun.getMonth()+1).padStart(2,'0')+"-"+String(bugun.getDate()).padStart(2,'0');
 
         function saqlashBaza() { fetch(DB_URL, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(markazlar) }); }
@@ -363,40 +299,40 @@
                 let r = await fetch(DB_URL), d = await r.json();
                 if (d) { markazlar = d; }
                 else {
-                    markazlar = [{ id: 1, nomi: "Apex IT Academy", kategoriya: "IT", login: "apex_admin", parol: "12345", tel: "+998 71 200 11 22", plastikKarta: "8600 4912 3456 7890", kartaEgasi: "ALISHER", bankNomi: "TBC", manzil: "Qarshi shahar", fanlar: ["Frontend", "Python"], yutuqlar: "Xalqaro IT grant sohiblari.", logo: "https://ui-avatars.com/api/?name=Apex&background=10b981&color=fff", holati: "active", oyOquvchisi: {ism:"Alisher Valiev", rasm:"https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}, oquvchilar: [], ustozlar: [], arizalar: [], yangiliklar: [] }];
+                    markazlar = [{ id: 1, nomi: "Apex IT Academy", kategoriya: "IT", login: "apex_admin", parol: "12345", tel: "+998 71 200 11 22", plastikKarta: "8600 4912 3456 7890", kartaEgasi: "ALISHER", bankNomi: "TBC", manzil: "Qarshi shahar", fanlar: ["Frontend", "Python"], yutuqlar: "Xalqaro IT grant sohiblari.", logo: "https://ui-avatars.com/api/?name=Apex&background=10b981&color=fff", holati: "active", oyOquvchisi: {ism:"Alisher Valiev", rasm:"https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}, oquvchilar: [], ustozlar: [], arizalar: [], yangiliklar: [], sharhlar: [{ism:"Sardor", yulduz:5, matn:"Zo'r markaz!"}] }];
                     saqlashBaza();
                 }
             } catch(e) {} chizishMarketplace();
         }
 
-        function loginMavjudmi(l, istisno=null) { l=l.toLowerCase(); if(l==="nvmtrpv") return true; for(var m of markazlar){ if(m.login.toLowerCase()===l && l!==istisno) return true; for(var u of m.ustozlar) if(u.login.toLowerCase()===l && l!==istisno) return true; for(var o of m.oquvchilar) if(o.login.toLowerCase()===l && l!==istisno) return true; } return false; }
+        function loginMavjudmi(l, istisno=null) { l=l.toLowerCase(); if(l==="nvmtrpv") return true; for(var m of markazlar){ if(m.login.toLowerCase()===l && l!==istisno) return true; for(var u of (m.ustozlar||[])) if(u.login.toLowerCase()===l && l!==istisno) return true; for(var o of (m.oquvchilar||[])) if(o.login.toLowerCase()===l && l!==istisno) return true; } return false; }
         
         function almashtirAuthRejim(r) { document.getElementById('btnAuthKirish').className = `py-2.5 rounded-xl transition ${r==='kirish'?'bg-emerald-600 text-white shadow':'text-slate-500 hover:text-emerald-500'}`; document.getElementById('btnAuthReg').className = `py-2.5 rounded-xl transition ${r==='reg'?'bg-emerald-600 text-white shadow':'text-slate-500 hover:text-emerald-500'}`; document.getElementById('blokTizimgaKirish').classList.toggle('hidden', r==='reg'); document.getElementById('blokRoyxatdanOtish').classList.toggle('hidden', r==='kirish'); if(r==='reg') { var sel=document.getElementById('regTanlanganMarkaz'); sel.innerHTML=""; markazlar.forEach(m => sel.innerHTML+=`<option value="${m.id}">${m.nomi}</option>`); tanlaRegRol('oquvchi'); } }
         function tanlaRegRol(r) { regRol = r; ['oquvchi','ustoz','markaz'].forEach(x => document.getElementById('regRol-'+x).className = `py-2.5 rounded-xl transition font-bold ${r===x?'bg-emerald-600 text-white shadow-md':'glass-card text-slate-500 hover:text-emerald-600'}`); document.getElementById('regFormOquvchiUstoz').classList.toggle('hidden', r==='markaz'); document.getElementById('regFormMarkaz').classList.toggle('hidden', r!=='markaz'); }
+        function tanlaRol(r) { joriyRol = r; ['markaz','ustoz','oquvchi','otaona'].forEach(x => document.getElementById('tab-'+x).className = `py-2.5 rounded-xl transition flex flex-col items-center gap-1 ${r===x?'bg-emerald-600 text-white shadow-md':'glass-card text-slate-500'}`); }
 
         function tezkorRegistratsiya() {
             var mid = parseInt(document.getElementById('regTanlanganMarkaz').value), i = document.getElementById('regIsm').value.trim(), f = document.getElementById('regFan').value.trim(), l = document.getElementById('regLogin').value.trim().toLowerCase(), p = document.getElementById('regParol').value.trim();
-            if(!i || !f || !l || !p) return showToast("Barcha maydonlarni to'ldiring!", "error"); if(loginMavjudmi(l)) return showToast("Bu login band!", "error");
+            if(!i || !f || !l || !p) return showToast("To'ldiring!", "error"); if(loginMavjudmi(l)) return showToast("Bu login band!", "error");
             var m = markazlar.find(x => x.id === mid); if(!m) return;
-            if(regRol === 'oquvchi') { var o = {ism:i, chatId: getTelegramChatId(), fan:f, login:l, parol:p, ball:95, davomat:"keldi", tolovHolat:"tasdiqlangan"}; m.oquvchilar=m.oquvchilar||[]; m.oquvchilar.push(o); saqlashBaza(); faolOquvchi=o; faolMarkaz=m; ochishSahifa('oquvchi'); showToast("Ro'yxatdan o'tdingiz!"); } 
+            if(regRol === 'oquvchi') { var o = {ism:i, chatId: getTelegramChatId(), fan:f, login:l, parol:p, ball:0, davomat:"-", tolovHolat:"kutilmoqda"}; m.oquvchilar=m.oquvchilar||[]; m.oquvchilar.push(o); saqlashBaza(); faolOquvchi=o; faolMarkaz=m; isParent=false; ochishSahifa('oquvchi'); showToast("Ro'yxatdan o'tdingiz!"); } 
             else { var u = {ism:i, fan:f, login:l, parol:p, tel:"+998"}; m.ustozlar=m.ustozlar||[]; m.ustozlar.push(u); saqlashBaza(); faolUstoz=u; faolMarkaz=m; ochishSahifa('ustoz'); showToast("Ustoz bo'lib kirdingiz!"); }
         }
 
         function tezkorRegistratsiyaMarkaz() {
             var n = document.getElementById('regMarkazNomi').value.trim(), k = document.getElementById('regMarkazKat').value, tel = document.getElementById('regMarkazTel').value.trim(), manzil = document.getElementById('regMarkazManzil').value.trim(), f = document.getElementById('regMarkazFanlar').value.split(','), l = document.getElementById('regMarkazLogin').value.trim().toLowerCase(), p = document.getElementById('regMarkazParol').value.trim();
-            if(!n || !tel || !l || !p) return showToast("Maydonlarni to'ldiring!", "error"); if(loginMavjudmi(l)) return showToast("Login band!", "error");
-            var m = { id:Date.now(), nomi:n, kategoriya:k, login:l, parol:p, tel:tel, manzil:manzil, fanlar:f.length?f:["Umumiy"], yutuqlar:"Yangi premium markaz", logo:`https://ui-avatars.com/api/?name=${encodeURIComponent(n)}&background=10b981&color=fff`, holati:"active", oyOquvchisi:{ism:"",rasm:""}, oquvchilar:[], ustozlar:[], arizalar:[], yangiliklar:[] };
+            if(!n || !tel || !l || !p) return showToast("To'ldiring!", "error"); if(loginMavjudmi(l)) return showToast("Login band!", "error");
+            var m = { id:Date.now(), nomi:n, kategoriya:k, login:l, parol:p, tel:tel, manzil:manzil, fanlar:f.length?f:["Umumiy"], yutuqlar:"Yangi premium markaz", logo:`https://ui-avatars.com/api/?name=${encodeURIComponent(n)}&background=10b981&color=fff`, holati:"active", oyOquvchisi:{ism:"",rasm:""}, oquvchilar:[], ustozlar:[], arizalar:[], yangiliklar:[], sharhlar:[] };
             markazlar.push(m); saqlashBaza(); faolMarkaz = m; ochishSahifa('markaz'); showToast("Markaz ochildi!");
         }
 
         function saqlashModalMarkaz() {
             var n = document.getElementById('mHeaderNomi').value.trim(), k = document.getElementById('mHeaderKategoriya').value, tel = document.getElementById('mHeaderTel').value.trim(), manzil = document.getElementById('mHeaderManzil').value.trim(), f = document.getElementById('mHeaderFanlar').value.split(','), l = document.getElementById('mHeaderLogin').value.trim().toLowerCase(), p = document.getElementById('mHeaderParol').value.trim();
             if(!n || !l || !p) return showToast("To'ldiring!", "error"); if(loginMavjudmi(l)) return showToast("Band!", "error");
-            markazlar.push({ id:Date.now(), nomi:n, kategoriya:k, login:l, parol:p, tel:tel||"+998", manzil:manzil||"-", fanlar:f.length?f:["Umumiy"], yutuqlar:"Yangi markaz", logo:`https://ui-avatars.com/api/?name=${encodeURIComponent(n)}&background=10b981&color=fff`, holati:"active", oyOquvchisi:{ism:"",rasm:""}, oquvchilar:[], ustozlar:[], arizalar:[], yangiliklar:[] }); saqlashBaza(); yopishModal('modalRegMarkaz'); chizishMarketplace(); showToast("Markaz qo'shildi!");
+            markazlar.push({ id:Date.now(), nomi:n, kategoriya:k, login:l, parol:p, tel:tel||"+998", manzil:manzil||"-", fanlar:f.length?f:["Umumiy"], yutuqlar:"Yangi markaz", logo:`https://ui-avatars.com/api/?name=${encodeURIComponent(n)}&background=10b981&color=fff`, holati:"active", oyOquvchisi:{ism:"",rasm:""}, oquvchilar:[], ustozlar:[], arizalar:[], yangiliklar:[], sharhlar:[] }); saqlashBaza(); yopishModal('modalRegMarkaz'); chizishMarketplace(); showToast("Markaz qo'shildi!");
         }
 
-        function tanlaRol(r) { joriyRol = r; ['markaz','ustoz','oquvchi'].forEach(x => document.getElementById('tab-'+x).className = `py-2.5 rounded-xl transition flex items-center justify-center gap-1.5 ${r===x?'bg-emerald-600 text-white shadow-md':'glass-card text-slate-500'}`); }
-        function ochishSahifa(n) { ['Marketplace','Auth','SuperAdmin','MarkazAdmin','Ustoz','Oquvchi'].forEach(x => { document.getElementById('sahifa'+x).classList.add('hidden'); document.getElementById('sahifa'+x).classList.remove('animate-pulse'); }); if(n==='marketplace') { document.getElementById('sahifaMarketplace').classList.remove('hidden'); chizishMarketplace(); } else if(n==='auth') document.getElementById('sahifaAuth').classList.remove('hidden'); else if(n==='superadmin') { document.getElementById('sahifaSuperAdmin').classList.remove('hidden'); chizishSuperAdmin(); } else if(n==='markaz') { document.getElementById('sahifaMarkazAdmin').classList.remove('hidden'); chizishMarkazAdmin(); } else if(n==='ustoz') { document.getElementById('sahifaUstoz').classList.remove('hidden'); chizishUstozKabinet(); } else if(n==='oquvchi') { document.getElementById('sahifaOquvchi').classList.remove('hidden'); chizishOquvchiKabinet(); } }
+        function ochishSahifa(n) { ['Marketplace','Auth','SuperAdmin','MarkazAdmin','Ustoz','Oquvchi'].forEach(x => { document.getElementById('sahifa'+x).classList.add('hidden'); }); if(n==='marketplace') { document.getElementById('sahifaMarketplace').classList.remove('hidden'); chizishMarketplace(); } else if(n==='auth') document.getElementById('sahifaAuth').classList.remove('hidden'); else if(n==='superadmin') { document.getElementById('sahifaSuperAdmin').classList.remove('hidden'); chizishSuperAdmin(); } else if(n==='markaz') { document.getElementById('sahifaMarkazAdmin').classList.remove('hidden'); chizishMarkazAdmin(); } else if(n==='ustoz') { document.getElementById('sahifaUstoz').classList.remove('hidden'); chizishUstozKabinet(); } else if(n==='oquvchi') { document.getElementById('sahifaOquvchi').classList.remove('hidden'); chizishOquvchiKabinet(); } }
         function ochishModal(id) { document.getElementById(id).classList.remove('hidden'); } function yopishModal(id) { document.getElementById(id).classList.add('hidden'); }
 
         function tizimgaKirish() {
@@ -404,17 +340,25 @@
             if(l === "nvmtrpv") { ochishSahifa('superadmin'); return; } if(!p) return showToast("Parol!", "warning");
             if(joriyRol==='markaz') { var m = markazlar.find(x => x.login.toLowerCase()===l && x.parol===p); if(m) { faolMarkaz=m; ochishSahifa('markaz'); return; } }
             if(joriyRol==='ustoz') { for(var m of markazlar) { var u = (m.ustozlar||[]).find(x => x.login.toLowerCase()===l && x.parol===p); if(u) { faolUstoz=u; faolMarkaz=m; ochishSahifa('ustoz'); return; } } }
-            if(joriyRol==='oquvchi') { for(var m of markazlar) { var o = (m.oquvchilar||[]).find(x => x.login.toLowerCase()===l && x.parol===p); if(o) { var tid = getTelegramChatId(); if(tid) { o.chatId = tid; saqlashBaza(); } faolOquvchi=o; faolMarkaz=m; ochishSahifa('oquvchi'); return; } } }
+            if(joriyRol==='oquvchi' || joriyRol==='otaona') { 
+                for(var m of markazlar) { var o = (m.oquvchilar||[]).find(x => x.login.toLowerCase()===l && x.parol===p); if(o) { 
+                    faolOquvchi=o; faolMarkaz=m; isParent=(joriyRol==='otaona');
+                    if(!isParent) { var tid = getTelegramChatId(); if(tid){ o.chatId=tid; saqlashBaza(); } }
+                    ochishSahifa('oquvchi'); return; 
+                }} 
+            }
             showToast("Login yoki parol noto'g'ri!", "error");
         }
-        function tizimdanChiqish() { faolMarkaz = faolUstoz = faolOquvchi = null; ochishSahifa('marketplace'); }
+        function tizimdanChiqish() { faolMarkaz = faolUstoz = faolOquvchi = null; isParent=false; ochishSahifa('marketplace'); }
         function saralashKategoriya(k) { tanlanganKategoriya = k; document.querySelectorAll('[id^="kat-"]').forEach(b => b.className = "px-5 py-2 rounded-xl glass-card text-slate-600 dark:text-slate-300 font-bold text-xs hover:border-emerald-500 transition"); document.getElementById('kat-'+k).className = "px-5 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-lg shadow-emerald-500/30 transition"; chizishMarketplace(); }
 
         function chizishMarketplace() {
             var g = document.getElementById('markazlarGrid'); g.innerHTML = "";
             markazlar.filter(m => m.holati==='active' && (tanlanganKategoriya==='barchasi' || m.kategoriya===tanlanganKategoriya)).forEach(m => {
                 var f = m.fanlar.map(x => `<span class="bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-black uppercase px-2.5 py-1 rounded-lg border border-emerald-500/20">${x}</span>`).join(" ");
-                g.innerHTML += `<div class="glass-card rounded-3xl p-6 flex flex-col justify-between space-y-4 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 group border-t-4 border-emerald-500"><div><div class="flex items-center gap-4"><img src="${m.logo}" class="w-14 h-14 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform"><div><h3 class="text-lg font-black text-slate-900 dark:text-white">${m.nomi}</h3><p class="text-xs text-slate-500 flex items-center gap-1 mt-0.5"><i class="fa-solid fa-location-dot text-rose-500"></i> ${m.manzil}</p></div></div><div class="flex flex-wrap gap-1.5 mt-4">${f}</div><div class="mt-4 p-3 bg-slate-100/50 dark:bg-slate-800/50 rounded-xl sharp-edge"><p class="text-xs text-slate-600 dark:text-slate-300 font-bold italic">"${m.yutuqlar}"</p></div></div><div class="space-y-2 pt-2"><button onclick="ochishArizaModal(${m.id})" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20">Kursga Yozilish (Ariza)</button><button onclick="ochishSahifa('auth')" class="w-full glass-card hover:bg-slate-200 dark:hover:bg-slate-800 font-bold py-3 rounded-xl text-xs transition">Kabinetga Kirish</button></div></div>`;
+                var star = m.sharhlar && m.sharhlar.length ? (m.sharhlar.reduce((a,b)=>a+parseInt(b.yulduz),0)/m.sharhlar.length).toFixed(1) : "5.0";
+                var sharhSon = m.sharhlar ? m.sharhlar.length : 0;
+                g.innerHTML += `<div class="glass-card rounded-3xl p-6 flex flex-col justify-between space-y-4 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 group border-t-4 border-emerald-500"><div><div class="flex items-center gap-4"><img src="${m.logo}" class="w-14 h-14 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform"><div><h3 class="text-lg font-black text-slate-900 dark:text-white">${m.nomi}</h3><p class="text-[11px] text-amber-500 font-bold mt-1">⭐ ${star} <span class="text-slate-500 font-normal">(${sharhSon} ta sharh)</span></p></div></div><div class="flex flex-wrap gap-1.5 mt-4">${f}</div><div class="mt-4 p-3 bg-slate-100/50 dark:bg-slate-800/50 rounded-xl sharp-edge"><p class="text-xs text-slate-600 dark:text-slate-300 font-bold italic">"${m.yutuqlar}"</p></div></div><div class="space-y-2 pt-2"><button onclick="ochishArizaModal(${m.id})" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20">Kursga Yozilish (Ariza)</button><button onclick="ochishSahifa('auth')" class="w-full glass-card hover:bg-slate-200 dark:hover:bg-slate-800 font-bold py-3 rounded-xl text-xs transition">Tizimga Kirish</button></div></div>`;
             });
         }
 
@@ -423,12 +367,7 @@
 
         function markazTabAlmashtir(t) { ['davomat','arizalar','ustozlar','oquvchilar','yangiliklar','sozlamalar'].forEach(x => { document.getElementById('mBlok-'+x)?.classList.add('hidden'); var b=document.getElementById('mTab-'+x); if(b) b.className = `w-full text-left px-4 py-3.5 rounded-xl flex items-center gap-3 transition font-bold text-xs ${t===x?'bg-emerald-600 text-white shadow-md':'hover:bg-emerald-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400'}`; }); document.getElementById('mBlok-'+t)?.classList.remove('hidden'); }
         
-        function yigishStatistika() {
-            document.getElementById('statOquvchi').innerText = faolMarkaz.oquvchilar ? faolMarkaz.oquvchilar.length : 0;
-            document.getElementById('statUstoz').innerText = faolMarkaz.ustozlar ? faolMarkaz.ustozlar.length : 0;
-            document.getElementById('statAriza').innerText = faolMarkaz.arizalar ? faolMarkaz.arizalar.length : 0;
-            document.getElementById('statGuruh').innerText = faolMarkaz.fanlar.length;
-        }
+        function yigishStatistika() { document.getElementById('statOquvchi').innerText = faolMarkaz.oquvchilar ? faolMarkaz.oquvchilar.length : 0; document.getElementById('statUstoz').innerText = faolMarkaz.ustozlar ? faolMarkaz.ustozlar.length : 0; document.getElementById('statAriza').innerText = faolMarkaz.arizalar ? faolMarkaz.arizalar.length : 0; document.getElementById('statGuruh').innerText = faolMarkaz.fanlar.length; }
 
         function chizishMarkazAdmin() { 
             faolMarkaz.oquvchilar = faolMarkaz.oquvchilar || []; faolMarkaz.ustozlar = faolMarkaz.ustozlar || []; faolMarkaz.arizalar = faolMarkaz.arizalar || []; faolMarkaz.yangiliklar = faolMarkaz.yangiliklar || [];
@@ -437,55 +376,58 @@
             yigishStatistika(); chizishDavomatAdmin(); chizishArizalarAdmin(); chizishUstozlarAdmin(); chizishOquvchilarAdmin(); markazTabAlmashtir('davomat'); 
         }
 
-        function chizishDavomatAdmin() {
-            var tb = document.getElementById('mAdminDavomatJadvalTana'); tb.innerHTML = "";
-            if (faolMarkaz.oquvchilar.length === 0) { tb.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-slate-400">O\'quvchilar yo\'q.</td></tr>'; return; }
-            faolMarkaz.oquvchilar.forEach((o, i) => tb.innerHTML += `<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition"><td class="p-4 font-black">${o.ism}</td><td class="p-4 font-mono text-emerald-500">${o.chatId||'<span class="text-rose-500 font-normal">Kirmagan</span>'}</td><td class="p-4">${o.fan}</td><td class="p-4 flex justify-center gap-2"><button onclick="belgilashDavomat(${i},'keldi')" class="px-4 py-2 rounded-xl text-xs font-bold ${o.davomat==='keldi'?'bg-emerald-600 text-white shadow-md':'bg-slate-200/50 dark:bg-slate-800 text-emerald-600'}">Keldi</button><button onclick="belgilashDavomat(${i},'kelmadi')" class="px-4 py-2 rounded-xl text-xs font-bold ${o.davomat==='kelmadi'?'bg-rose-600 text-white shadow-md':'bg-slate-200/50 dark:bg-slate-800 text-rose-600'}">Kelmadi</button></td></tr>`);
-        }
+        function chizishDavomatAdmin() { var tb = document.getElementById('mAdminDavomatJadvalTana'); tb.innerHTML = ""; if (faolMarkaz.oquvchilar.length === 0) { tb.innerHTML = '<tr><td colspan="4" class="p-6 text-center text-slate-400">O\'quvchilar yo\'q.</td></tr>'; return; } faolMarkaz.oquvchilar.forEach((o, i) => tb.innerHTML += `<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50 transition"><td class="p-4 font-black">${o.ism}</td><td class="p-4 font-mono text-emerald-500">${o.chatId||'<span class="text-rose-500 font-normal">Yo\'q</span>'}</td><td class="p-4">${o.fan}</td><td class="p-4 flex justify-center gap-2"><button onclick="belgilashDavomat(${i},'keldi')" class="px-4 py-2 rounded-xl text-xs font-bold ${o.davomat==='keldi'?'bg-emerald-600 text-white shadow-md':'bg-slate-200/50 dark:bg-slate-800 text-emerald-600'}">Keldi</button><button onclick="belgilashDavomat(${i},'kelmadi')" class="px-4 py-2 rounded-xl text-xs font-bold ${o.davomat==='kelmadi'?'bg-rose-600 text-white shadow-md':'bg-slate-200/50 dark:bg-slate-800 text-rose-600'}">Kelmadi</button></td></tr>`); }
 
         async function belgilashDavomat(i, h) {
             var o = faolMarkaz.oquvchilar[i]; o.davomat = h; saqlashBaza(); chizishDavomatAdmin();
-            if(h==='kelmadi') {
-                if(!o.chatId) return showToast("Bu o'quvchi Telegramdan kirmagan!", "warning");
-                var tgXabar = `<b>⚠️ DIQQAT: DARS QOLDIRILDI!</b>\n\n<b>O'quvchi:</b> ${o.ism}\n<b>Markaz:</b> ${faolMarkaz.nomi}\n<b>Fan:</b> ${o.fan}\n<b>Sana:</b> ${sanaQator}\n<b>Holat:</b> ❌ Darsga qatnashmadi.\n\n<i>Iltimos, sababini markaz bilan aniqlashtiring.</i>`;
-                await yuborishTelegramXabar(tgXabar, o.chatId);
-            } else { showToast("Davomat saqlandi"); }
+            if(h==='kelmadi') { if(!o.chatId) return showToast("Bu o'quvchi TG'dan kirmagan!", "warning"); await yuborishTelegramXabar(`<b>⚠️ DARS QOLDIRILDI!</b>\n\n<b>O'quvchi:</b> ${o.ism}\n<b>Markaz:</b> ${faolMarkaz.nomi}\n<b>Sana:</b> ${sanaQator}\n<b>Holat:</b> ❌ Qatnashmadi.`, o.chatId); } else { showToast("Saqlandi"); }
         }
 
-        function chizishArizalarAdmin() { var tb = document.getElementById('mAdminArizalarJadvalTana'); tb.innerHTML = ""; if(faolMarkaz.arizalar.length===0){ tb.innerHTML='<tr><td colspan="5" class="p-6 text-center text-slate-400">Ariza yo\'q</td></tr>'; return; } faolMarkaz.arizalar.forEach((a,i) => tb.innerHTML += `<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-4 font-black">${a.ism}</td><td class="p-4 font-mono text-emerald-500">${a.tel}</td><td class="p-4">${a.fan}</td><td class="p-4 text-slate-400">${a.sana}</td><td class="p-4 text-center"><button onclick="faolMarkaz.arizalar.splice(${i},1);saqlashBaza();chizishArizalarAdmin();document.getElementById('mAdminArizaSon').innerText=faolMarkaz.arizalar.length;yigishStatistika()" class="text-rose-500 font-bold p-2 glass-card rounded-xl hover:bg-rose-500 hover:text-white transition"><i class="fa-solid fa-trash"></i></button></td></tr>`); }
-        function chizishUstozlarAdmin() { var tb = document.getElementById('mAdminUstozlarJadvalTana'); tb.innerHTML = ""; faolMarkaz.ustozlar.forEach((u,i) => tb.innerHTML += `<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-4 font-black">${u.ism}</td><td class="p-4">${u.fan}</td><td class="p-4 font-mono">${u.tel||'-'}</td><td class="p-4 font-mono text-emerald-500">${u.login}</td><td class="p-4 font-mono text-rose-500">${u.parol}</td><td class="p-4 text-center space-x-2"><button onclick="ochishTahrir('ustoz',${i})" class="px-3 py-1.5 rounded-xl glass-card text-blue-500 hover:bg-blue-500 hover:text-white transition"><i class="fa-solid fa-pen"></i></button><button onclick="if(confirm('Ochirasizmi?')){faolMarkaz.ustozlar.splice(${i},1);saqlashBaza();chizishUstozlarAdmin();yigishStatistika()}" class="px-3 py-1.5 rounded-xl glass-card text-rose-500 hover:bg-rose-500 hover:text-white transition"><i class="fa-solid fa-trash"></i></button></td></tr>`); }
-        function chizishOquvchilarAdmin() { var tb = document.getElementById('mAdminOquvchilarJadvalTana'); tb.innerHTML = ""; faolMarkaz.oquvchilar.forEach((o,i) => tb.innerHTML += `<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-4 font-black">${o.ism}</td><td class="p-4 font-mono text-slate-400">${o.chatId||'-'}</td><td class="p-4">${o.fan}</td><td class="p-4 font-black text-amber-500">${o.ball} ball</td><td class="p-4 font-mono text-emerald-500">${o.login} / <span class="text-rose-500">${o.parol}</span></td><td class="p-4 text-center"><button onclick="faolMarkaz.oquvchilar[${i}].tolovHolat=(faolMarkaz.oquvchilar[${i}].tolovHolat==='tasdiqlangan'?'kutilmoqda':'tasdiqlangan');saqlashBaza();chizishOquvchilarAdmin()" class="px-3 py-1.5 rounded-xl text-[10px] font-black uppercase ${o.tolovHolat==='tasdiqlangan'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${o.tolovHolat==='tasdiqlangan'?'Tasdiqlangan':'Kutilmoqda'}</button></td><td class="p-4 text-center space-x-2"><button onclick="ochishTahrir('oquvchi',${i})" class="px-3 py-1.5 rounded-xl glass-card text-blue-500 hover:bg-blue-500 hover:text-white transition"><i class="fa-solid fa-pen"></i></button><button onclick="if(confirm('Ochirasizmi?')){faolMarkaz.oquvchilar.splice(${i},1);saqlashBaza();chizishOquvchilarAdmin();chizishDavomatAdmin();yigishStatistika()}" class="px-3 py-1.5 rounded-xl glass-card text-rose-500 hover:bg-rose-500 hover:text-white transition"><i class="fa-solid fa-trash"></i></button></td></tr>`); }
+        function chizishArizalarAdmin() { var tb = document.getElementById('mAdminArizalarJadvalTana'); tb.innerHTML = ""; if(faolMarkaz.arizalar.length===0){ tb.innerHTML='<tr><td colspan="5" class="p-6 text-center text-slate-400">Ariza yo\'q</td></tr>'; return; } faolMarkaz.arizalar.forEach((a,i) => tb.innerHTML += `<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-4 font-black">${a.ism}</td><td class="p-4 font-mono text-emerald-500">${a.tel}</td><td class="p-4">${a.fan}</td><td class="p-4 text-slate-400">${a.sana}</td><td class="p-4 text-center"><button onclick="faolMarkaz.arizalar.splice(${i},1);saqlashBaza();chizishArizalarAdmin();yigishStatistika()" class="text-rose-500 p-2 glass-card rounded-xl hover:bg-rose-500 hover:text-white transition"><i class="fa-solid fa-trash"></i></button></td></tr>`); }
+        function chizishUstozlarAdmin() { var tb = document.getElementById('mAdminUstozlarJadvalTana'); tb.innerHTML = ""; faolMarkaz.ustozlar.forEach((u,i) => tb.innerHTML += `<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-4 font-black">${u.ism}</td><td class="p-4">${u.fan}</td><td class="p-4 font-mono">${u.tel||'-'}</td><td class="p-4 font-mono text-emerald-500">${u.login} / <span class="text-rose-500">${u.parol}</span></td><td class="p-4 text-center space-x-2"><button onclick="ochishTahrir('ustoz',${i})" class="px-3 py-1.5 rounded-xl glass-card text-blue-500 hover:bg-blue-500 hover:text-white"><i class="fa-solid fa-pen"></i></button><button onclick="if(confirm('Ochirasizmi?')){faolMarkaz.ustozlar.splice(${i},1);saqlashBaza();chizishUstozlarAdmin();yigishStatistika()}" class="px-3 py-1.5 rounded-xl glass-card text-rose-500 hover:bg-rose-500 hover:text-white"><i class="fa-solid fa-trash"></i></button></td></tr>`); }
+        function chizishOquvchilarAdmin() { var tb = document.getElementById('mAdminOquvchilarJadvalTana'); tb.innerHTML = ""; faolMarkaz.oquvchilar.forEach((o,i) => tb.innerHTML += `<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-4 font-black">${o.ism}</td><td class="p-4 font-mono text-slate-400">${o.chatId||'-'}</td><td class="p-4">${o.fan} / <span class="text-amber-500 font-black">${o.ball} ball</span></td><td class="p-4 font-mono text-emerald-500">${o.login} / <span class="text-rose-500">${o.parol}</span></td><td class="p-4 text-center"><button onclick="faolMarkaz.oquvchilar[${i}].tolovHolat=(faolMarkaz.oquvchilar[${i}].tolovHolat==='tasdiqlangan'?'kutilmoqda':'tasdiqlangan');saqlashBaza();chizishOquvchilarAdmin()" class="px-3 py-1.5 rounded-xl text-[10px] font-black uppercase ${o.tolovHolat==='tasdiqlangan'?'bg-emerald-100 text-emerald-700':'bg-amber-100 text-amber-700'}">${o.tolovHolat==='tasdiqlangan'?'Tasdiqlangan':'Kutilmoqda'}</button></td><td class="p-4 text-center space-x-2"><button onclick="ochishTahrir('oquvchi',${i})" class="px-3 py-1.5 rounded-xl glass-card text-blue-500 hover:bg-blue-500 hover:text-white"><i class="fa-solid fa-pen"></i></button><button onclick="if(confirm('Ochirasizmi?')){faolMarkaz.oquvchilar.splice(${i},1);saqlashBaza();chizishOquvchilarAdmin();chizishDavomatAdmin();yigishStatistika()}" class="px-3 py-1.5 rounded-xl glass-card text-rose-500 hover:bg-rose-500 hover:text-white"><i class="fa-solid fa-trash"></i></button></td></tr>`); }
 
-        function saqlashOquvchi() { var i=document.getElementById('mOqIsm').value, c=document.getElementById('mOqChatId').value, f=document.getElementById('mOqFan').value, l=document.getElementById('mOqLogin').value.toLowerCase(), p=document.getElementById('mOqParol').value; if(i&&l&&p){ if(loginMavjudmi(l)) return showToast("Band!","error"); faolMarkaz.oquvchilar.unshift({ism:i,chatId:c||null,fan:f,login:l,parol:p,ball:95,davomat:"keldi",tolovHolat:"kutilmoqda"}); saqlashBaza(); chizishDavomatAdmin(); chizishOquvchilarAdmin(); yigishStatistika(); yopishModal('modalYangiOquvchi'); showToast("Qo'shildi!"); } }
+        function saqlashOquvchi() { var i=document.getElementById('mOqIsm').value, c=document.getElementById('mOqChatId').value, f=document.getElementById('mOqFan').value, l=document.getElementById('mOqLogin').value.toLowerCase(), p=document.getElementById('mOqParol').value; if(i&&l&&p){ if(loginMavjudmi(l)) return showToast("Band!","error"); faolMarkaz.oquvchilar.unshift({ism:i,chatId:c||null,fan:f,login:l,parol:p,ball:0,davomat:"-",tolovHolat:"kutilmoqda"}); saqlashBaza(); chizishDavomatAdmin(); chizishOquvchilarAdmin(); yigishStatistika(); yopishModal('modalYangiOquvchi'); showToast("Qo'shildi!"); } }
         function saqlashUstoz() { var i=document.getElementById('mUstIsm').value, f=document.getElementById('mUstFan').value, t=document.getElementById('mUstTel').value, l=document.getElementById('mUstLogin').value.toLowerCase(), p=document.getElementById('mUstParol').value; if(i&&l&&p){ if(loginMavjudmi(l)) return showToast("Band!","error"); faolMarkaz.ustozlar.unshift({ism:i,fan:f,tel:t,login:l,parol:p}); saqlashBaza(); chizishUstozlarAdmin(); yigishStatistika(); yopishModal('modalYangiUstoz'); showToast("Qo'shildi!"); } }
         function saqlashKarta() { faolMarkaz.plastikKarta=document.getElementById('mAdminKarta').value; faolMarkaz.kartaEgasi=document.getElementById('mAdminKartaEgasi').value.toUpperCase(); faolMarkaz.bankNomi=document.getElementById('mAdminBankNomi').value; saqlashBaza(); showToast("Karta saqlandi!"); }
         function saqlashOyOquvchisi() { faolMarkaz.oyOquvchisi={ism:document.getElementById('mAdminOyIsm').value, rasm:document.getElementById('mAdminOyRasm').src}; saqlashBaza(); showToast("Yangilandi!"); }
         function saqlashYangilik() { var s=document.getElementById('mAdminYangilikSarlavha').value, m=document.getElementById('mAdminYangilikMatn').value; if(s&&m){ faolMarkaz.yangiliklar.unshift({sarlavha:s,matn:m,sana:sanaQator}); saqlashBaza(); showToast("E'lon qilindi!"); document.getElementById('mAdminYangilikSarlavha').value=""; document.getElementById('mAdminYangilikMatn').value=""; } }
 
-        function ochishTahrir(t, i) { tahrirTuri=t; tahrirIndex=i; var e = (t==='oquvchi')?faolMarkaz.oquvchilar[i]:faolMarkaz.ustozlar[i]; document.getElementById('tahrirSarlavha').innerText="Tahrirlash"; document.getElementById('tahrirIsm').value=e.ism; document.getElementById('tahrirFan').value=e.fan; document.getElementById('tahrirLogin').value=e.login; document.getElementById('tahrirParol').value=e.parol; var cq=document.getElementById('tahrirChatId'); if(t==='oquvchi'){ document.getElementById('tahrirChatIdQator').style.display=''; cq.value=e.chatId||''; }else{ document.getElementById('tahrirChatIdQator').style.display='none'; } ochishModal('modalTahrirlash'); }
-        function saqlashTahrirlash() { var e = (tahrirTuri==='oquvchi')?faolMarkaz.oquvchilar[tahrirIndex]:faolMarkaz.ustozlar[tahrirIndex], l=document.getElementById('tahrirLogin').value.trim().toLowerCase(); if(loginMavjudmi(l,e.login)) return showToast("Bu login band!", "error"); e.ism=document.getElementById('tahrirIsm').value; e.fan=document.getElementById('tahrirFan').value; e.login=l; e.parol=document.getElementById('tahrirParol').value; if(tahrirTuri==='oquvchi') e.chatId=document.getElementById('tahrirChatId').value||null; saqlashBaza(); yopishModal('modalTahrirlash'); if(tahrirTuri==='oquvchi'){chizishOquvchilarAdmin();chizishDavomatAdmin();}else{chizishUstozlarAdmin();} showToast("Saqlandi!"); }
+        function ochishTahrir(t, i) { tahrirTuri=t; tahrirIndex=i; var e = (t==='oquvchi')?faolMarkaz.oquvchilar[i]:faolMarkaz.ustozlar[i]; document.getElementById('tahrirIsm').value=e.ism; document.getElementById('tahrirFan').value=e.fan; document.getElementById('tahrirLogin').value=e.login; document.getElementById('tahrirParol').value=e.parol; if(t==='oquvchi'){ document.getElementById('tahrirChatIdQator').style.display=''; document.getElementById('tahrirChatId').value=e.chatId||''; }else{ document.getElementById('tahrirChatIdQator').style.display='none'; } ochishModal('modalTahrirlash'); }
+        function saqlashTahrirlash() { var e = (tahrirTuri==='oquvchi')?faolMarkaz.oquvchilar[tahrirIndex]:faolMarkaz.ustozlar[tahrirIndex], l=document.getElementById('tahrirLogin').value.trim().toLowerCase(); if(loginMavjudmi(l,e.login)) return showToast("Login band!", "error"); e.ism=document.getElementById('tahrirIsm').value; e.fan=document.getElementById('tahrirFan').value; e.login=l; e.parol=document.getElementById('tahrirParol').value; if(tahrirTuri==='oquvchi') e.chatId=document.getElementById('tahrirChatId').value||null; saqlashBaza(); yopishModal('modalTahrirlash'); if(tahrirTuri==='oquvchi'){chizishOquvchilarAdmin();chizishDavomatAdmin();}else{chizishUstozlarAdmin();} showToast("Saqlandi!"); }
 
-        function chizishUstozKabinet() { document.getElementById('ustozIsmDisplay').innerText = faolUstoz.ism; document.getElementById('ustozFanDisplay').innerText = faolUstoz.fan + " ("+faolMarkaz.nomi+")"; var tb=document.getElementById('ustozOquvchilarTana'); tb.innerHTML=""; faolMarkaz.oquvchilar.forEach((o,i) => tb.innerHTML+=`<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-4 font-black">${o.ism}</td><td class="p-4 text-slate-500">${o.fan}</td><td class="p-4 font-black text-amber-500">${o.ball}</td><td class="p-4 text-center space-x-2"><button onclick="faolMarkaz.oquvchilar[${i}].ball=100;saqlashBaza();chizishUstozKabinet();showToast('Baho qoyildi!')" class="px-4 py-2 bg-emerald-500/20 text-emerald-500 rounded-xl font-bold text-xs hover:bg-emerald-500 hover:text-white transition">5</button><button onclick="faolMarkaz.oquvchilar[${i}].ball=80;saqlashBaza();chizishUstozKabinet();showToast('Baho qoyildi!')" class="px-4 py-2 bg-blue-500/20 text-blue-500 rounded-xl font-bold text-xs hover:bg-blue-500 hover:text-white transition">4</button></td></tr>`); }
+        function chizishUstozKabinet() { document.getElementById('ustozIsmDisplay').innerText = faolUstoz.ism; document.getElementById('ustozFanDisplay').innerText = faolUstoz.fan + " ("+faolMarkaz.nomi+")"; var tb=document.getElementById('ustozOquvchilarTana'); tb.innerHTML=""; faolMarkaz.oquvchilar.forEach((o,i) => tb.innerHTML+=`<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-4 font-black">${o.ism}</td><td class="p-4 text-slate-500">${o.fan}</td><td class="p-4 font-black text-amber-500">${o.ball}</td><td class="p-4 text-center space-x-2"><button onclick="faolMarkaz.oquvchilar[${i}].ball+=5;saqlashBaza();chizishUstozKabinet();showToast('+5 Ball!')" class="px-4 py-2 bg-emerald-500/20 text-emerald-600 rounded-xl font-bold text-xs hover:bg-emerald-500 hover:text-white transition">+5</button><button onclick="faolMarkaz.oquvchilar[${i}].ball+=4;saqlashBaza();chizishUstozKabinet();showToast('+4 Ball!')" class="px-4 py-2 bg-blue-500/20 text-blue-500 rounded-xl font-bold text-xs hover:bg-blue-500 hover:text-white transition">+4</button></td></tr>`); }
 
         function chizishOquvchiKabinet() {
-            document.getElementById('oquvchiIsmDisplay').innerText = faolOquvchi.ism; document.getElementById('oquvchiMarkazDisplay').innerText = faolMarkaz.nomi; document.getElementById('oquvchiBallDisplay').innerText = faolOquvchi.ball+" / 100"; document.getElementById('oquvchiPlastikKarta').innerText = faolMarkaz.plastikKarta||'Karta yo\'q'; document.getElementById('oquvchiKartaEgasi').innerText = faolMarkaz.kartaEgasi||'-';
-            var d = document.getElementById('oquvchiDavomatHolat'); if(faolOquvchi.davomat==='keldi'){ d.className="text-4xl font-black mt-2 text-emerald-500"; d.innerHTML='<i class="fa-solid fa-circle-check"></i> Keldi'; }else{ d.className="text-4xl font-black mt-2 text-rose-500"; d.innerHTML='<i class="fa-solid fa-circle-xmark"></i> Kelmadi'; }
-            var ob = document.getElementById('oquvchiOyTalabasiBlok'); if(faolMarkaz.oyOquvchisi && faolMarkaz.oyOquvchisi.ism){ ob.classList.remove('hidden'); document.getElementById('oquvchiOyTalabaRasm').src=faolMarkaz.oyOquvchisi.rasm||''; document.getElementById('oquvchiOyTalabaNom').innerText=faolMarkaz.oyOquvchisi.ism; document.getElementById('oquvchiOyTalabaIzoh').innerText="Siz bilan faxrlanamiz!"; }else{ ob.classList.add('hidden'); }
+            document.getElementById('oquvchiIsmDisplay').innerText = isParent ? "Farzandimning Kabineti" : faolOquvchi.ism; 
+            document.getElementById('kabinetAvatar').innerHTML = isParent ? '<i class="fa-solid fa-users"></i>' : '<i class="fa-solid fa-user-graduate"></i>';
+            document.getElementById('oquvchiMarkazDisplay').innerText = faolMarkaz.nomi + " | " + faolOquvchi.ism;
+            document.getElementById('oquvchiBallDisplay').innerText = faolOquvchi.ball+" ball"; 
+            document.getElementById('oquvchiPlastikKarta').innerText = faolMarkaz.plastikKarta||'Karta kiritilmagan'; 
+            document.getElementById('oquvchiKartaEgasi').innerText = faolMarkaz.kartaEgasi||'';
+            
+            var d = document.getElementById('oquvchiDavomatHolat'); if(faolOquvchi.davomat==='keldi'){ d.className="text-4xl font-black mt-2 text-emerald-500"; d.innerHTML='<i class="fa-solid fa-circle-check"></i> Keldi'; }else if(faolOquvchi.davomat==='kelmadi'){ d.className="text-4xl font-black mt-2 text-rose-500"; d.innerHTML='<i class="fa-solid fa-circle-xmark"></i> Kelmadi'; }else{ d.innerHTML='-'; }
+            
+            if(faolOquvchi.ball >= 80) {
+                document.getElementById('blokSertifikat').classList.remove('hidden');
+                document.getElementById('certIsm').innerText = faolOquvchi.ism; document.getElementById('certMarkaz').innerText = faolMarkaz.nomi; document.getElementById('certFan').innerText = faolOquvchi.fan; document.getElementById('certSana').innerText = sanaQator;
+            } else { document.getElementById('blokSertifikat').classList.add('hidden'); }
+
+            var ob = document.getElementById('oquvchiOyTalabasiBlok'); if(faolMarkaz.oyOquvchisi && faolMarkaz.oyOquvchisi.ism){ ob.classList.remove('hidden'); document.getElementById('oquvchiOyTalabaRasm').src=faolMarkaz.oyOquvchisi.rasm||''; document.getElementById('oquvchiOyTalabaNom').innerText=faolMarkaz.oyOquvchisi.ism; }else{ ob.classList.add('hidden'); }
+            
             var l = document.getElementById('oquvchiYangiliklarLenta'); l.innerHTML=""; if(faolMarkaz.yangiliklar){ faolMarkaz.yangiliklar.forEach(y=>l.innerHTML+=`<div class="sharp-edge glass-card p-5"><h4 class="font-black text-sm text-emerald-700 dark:text-emerald-400">${y.sarlavha}</h4><p class="text-[10px] font-mono text-slate-400 mb-2">${y.sana}</p><p class="text-xs text-slate-600 dark:text-slate-300 font-medium">${y.matn}</p></div>`); }
+            
+            document.getElementById('tolovYuklashBlok').style.display = isParent ? 'none' : 'block';
+            document.getElementById('sharhQoldirishBlok').style.display = isParent ? 'none' : 'block';
+            
             document.getElementById('oquvchiChekHolat').innerText = faolOquvchi.tolovHolat==='tasdiqlangan'?'Tasdiqlangan ✅':'Kutilmoqda ⏳'; document.getElementById('oquvchiChekHolat').className = faolOquvchi.tolovHolat==='tasdiqlangan'?'block text-[10px] font-bold text-emerald-500 mt-2':'block text-[10px] font-bold text-amber-500 mt-2';
         }
+        
+        function saqlashSharh() { var m = document.getElementById('sharhMatn').value, b = parseInt(document.getElementById('sharhBaho').value); if(!m) return showToast("Fikringizni yozing!","warning"); faolMarkaz.sharhlar=faolMarkaz.sharhlar||[]; faolMarkaz.sharhlar.push({ism:faolOquvchi.ism, yulduz:b, matn:m}); saqlashBaza(); document.getElementById('sharhMatn').value=""; showToast("Sharhingiz markazga yuborildi!"); }
         function oquvchiChekYuklash() { var i=document.getElementById('oquvchiChekInput'); if(!i.files||!i.files[0]) return showToast("Rasm tanlang!", "warning"); faolOquvchi.tolovHolat='kutilmoqda'; saqlashBaza(); chizishOquvchiKabinet(); showToast("To'lov cheki yuborildi!"); }
 
-        function chizishSuperAdmin() {
-            var mTana=document.getElementById('superAdminMarkazlarTana'), oTana=document.getElementById('superAdminOquvchilarTana'), uTana=document.getElementById('superAdminUstozlarTana'); mTana.innerHTML=""; oTana.innerHTML=""; uTana.innerHTML="";
-            markazlar.forEach((m,i) => {
-                mTana.innerHTML+=`<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-3"><img src="${m.logo}" class="w-10 h-10 rounded-xl object-cover"></td><td class="p-3 font-black">${m.nomi}</td><td class="p-3 font-mono text-emerald-500">${m.login}</td><td class="p-3 font-mono text-rose-500">${m.parol}</td><td class="p-3 font-mono">${m.tel}</td><td class="p-3 text-center"><button onclick="if(confirm('Ochirasizmi?')){markazlar.splice(${i},1);saqlashBaza();chizishSuperAdmin()}" class="px-4 py-2 rounded-xl bg-rose-500 text-white font-bold shadow-md">O'chirish</button></td></tr>`;
-                (m.oquvchilar||[]).forEach(o=>oTana.innerHTML+=`<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-2 font-bold">${o.ism}</td><td class="p-2 text-emerald-500">${m.nomi}</td><td class="p-2 font-mono text-slate-400">${o.chatId||'-'}</td><td class="p-2 font-mono font-bold text-emerald-600">${o.login}</td><td class="p-2 font-mono text-rose-600">${o.parol}</td></tr>`);
-                (m.ustozlar||[]).forEach(u=>uTana.innerHTML+=`<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-2 font-bold">${u.ism}</td><td class="p-2 text-indigo-500">${m.nomi}</td><td class="p-2 font-mono font-bold text-emerald-600">${u.login}</td><td class="p-2 font-mono text-rose-600">${u.parol}</td></tr>`);
-            });
-        }
+        function chizishSuperAdmin() { var mTana=document.getElementById('superAdminMarkazlarTana'); mTana.innerHTML=""; markazlar.forEach((m,i) => { mTana.innerHTML+=`<tr class="hover:bg-slate-100/50 dark:hover:bg-slate-800/50"><td class="p-3"><img src="${m.logo}" class="w-10 h-10 rounded-xl object-cover"></td><td class="p-3 font-black">${m.nomi}</td><td class="p-3 font-mono text-emerald-500">${m.login} / <span class="text-rose-500">${m.parol}</span></td><td class="p-3 font-mono">${m.tel}</td><td class="p-3 text-center"><button onclick="if(confirm('Ochirasizmi?')){markazlar.splice(${i},1);saqlashBaza();chizishSuperAdmin()}" class="px-4 py-2 rounded-xl bg-rose-500 text-white font-bold shadow-md">O'chirish</button></td></tr>`; }); }
         function almashtirRejim() { document.documentElement.classList.toggle('dark'); var i=document.getElementById('rejimIkonka'); i.className=document.documentElement.classList.contains('dark')?"fa-solid fa-moon text-xs":"fa-solid fa-sun text-xs text-amber-500"; }
-        
         window.onload = tizimniYuklash;
     </script>
 </body>

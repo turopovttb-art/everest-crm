@@ -3,227 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Everest Education</title>
+    <title>Everest Education CRM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: '#10b981', darkbg: '#020617' } } } }
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { brand: '#10b981', dark: '#020617' } } } }
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
-        body { background: #020617; color: #f8fafc; font-family: sans-serif; }
-        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1.5rem; }
-        .input-glass { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 0.75rem 1rem; border-radius: 1rem; width: 100%; outline: none; }
-        .input-glass:focus { border-color: #10b981; }
-        .btn-primary { background: linear-gradient(to right, #059669, #10b981); color: white; font-weight: bold; padding: 0.75rem 1.5rem; border-radius: 1rem; transition: 0.3s; }
-        .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); }
-        .scroll-sm::-webkit-scrollbar { width: 5px; } .scroll-sm::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
-        .toast-enter { animation: slideIn 0.3s ease-out forwards; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        body { background: #020617; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-image: radial-gradient(circle at top right, rgba(16, 185, 129, 0.1), transparent 30%); }
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .input-box { width: 100%; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: white; padding: 0.8rem 1.2rem; border-radius: 1rem; outline: none; transition: 0.3s; }
+        .input-box:focus { border-color: #10b981; box-shadow: 0 0 10px rgba(16,185,129,0.2); }
+        .btn-brand { background: linear-gradient(135deg, #059669, #10b981); color: white; font-weight: 900; padding: 0.8rem; border-radius: 1rem; transition: 0.3s; cursor: pointer; text-align: center; }
+        .btn-brand:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(16,185,129,0.4); }
+        ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-thumb { background: #10b981; border-radius: 10px; }
+        .toast-anim { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="min-h-screen scroll-sm flex flex-col">
+<body class="min-h-screen flex flex-col relative overflow-x-hidden">
 
-    <div id="toast" class="fixed top-5 right-5 z-50 flex flex-col gap-2"></div>
+    <!-- TOAST XABARLAR -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2"></div>
 
+    <!-- HEADER -->
     <header class="glass mx-4 mt-4 px-6 py-4 flex justify-between items-center sticky top-4 z-40">
-        <div class="flex items-center gap-3 cursor-pointer" onclick="ui.show('market')">
-            <div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-xl shadow-lg shadow-primary/30"><i class="fa-solid fa-graduation-cap"></i></div>
-            <div><h1 class="font-black tracking-widest leading-none">EVEREST</h1><span class="text-[10px] text-primary font-bold">EDUCATION</span></div>
+        <div class="flex items-center gap-3 cursor-pointer" onclick="UI.show('market')">
+            <div class="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-2xl shadow-lg"><i class="fa-solid fa-graduation-cap"></i></div>
+            <div><h1 class="text-2xl font-black leading-none">EVEREST</h1><p class="text-[10px] text-emerald-500 font-black uppercase tracking-widest">Enterprise</p></div>
         </div>
-        <button onclick="ui.show('auth')" class="btn-primary text-sm shadow-lg shadow-primary/20"><i class="fa-solid fa-user mr-2"></i> Kirish / Ariza</button>
+        <div class="flex items-center gap-3">
+            <button onclick="document.documentElement.classList.toggle('dark')" class="w-10 h-10 rounded-xl border border-slate-700 flex justify-center items-center hover:text-brand"><i class="fa-solid fa-moon"></i></button>
+            <button onclick="UI.show('auth')" class="px-6 py-2.5 bg-slate-800 text-brand font-bold rounded-xl border border-brand/30 hover:bg-brand hover:text-white transition">Kirish / Ariza</button>
+        </div>
     </header>
 
-    <main id="view-market" class="flex-1 max-w-7xl mx-auto w-full p-6 mt-8 space-y-10">
+    <!-- 1. MARKETPLACE -->
+    <main id="view-market" class="flex-1 max-w-7xl mx-auto w-full p-6 mt-10 space-y-12">
         <div class="text-center space-y-4">
-            <h2 class="text-4xl md:text-6xl font-black">Ta'limda <span class="text-primary">Mukammallik</span></h2>
-            <p class="text-slate-400">Tasdiqlangan va ishonchli o'quv markazlari tarmog'i</p>
+            <span class="px-4 py-1.5 bg-emerald-900/50 text-brand rounded-full text-xs font-bold border border-brand/30"><i class="fa-solid fa-shield-check"></i> Tasdiqlangan Markazlar</span>
+            <h2 class="text-5xl md:text-7xl font-black">Ta'limda <span class="text-brand">Mukammallik</span></h2>
+            <p class="text-slate-400">Markazni tanlang va onlayn ro'yxatdan o'ting.</p>
         </div>
-        <div id="market-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        <div id="market-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </main>
 
-    <!-- AUTH & REGISTRATION -->
-    <div id="view-auth" class="hidden flex-1 flex items-center justify-center p-4">
+    <!-- 2. AUTH / REGISTRATION -->
+    <div id="view-auth" class="hidden flex-1 flex items-center justify-center p-4 mt-10">
         <div class="glass p-8 w-full max-w-md relative">
-            <button onclick="ui.show('market')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <div class="flex gap-2 mb-6 bg-slate-900/50 p-1 rounded-xl">
-                <button onclick="ui.authTab('login')" id="tab-login" class="flex-1 py-2 rounded-lg bg-slate-800 text-primary font-bold text-sm">Kirish</button>
-                <button onclick="ui.authTab('reg')" id="tab-reg" class="flex-1 py-2 rounded-lg text-slate-400 font-bold text-sm">Ro'yxatdan O'tish</button>
+            <button onclick="UI.show('market')" class="absolute top-4 right-4 text-slate-500 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex bg-slate-900 p-1 rounded-xl mb-6">
+                <button onclick="UI.authTab('login')" id="tab-login" class="flex-1 py-2 bg-slate-800 text-brand font-bold rounded-lg text-sm">Kirish</button>
+                <button onclick="UI.authTab('reg')" id="tab-reg" class="flex-1 py-2 text-slate-400 font-bold rounded-lg text-sm hover:text-white">Ariza / Ro'yxatdan O'tish</button>
             </div>
 
-            <!-- LOGIN -->
-            <form id="form-login" onsubmit="event.preventDefault(); app.login();" class="space-y-4">
-                <input type="text" id="log-id" placeholder="Login" class="input-glass font-mono" required>
-                <input type="password" id="log-pw" placeholder="Parol" class="input-glass" required>
-                <button type="submit" class="w-full btn-primary py-3">Tizimga Kirish</button>
+            <!-- Login -->
+            <form id="form-login" onsubmit="event.preventDefault(); App.login();" class="space-y-4">
+                <input type="text" id="log-id" placeholder="Loginni kiriting" class="input-box font-mono font-bold" required>
+                <input type="password" id="log-pw" placeholder="Parolni kiriting" class="input-box" required>
+                <button type="submit" class="w-full btn-brand mt-4">Tizimga Kirish</button>
             </form>
 
-            <!-- REGISTRATION -->
-            <div id="form-reg" class="hidden space-y-4">
-                <div class="flex gap-1 text-[10px] font-bold">
-                    <button onclick="ui.regTab('oq')" id="rtab-oq" class="flex-1 py-2 rounded-lg bg-primary text-white">O'quvchi</button>
-                    <button onclick="ui.regTab('us')" id="rtab-us" class="flex-1 py-2 rounded-lg bg-slate-800 text-slate-400">Ustoz</button>
-                    <button onclick="ui.regTab('ma')" id="rtab-ma" class="flex-1 py-2 rounded-lg bg-slate-800 text-slate-400">Markaz Ochish</button>
+            <!-- Registration -->
+            <div id="form-reg" class="hidden space-y-4 max-h-[65vh] overflow-y-auto custom-scroll pr-2">
+                <div class="flex gap-2 text-xs font-bold mb-4">
+                    <button onclick="UI.regTab('oq')" id="rtab-oq" class="flex-1 py-2 bg-brand text-white rounded-lg">O'quvchi</button>
+                    <button onclick="UI.regTab('us')" id="rtab-us" class="flex-1 py-2 bg-slate-800 text-slate-400 rounded-lg">Ustoz</button>
+                    <button onclick="UI.regTab('ma')" id="rtab-ma" class="flex-1 py-2 bg-slate-800 text-slate-400 rounded-lg">Markaz (Ariza)</button>
                 </div>
 
-                <!-- O'quvchi & Ustoz formasi -->
+                <!-- O'quvchi / Ustoz Formasi -->
                 <div id="reg-user" class="space-y-3">
-                    <select id="ru-markaz" class="input-glass text-sm"></select>
-                    <div>
-                        <label class="text-[10px] text-primary font-bold ml-1">Profil Rasmi (Majburiy) *</label>
-                        <input type="file" id="ru-rasm" accept="image/*" class="input-glass p-2 text-xs" required>
-                    </div>
-                    <input type="text" id="ru-ism" placeholder="F.I.SH *" class="input-glass text-sm" required>
-                    <input type="text" id="ru-fan" placeholder="Fan nomi *" class="input-glass text-sm" required>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="ru-log" placeholder="Login *" class="input-glass text-sm font-mono" required>
-                        <input type="password" id="ru-pw" placeholder="Parol *" class="input-glass text-sm" required>
-                    </div>
-                    <button onclick="app.regUser()" class="w-full btn-primary py-3">Saqlash va Kirish</button>
+                    <select id="ru-markaz" class="input-box text-sm"></select>
+                    <div><label class="text-[10px] text-brand ml-1 font-bold">Profil Rasmi *</label><input type="file" id="ru-rasm" accept="image/*" class="input-box p-2 text-xs text-slate-400" required></div>
+                    <input type="text" id="ru-ism" placeholder="F.I.SH *" class="input-box text-sm" required>
+                    <input type="text" id="ru-fan" placeholder="Fan nomi *" class="input-box text-sm" required>
+                    <input type="text" id="ru-log" placeholder="Yangi Login *" class="input-box text-sm font-mono" required>
+                    <input type="password" id="ru-pw" placeholder="Yangi Parol *" class="input-box text-sm" required>
+                    <button onclick="App.regUser()" class="w-full btn-brand mt-2">Ro'yxatdan O'tish</button>
                 </div>
 
-                <!-- Markaz Ariza Formasi -->
-                <div id="reg-markaz" class="hidden space-y-3 max-h-80 overflow-y-auto scroll-sm pr-2">
-                    <p class="text-xs text-amber-400 bg-amber-900/30 p-2 rounded-lg border border-amber-500/30">Anketa Super Admin tomonidan tekshiriladi va tasdiqlangach login beriladi.</p>
-                    <div><label class="text-[10px] text-primary font-bold">Logotip (Majburiy) *</label><input type="file" id="rm-logo" accept="image/*" class="input-glass p-2 text-xs" required></div>
-                    <div><label class="text-[10px] text-primary font-bold">Bino/Sharoit Rasmi (Majburiy) *</label><input type="file" id="rm-rasm" accept="image/*" class="input-glass p-2 text-xs" required></div>
-                    <input type="text" id="rm-nom" placeholder="Markaz Nomi *" class="input-glass text-sm" required>
-                    <input type="text" id="rm-manzil" placeholder="Manzil *" class="input-glass text-sm" required>
-                    <input type="text" id="rm-tel" placeholder="Telefon *" class="input-glass text-sm font-mono" required>
-                    <textarea id="rm-shar" rows="2" placeholder="Sharoitlar (Wi-Fi, kofe...) *" class="input-glass text-sm" required></textarea>
-                    <input type="number" id="rm-son" placeholder="Fanlar soni *" class="input-glass text-sm" required>
-                    <button onclick="app.regMarkaz()" class="w-full btn-primary py-3">Anketani Yuborish</button>
+                <!-- Markaz Formasi -->
+                <div id="reg-markaz" class="hidden space-y-3">
+                    <p class="text-[10px] text-amber-400 bg-amber-900/30 p-2 rounded-lg border border-amber-500/30">Anketangiz Super Admin tomonidan tekshiriladi. Ma'qullanuvchi markazlarga login beriladi.</p>
+                    <div><label class="text-[10px] text-brand ml-1 font-bold">Markaz Logotipi *</label><input type="file" id="rm-logo" accept="image/*" class="input-box p-2 text-xs" required></div>
+                    <input type="text" id="rm-nom" placeholder="Markaz Nomi *" class="input-box text-sm" required>
+                    <input type="text" id="rm-manzil" placeholder="Manzil (Shahar) *" class="input-box text-sm" required>
+                    <input type="text" id="rm-tel" oninput="Utils.formatPhone(this)" placeholder="Telefon *" class="input-box text-sm font-mono" required>
+                    <textarea id="rm-shar" rows="2" placeholder="Markaz sharoitlari *" class="input-box text-sm" required></textarea>
+                    <input type="number" id="rm-son" placeholder="Nechta fan bor? *" class="input-box text-sm" required>
+                    <button onclick="App.regMarkaz()" class="w-full btn-brand mt-2">Anketani Yuborish</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SUPER ADMIN KABINETI -->
-    <div id="view-sadmin" class="hidden flex-1 max-w-7xl mx-auto w-full p-6 space-y-6">
-        <div class="glass p-6 flex justify-between items-center border-l-4 border-rose-500"><h2 class="text-2xl font-black text-white">SUPER ADMIN</h2><button onclick="app.logout()" class="px-4 py-2 bg-rose-500/20 text-rose-500 rounded-xl font-bold text-sm">Chiqish</button></div>
+    <!-- 3. SUPER ADMIN -->
+    <div id="view-sadmin" class="hidden flex-1 max-w-7xl mx-auto w-full p-6 mt-6 space-y-6">
+        <div class="glass p-6 flex justify-between items-center"><h2 class="text-2xl font-black text-rose-500"><i class="fa-solid fa-shield-cat"></i> SUPER ADMIN</h2><button onclick="App.logout()" class="btn-brand bg-rose-600 !bg-none py-2 text-sm">Chiqish</button></div>
         <div class="grid md:grid-cols-2 gap-6">
-            <div class="glass p-6"><h3 class="text-amber-400 font-bold mb-4"><i class="fa-solid fa-clock mr-2"></i> Yangi Arizalar</h3><div id="sa-arizalar" class="space-y-3"></div></div>
-            <div class="glass p-6"><h3 class="text-primary font-bold mb-4"><i class="fa-solid fa-check mr-2"></i> Faol Markazlar</h3><div id="sa-markazlar" class="space-y-3"></div></div>
+            <div class="glass p-6"><h3 class="text-amber-400 font-bold mb-4 text-lg">Yangi Markaz Arizalari</h3><div id="sa-arizalar" class="space-y-3 max-h-[60vh] overflow-y-auto pr-2 custom-scroll"></div></div>
+            <div class="glass p-6"><h3 class="text-brand font-bold mb-4 text-lg">Faol Markazlar</h3><div id="sa-markazlar" class="space-y-3 max-h-[60vh] overflow-y-auto pr-2 custom-scroll"></div></div>
         </div>
     </div>
 
-    <!-- MARKAZ ADMIN KABINETI -->
-    <div id="view-madmin" class="hidden flex-1 max-w-7xl mx-auto w-full p-6 space-y-6">
-        <div class="glass p-6 flex justify-between items-center border-l-4 border-primary">
-            <div class="flex items-center gap-4"><img id="ma-logo" class="w-12 h-12 rounded-xl object-cover"><div><h2 id="ma-nom" class="text-xl font-black text-white">Markaz</h2><p class="text-xs text-slate-400">Markaz Admini</p></div></div>
-            <button onclick="app.logout()" class="px-4 py-2 bg-rose-500/20 text-rose-500 rounded-xl font-bold text-sm">Chiqish</button>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="glass p-4 text-center"><p class="text-[10px] text-slate-400 uppercase">O'quvchilar</p><p id="st-oq" class="text-3xl font-black text-white">0</p></div>
-            <div class="glass p-4 text-center"><p class="text-[10px] text-slate-400 uppercase">Ustozlar</p><p id="st-us" class="text-3xl font-black text-white">0</p></div>
-            <div class="glass p-4 text-center"><p class="text-[10px] text-slate-400 uppercase">Arizalar</p><p id="st-ar" class="text-3xl font-black text-white">0</p></div>
-            <div class="glass p-4 text-center"><p class="text-[10px] text-slate-400 uppercase">Kutilayotgan Daromad</p><p id="st-dar" class="text-xl font-black text-primary mt-2">0</p></div>
+    <!-- 4. MARKAZ ADMIN KABINETI -->
+    <div id="view-madmin" class="hidden flex-1 max-w-7xl mx-auto w-full p-4 mt-6 flex flex-col md:flex-row gap-6">
+        <aside class="w-full md:w-72 glass p-6 flex flex-col gap-4">
+            <div class="flex items-center gap-4 border-b border-slate-700 pb-6"><img id="ma-logo" class="w-14 h-14 rounded-xl object-cover bg-slate-800"><div><h2 id="ma-nom" class="text-lg font-black leading-tight">Markaz</h2><p class="text-xs text-brand mt-1">Admin Panel</p></div></div>
+            <nav class="space-y-2 flex-1">
+                <button onclick="UI.maTab('dav')" id="mtab-dav" class="w-full text-left p-3 rounded-xl bg-brand text-white font-bold text-sm transition"><i class="fa-solid fa-calendar-check w-6"></i> Davomat</button>
+                <button onclick="UI.maTab('oq')" id="mtab-oq" class="w-full text-left p-3 rounded-xl text-slate-400 hover:bg-slate-800 font-bold text-sm transition"><i class="fa-solid fa-users w-6"></i> O'quvchilar</button>
+                <button onclick="UI.maTab('us')" id="mtab-us" class="w-full text-left p-3 rounded-xl text-slate-400 hover:bg-slate-800 font-bold text-sm transition"><i class="fa-solid fa-chalkboard-user w-6"></i> Ustozlar</button>
+                <button onclick="UI.maTab('az')" id="mtab-az" class="w-full text-left p-3 rounded-xl text-slate-400 hover:bg-slate-800 font-bold text-sm transition"><i class="fa-solid fa-envelope w-6"></i> Arizalar</button>
+                <button onclick="UI.maTab('yan')" id="mtab-yan" class="w-full text-left p-3 rounded-xl text-slate-400 hover:bg-slate-800 font-bold text-sm transition"><i class="fa-solid fa-bullhorn w-6 text-amber-500"></i> Yangiliklar</button>
+            </nav>
+            <button onclick="App.logout()" class="w-full p-3 bg-rose-500/10 text-rose-500 rounded-xl font-bold text-sm hover:bg-rose-500 hover:text-white transition"><i class="fa-solid fa-power-off"></i> Chiqish</button>
+        </aside>
+        
+        <main class="flex-1 glass p-6 overflow-y-auto max-h-[80vh] custom-scroll">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700"><p class="text-[10px] text-slate-400 uppercase">O'quvchilar</p><p id="st-oq" class="text-3xl font-black mt-1">0</p></div>
+                <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700"><p class="text-[10px] text-slate-400 uppercase">Ustozlar</p><p id="st-us" class="text-3xl font-black mt-1">0</p></div>
+                <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700"><p class="text-[10px] text-slate-400 uppercase">Arizalar</p><p id="st-ar" class="text-3xl font-black mt-1 text-amber-400">0</p></div>
+                <div class="bg-slate-900/50 p-4 rounded-2xl border border-slate-700"><p class="text-[10px] text-slate-400 uppercase">Tahminiy Daromad</p><p id="st-dar" class="text-xl font-black mt-2 text-brand">0</p></div>
+            </div>
+
+            <!-- Davomat -->
+            <div id="mview-dav" class="space-y-4">
+                <h3 class="text-xl font-black">Smart Davomat <span id="bg-sana" class="text-xs text-brand ml-2"></span></h3>
+                <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="text-slate-400 bg-slate-900"><tr><th class="p-3 rounded-tl-xl">F.I.SH</th><th class="p-3">Fan</th><th class="p-3 text-center rounded-tr-xl">Harakat</th></tr></thead><tbody id="tb-dav" class="divide-y divide-slate-800"></tbody></table></div>
+            </div>
+
+            <!-- O'quvchilar -->
+            <div id="mview-oq" class="hidden space-y-4">
+                <h3 class="text-xl font-black">O'quvchilar Bazasi</h3>
+                <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="text-slate-400 bg-slate-900"><tr><th class="p-3 rounded-tl-xl">F.I.SH</th><th class="p-3">Login / Parol</th><th class="p-3 text-center">To'lov</th><th class="p-3 text-center rounded-tr-xl">O'chirish</th></tr></thead><tbody id="tb-oq" class="divide-y divide-slate-800"></tbody></table></div>
+            </div>
+
+            <!-- Ustozlar -->
+            <div id="mview-us" class="hidden space-y-4">
+                <h3 class="text-xl font-black">Ustozlar Bazasi</h3>
+                <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="text-slate-400 bg-slate-900"><tr><th class="p-3 rounded-tl-xl">F.I.SH</th><th class="p-3">Fan</th><th class="p-3">Login / Parol</th><th class="p-3 text-center rounded-tr-xl">O'chirish</th></tr></thead><tbody id="tb-us" class="divide-y divide-slate-800"></tbody></table></div>
+            </div>
+
+            <!-- Arizalar -->
+            <div id="mview-az" class="hidden space-y-4">
+                <h3 class="text-xl font-black text-amber-400">Yangi Arizalar</h3>
+                <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="text-slate-400 bg-slate-900"><tr><th class="p-3 rounded-tl-xl">Ism</th><th class="p-3">Tel</th><th class="p-3">Fan</th><th class="p-3 text-center rounded-tr-xl">O'qildi</th></tr></thead><tbody id="tb-az" class="divide-y divide-slate-800"></tbody></table></div>
+            </div>
+
+            <!-- Yangiliklar & Oy O'quvchisi -->
+            <div id="mview-yan" class="hidden space-y-8">
+                <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                    <h3 class="text-lg font-black text-brand mb-4">Yangilik qo'shish</h3>
+                    <input type="text" id="add-y-sar" placeholder="Sarlavha" class="input-box text-sm mb-3">
+                    <textarea id="add-y-mat" rows="3" placeholder="Matn..." class="input-box text-sm mb-3"></textarea>
+                    <button onclick="App.addNews()" class="btn-brand text-sm px-6">Tarmoqqa Chiqarish</button>
+                </div>
+                <div class="bg-slate-900/50 p-6 rounded-2xl border border-slate-800">
+                    <h3 class="text-lg font-black text-amber-500 mb-4"><i class="fa-solid fa-crown"></i> Oy O'quvchisi</h3>
+                    <div class="flex items-center gap-4">
+                        <img id="oy-rasm-preview" class="w-16 h-16 rounded-xl object-cover bg-slate-800">
+                        <div class="flex-1 space-y-2">
+                            <input type="text" id="oy-ism" placeholder="O'quvchi ismi..." class="input-box text-sm">
+                            <input type="file" id="oy-rasm" accept="image/*" class="text-xs text-slate-400 w-full" onchange="Utils.previewImage(this, 'oy-rasm-preview')">
+                        </div>
+                    </div>
+                    <button onclick="App.setBestStudent()" class="bg-amber-600 text-white font-bold py-2 px-6 rounded-xl text-sm mt-4 hover:bg-amber-500">O'rnatish</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 5. O'QUVCHI KABINETI -->
+    <div id="view-oquvchi" class="hidden flex-1 max-w-5xl mx-auto w-full p-6 mt-6 space-y-6">
+        <div class="glass p-6 flex justify-between items-center border-l-4 border-brand">
+            <div class="flex items-center gap-4"><img id="oq-rasm" class="w-16 h-16 rounded-xl object-cover bg-slate-800"><div><h2 id="oq-nom" class="text-2xl font-black">Ism</h2><p id="oq-mar" class="text-xs text-brand font-bold uppercase mt-1">Markaz</p></div></div>
+            <button onclick="App.logout()" class="px-5 py-2.5 bg-rose-600/20 text-rose-500 rounded-xl font-bold text-sm">Chiqish</button>
         </div>
         
-        <div class="grid md:grid-cols-4 gap-6">
-            <div class="glass p-4 space-y-2 col-span-1">
-                <button onclick="ui.maTab('dav')" id="mtab-dav" class="w-full text-left p-3 rounded-xl bg-primary text-white font-bold text-sm transition">Davomat & Boshqaruv</button>
-                <button onclick="ui.maTab('oq')" id="mtab-oq" class="w-full text-left p-3 rounded-xl text-slate-400 hover:bg-slate-800 font-bold text-sm transition">O'quvchilar</button>
-                <button onclick="ui.maTab('us')" id="mtab-us" class="w-full text-left p-3 rounded-xl text-slate-400 hover:bg-slate-800 font-bold text-sm transition">Ustozlar</button>
-                <button onclick="ui.maTab('az')" id="mtab-az" class="w-full text-left p-3 rounded-xl text-slate-400 hover:bg-slate-800 font-bold text-sm transition">Yangi Arizalar</button>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="glass p-6 rounded-2xl relative overflow-hidden group border-t-4 border-amber-500">
+                <i class="fa-solid fa-coins absolute -right-6 -bottom-6 text-9xl text-amber-500/10 group-hover:scale-110 transition"></i>
+                <p class="text-[10px] font-bold text-slate-400 uppercase">Everest Tanga</p>
+                <p id="oq-ball" class="text-5xl font-black text-amber-400 mt-2">0</p>
             </div>
-            <div class="glass p-6 col-span-1 md:col-span-3 overflow-x-auto">
-                
-                <!-- Davomat -->
-                <div id="mview-dav" class="space-y-4">
-                    <h3 class="font-black text-lg text-white mb-4">Smart Davomat <span class="text-xs text-slate-500 font-normal ml-2" id="bg-sana"></span></h3>
-                    <table class="w-full text-left text-sm"><thead class="text-slate-400 border-b border-slate-700"><tr><th class="pb-2">F.I.SH</th><th class="pb-2">Fan</th><th class="pb-2 text-center">Belgilash</th></tr></thead><tbody id="tb-dav" class="divide-y divide-slate-800"></tbody></table>
-                </div>
-
-                <!-- O'quvchilar -->
-                <div id="mview-oq" class="hidden space-y-4">
-                    <div class="flex justify-between items-center"><h3 class="font-black text-lg text-white">O'quvchilar</h3></div>
-                    <table class="w-full text-left text-sm"><thead class="text-slate-400 border-b border-slate-700"><tr><th class="pb-2">F.I.SH</th><th class="pb-2">Log/Parol</th><th class="pb-2 text-center">To'lov</th><th class="pb-2 text-center">O'chirish</th></tr></thead><tbody id="tb-oq" class="divide-y divide-slate-800"></tbody></table>
-                </div>
-
-                <!-- Ustozlar -->
-                <div id="mview-us" class="hidden space-y-4">
-                    <h3 class="font-black text-lg text-white">Ustozlar</h3>
-                    <table class="w-full text-left text-sm"><thead class="text-slate-400 border-b border-slate-700"><tr><th class="pb-2">F.I.SH</th><th class="pb-2">Fan</th><th class="pb-2 text-center">O'chirish</th></tr></thead><tbody id="tb-us" class="divide-y divide-slate-800"></tbody></table>
-                </div>
-
-                <!-- Arizalar -->
-                <div id="mview-az" class="hidden space-y-4">
-                    <h3 class="font-black text-lg text-white">Kursga Yozilganlar</h3>
-                    <table class="w-full text-left text-sm"><thead class="text-slate-400 border-b border-slate-700"><tr><th class="pb-2">Ism</th><th class="pb-2">Tel</th><th class="pb-2">Fan</th><th class="pb-2 text-center">Harakat</th></tr></thead><tbody id="tb-az" class="divide-y divide-slate-800"></tbody></table>
-                </div>
+            <div class="glass p-6 rounded-2xl border-t-4 border-brand">
+                <p class="text-[10px] font-bold text-slate-400 uppercase">So'nggi Davomat</p>
+                <p id="oq-dav" class="text-3xl font-black mt-2">-</p>
             </div>
+            <div class="glass p-6 rounded-2xl border-t-4 border-blue-500 flex flex-col justify-between">
+                <div><p class="text-[10px] font-bold text-slate-400 uppercase">To'lov Holati</p><p id="oq-tol" class="text-xs font-black mt-1 p-2 rounded bg-slate-800 inline-block">-</p></div>
+                <div class="mt-3 flex gap-2"><input type="file" id="oq-chek" accept="image/*" class="text-[10px] w-full"><button onclick="App.sendChek()" class="px-3 py-1.5 bg-brand text-white rounded text-[10px] font-bold">Jo'nat</button></div>
+            </div>
+        </div>
+
+        <div id="oq-best-box" class="hidden glass p-6 rounded-2xl border-l-4 border-amber-500 flex items-center gap-4 bg-amber-500/10">
+            <img id="oq-best-img" class="w-16 h-16 rounded-xl object-cover">
+            <div><span class="text-[10px] text-amber-500 font-black uppercase">Markaz Faxri</span><h3 id="oq-best-name" class="text-lg font-black text-white">Ism</h3></div>
+        </div>
+
+        <div class="glass p-6 rounded-2xl">
+            <h3 class="font-black text-lg mb-4 text-brand">Markaz Yangiliklari</h3>
+            <div id="oq-news" class="space-y-4 max-h-64 overflow-y-auto custom-scroll pr-2"></div>
         </div>
     </div>
 
-    <!-- OQUVCHI KABINETI -->
-    <div id="view-oquvchi" class="hidden flex-1 max-w-5xl mx-auto w-full p-6 space-y-6">
-        <div class="glass p-6 flex justify-between items-center border-l-4 border-primary">
-            <div class="flex items-center gap-4"><img id="oq-rasm" class="w-14 h-14 rounded-xl object-cover bg-slate-800"><div><h2 id="oq-nom" class="text-2xl font-black text-white">Ism</h2><p id="oq-mar" class="text-xs text-primary font-bold uppercase mt-1">Markaz</p></div></div>
-            <button onclick="app.logout()" class="px-4 py-2 bg-rose-500/20 text-rose-500 rounded-xl font-bold text-sm">Chiqish</button>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="glass p-8 relative overflow-hidden">
-                <i class="fa-solid fa-coins absolute -right-4 -bottom-4 text-9xl text-amber-500/10"></i>
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest relative z-10">Mening Tangalarim</p>
-                <p id="oq-ball" class="text-6xl font-black text-amber-400 mt-2 relative z-10">0</p>
-            </div>
-            <div class="glass p-8">
-                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Davomat (Joriy)</p>
-                <p id="oq-dav" class="text-4xl font-black mt-2 text-slate-500">-</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- USTOZ KABINETI -->
-    <div id="view-ustoz" class="hidden flex-1 max-w-4xl mx-auto w-full p-6 space-y-6">
+    <!-- 6. USTOZ KABINETI -->
+    <div id="view-ustoz" class="hidden flex-1 max-w-4xl mx-auto w-full p-6 mt-6 space-y-6">
         <div class="glass p-6 flex justify-between items-center border-l-4 border-blue-500">
-            <div class="flex items-center gap-4"><img id="us-rasm" class="w-12 h-12 rounded-xl object-cover bg-slate-800"><div><h2 id="us-nom" class="text-xl font-black text-white">Ustoz</h2><p id="us-fan" class="text-xs text-blue-400 font-bold uppercase mt-1">Fan</p></div></div>
-            <button onclick="app.logout()" class="px-4 py-2 bg-rose-500/20 text-rose-500 rounded-xl font-bold text-sm">Chiqish</button>
+            <div class="flex items-center gap-4"><img id="us-rasm" class="w-14 h-14 rounded-xl object-cover bg-slate-800"><div><h2 id="us-nom" class="text-2xl font-black">Ustoz</h2><p id="us-fan" class="text-xs text-blue-400 font-bold uppercase mt-1">Fan</p></div></div>
+            <button onclick="App.logout()" class="px-5 py-2.5 bg-rose-600/20 text-rose-500 rounded-xl font-bold text-sm">Chiqish</button>
         </div>
-        <div class="glass p-6">
-            <h3 class="font-black text-lg text-white mb-4">Guruh O'quvchilari</h3>
-            <table class="w-full text-left text-sm"><thead class="text-slate-400 border-b border-slate-700"><tr><th class="pb-2">O'quvchi</th><th class="pb-2 text-center">Tanga Berish</th></tr></thead><tbody id="tb-usoq" class="divide-y divide-slate-800"></tbody></table>
+        <div class="glass p-6 rounded-2xl">
+            <h3 class="font-black text-lg mb-4">Guruh O'quvchilari</h3>
+            <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead class="text-slate-400 bg-slate-900"><tr><th class="p-3 rounded-tl-xl">O'quvchi</th><th class="p-3 text-center rounded-tr-xl">Tanga Berish</th></tr></thead><tbody id="us-tb" class="divide-y divide-slate-800"></tbody></table></div>
         </div>
     </div>
 
-    <!-- MODAL: KURSGA YOZILISH -->
+    <!-- MODAL: KURSGA YOZILISH (Marketplace) -->
     <div id="modal-ariza" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
         <div class="glass p-8 w-full max-w-sm relative">
-            <button onclick="ui.close('modal-ariza')" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <h3 class="font-black text-xl text-white mb-4">Kursga Yozilish</h3>
+            <button onclick="UI.close('modal-ariza')" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="font-black text-xl mb-4">Kursga Yozilish</h3>
+            <input type="hidden" id="maz-id">
             <div class="space-y-4">
-                <input type="hidden" id="maz-id">
-                <input type="text" id="maz-ism" placeholder="F.I.SH *" class="input-glass text-sm" required>
-                <input type="text" id="maz-tel" placeholder="Telefon *" class="input-glass text-sm font-mono" required>
-                <input type="text" id="maz-fan" placeholder="Qaysi fan? *" class="input-glass text-sm" required>
-                <button onclick="app.sendAriza()" class="w-full btn-primary py-3">Yuborish</button>
+                <input type="text" id="maz-ism" placeholder="F.I.SH *" class="input-box text-sm" required>
+                <input type="text" id="maz-tel" oninput="Utils.formatPhone(this)" placeholder="Telefon *" class="input-box text-sm font-mono" required>
+                <input type="text" id="maz-fan" placeholder="Qaysi fan? *" class="input-box text-sm" required>
+                <button onclick="App.submitAriza()" class="w-full btn-brand py-3">Yuborish</button>
             </div>
         </div>
     </div>
 
+    <!-- MAIN JAVASCRIPT LOGIC -->
     <script>
-        const DB = "https://everestcrm-5b705-default-rtdb.firebaseio.com/db.json";
+        const DB = "https://everestcrm-5b705-default-rtdb.firebaseio.com/system_v2.json";
         const BOT = "8952625874:AAGdtnmNZ_CIB7jvNEAuHggdmAcMsTL5cUc";
         const $ = id => document.getElementById(id);
         
         let db = { m: [], ar: [] }, cur = null, regType = 'oq';
         $('bg-sana').innerText = new Date().toLocaleDateString();
 
-        const ui = {
-            toast: (msg, type='success') => {
-                let d = document.createElement('div');
-                d.className = `p-4 rounded-xl shadow-xl text-sm font-bold text-white flex items-center gap-3 toast-enter ${type==='success'?'bg-primary':'bg-rose-500'}`;
-                d.innerHTML = `<i class="fa-solid ${type==='success'?'fa-check':'fa-xmark'}"></i> ${msg}`;
-                $('toast').appendChild(d); setTimeout(() => d.remove(), 3500);
+        const Utils = {
+            formatPhone: (inp) => {
+                let v = inp.value.replace(/\D/g, ''); 
+                if (v.startsWith('998')) v = v.substring(3);
+                v = v.substring(0, 9);
+                let r = '+998';
+                if (v.length > 0) r += ' (' + v.substring(0, 2);
+                if (v.length >= 2) r += ') ' + v.substring(2, 5);
+                if (v.length >= 5) r += '-' + v.substring(5, 7);
+                if (v.length >= 7) r += '-' + v.substring(7, 9);
+                inp.value = r;
             },
-            show: (p) => { ['market','auth','sadmin','madmin','oquvchi','ustoz'].forEach(x => $(`view-${x}`).classList.add('hidden')); $(`view-${p}`).classList.remove('hidden'); if(p==='market') app.drawMarket(); },
-            authTab: (t) => { $('form-login').classList.toggle('hidden', t==='reg'); $('form-reg').classList.toggle('hidden', t==='login'); $('tab-login').className=`flex-1 py-2 rounded-lg font-bold text-sm ${t==='login'?'bg-slate-800 text-primary':'text-slate-400'}`; $('tab-reg').className=`flex-1 py-2 rounded-lg font-bold text-sm ${t==='reg'?'bg-slate-800 text-primary':'text-slate-400'}`; },
-            regTab: (t) => { regType = t; ['oq','us','ma'].forEach(x => { $(`rtab-${x}`).className=`flex-1 py-2 rounded-lg text-[10px] ${t===x?'bg-primary text-white':'bg-slate-800 text-slate-400'}`; }); $('reg-user').classList.toggle('hidden', t==='ma'); $('reg-markaz').classList.toggle('hidden', t!=='ma'); },
-            maTab: (t) => { ['dav','oq','us','az'].forEach(x => { $(`mview-${x}`).classList.add('hidden'); $(`mtab-${x}`).className=`w-full text-left p-3 rounded-xl font-bold text-sm transition ${t===x?'bg-primary text-white':'text-slate-400 hover:bg-slate-800'}`; }); $(`mview-${t}`).classList.remove('hidden'); },
-            close: (id) => $(id).classList.add('hidden')
-        };
-
-        const utils = {
             b64: (file) => {
                 return new Promise(res => {
                     if(!file) return res(null);
@@ -240,83 +274,206 @@
                     }; r.readAsDataURL(file);
                 });
             },
-            tg: async (txt, id) => { if(id) try { await fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:id,text:txt})}); }catch(e){} }
+            tg: async (txt, id) => { 
+                if(id) try { await fetch(`https://api.telegram.org/bot${BOT}/sendMessage`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:id,text:txt})}); }catch(e){} 
+            },
+            previewImage: async (inp, imgId) => {
+                if(inp.files && inp.files[0]){
+                    let base64 = await Utils.b64(inp.files[0]);
+                    $(imgId).src = base64;
+                }
+            }
         };
 
-        const app = {
-            init: async () => { try { let r=await fetch(DB), jd=await r.json(); if(jd) db=jd; }catch(e){} if(!db.m) db.m=[]; if(!db.ar) db.ar=[]; app.drawMarket(); $('ru-markaz').innerHTML=db.m.map((x,i)=>`<option value="${i}">${x.n}</option>`).join(''); },
+        const UI = {
+            toast: (msg, type='success') => {
+                let d = document.createElement('div');
+                d.className = `p-4 rounded-xl shadow-xl text-sm font-bold text-white flex items-center gap-3 toast-anim ${type==='success'?'bg-emerald-600':'bg-rose-500'}`;
+                d.innerHTML = `<i class="fa-solid ${type==='success'?'fa-check':'fa-xmark'}"></i> ${msg}`;
+                $('toast-container').appendChild(d); setTimeout(() => d.remove(), 3500);
+            },
+            show: (p) => { 
+                ['market','auth','sadmin','madmin','oquvchi','ustoz'].forEach(x => { let e = $(`view-${x}`); if(e) e.classList.add('hidden'); }); 
+                let t = $(`view-${p}`); if(t) t.classList.remove('hidden'); 
+                if(p==='market') App.drawMarket(); 
+            },
+            authTab: (t) => { 
+                $('form-login').classList.toggle('hidden', t==='reg'); $('form-reg').classList.toggle('hidden', t==='login'); 
+                $('tab-login').className=`flex-1 py-2 rounded-lg font-bold text-sm transition ${t==='login'?'bg-slate-800 text-brand':'text-slate-400 hover:text-white'}`; 
+                $('tab-reg').className=`flex-1 py-2 rounded-lg font-bold text-sm transition ${t==='reg'?'bg-slate-800 text-brand':'text-slate-400 hover:text-white'}`; 
+            },
+            regTab: (t) => { 
+                regType = t; 
+                ['oq','us','ma'].forEach(x => { $(`rtab-${x}`).className=`flex-1 py-2 rounded-lg text-xs font-bold transition ${t===x?'bg-brand text-white':'bg-slate-800 text-slate-400 hover:text-white'}`; }); 
+                $('reg-user').classList.toggle('hidden', t==='ma'); $('reg-markaz').classList.toggle('hidden', t!=='ma'); 
+            },
+            maTab: (t) => { 
+                ['dav','oq','us','az','yan'].forEach(x => { 
+                    let v = $(`mview-${x}`); if(v) v.classList.add('hidden'); 
+                    let b = $(`mtab-${x}`); if(b) b.className=`w-full text-left p-3 rounded-xl font-bold text-sm transition text-slate-400 hover:bg-slate-800`; 
+                }); 
+                let tv = $(`mview-${t}`); if(tv) tv.classList.remove('hidden');
+                let tb = $(`mtab-${t}`); if(tb) tb.className=`w-full text-left p-3 rounded-xl font-bold text-sm transition bg-brand text-white`;
+            },
+            close: (id) => $(id).classList.add('hidden')
+        };
+
+        const App = {
+            init: async () => { 
+                try { let r=await fetch(DB), jd=await r.json(); if(jd) db=jd; }catch(e){} 
+                if(!db.m) db.m=[]; if(!db.ar) db.ar=[]; 
+                
+                $('ru-markaz').innerHTML=db.m.map((x,i)=>`<option value="${i}">${x.n}</option>`).join('');
+                
+                // Auto-login (Sessiya)
+                let sess = JSON.parse(localStorage.getItem('ev_sess'));
+                if (sess && sess.l && sess.p) { App.processLogin(sess.l, sess.p, true); } 
+                else { App.drawMarket(); }
+            },
             save: () => fetch(DB,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(db)}),
             drawMarket: () => {
-                $('market-list').innerHTML = db.m.map((m,i)=>`
-                    <div class="glass p-6 border-t-4 border-primary flex flex-col justify-between h-full">
-                        <div class="flex gap-4 items-center mb-4"><img src="${m.lg}" class="w-16 h-16 rounded-xl object-cover bg-slate-800"><div><h3 class="font-black text-xl text-white">${m.n}</h3><p class="text-[10px] text-slate-400"><i class="fa-solid fa-location-dot"></i> ${m.m}</p></div></div>
-                        <p class="text-xs font-bold bg-slate-900/50 p-3 rounded-xl italic mb-4">"${m.sh}"</p>
-                        <p class="text-xs text-primary font-bold mb-4">Fanlar: ${m.s} ta</p>
-                        <button onclick="$('maz-id').value=${i}; $('modal-ariza').classList.remove('hidden');" class="w-full btn-primary py-2.5 text-sm mt-auto">Kursga Yozilish</button>
+                $('market-grid').innerHTML = db.m.map((m,i)=>`
+                    <div class="glass p-6 border-t-4 border-brand flex flex-col justify-between group hover:-translate-y-2 transition-all">
+                        <div>
+                            <div class="flex items-center gap-4 mb-4"><img src="${m.lg}" class="w-16 h-16 rounded-xl object-cover bg-slate-800"><div><h3 class="font-black text-xl text-white group-hover:text-brand transition">${m.n}</h3><p class="text-[10px] text-slate-400 mt-1"><i class="fa-solid fa-location-dot"></i> ${m.m}</p></div></div>
+                            <p class="text-xs bg-slate-900/50 p-3 rounded-xl italic font-medium text-slate-300">"${m.sh}"</p>
+                            <p class="text-xs font-bold text-brand mt-4">Fanlar: ${m.s} ta</p>
+                        </div>
+                        <button onclick="$('maz-id').value=${i}; $('modal-ariza').classList.remove('hidden');" class="w-full btn-brand py-3 text-sm mt-5">Kursga Yozilish</button>
                     </div>`).join('');
             },
             login: () => {
                 let l=$('log-id').value.trim().toLowerCase(), p=$('log-pw').value;
-                if(l==='nvmtrpv' && p==='123') { app.drSA(); ui.show('sadmin'); return; }
-                let ma = db.m.find(x=>x.l.toLowerCase()===l && x.p===p); if(ma) { cur=ma; app.drMA(); ui.show('madmin'); return; }
-                for(let m of db.m) {
-                    let o = (m.oq||[]).find(x=>x.l.toLowerCase()===l && x.p===p); if(o) { cur=o; cur.mn=m.n; app.drOq(); ui.show('oquvchi'); return; }
-                    let u = (m.us||[]).find(x=>x.l.toLowerCase()===l && x.p===p); if(u) { cur=u; cur.mn=m.n; cur.mid=db.m.indexOf(m); app.drUs(); ui.show('ustoz'); return; }
-                }
-                ui.toast("Login yoki parol noto'g'ri!", "error");
+                if(!l || !p) return UI.toast("Barcha maydonlarni to'ldiring", "error");
+                App.processLogin(l, p, false);
             },
-            logout: () => { cur=null; $('log-id').value=''; $('log-pw').value=''; ui.show('market'); },
+            processLogin: (l, p, isAuto) => {
+                if(l==='nvmtrpv' && p==='123') { App.drSA(); UI.show('sadmin'); localStorage.setItem('ev_sess', JSON.stringify({l, p})); return; }
+                let ma = db.m.find(x=>x.l.toLowerCase()===l && x.p===p); 
+                if(ma) { cur=ma; App.drMA(); UI.show('madmin'); localStorage.setItem('ev_sess', JSON.stringify({l, p})); return; }
+                
+                for(let m of db.m) {
+                    let o = (m.oq||[]).find(x=>x.l.toLowerCase()===l && x.p===p); 
+                    if(o) { cur=o; cur.mn=m.n; cur.mid=db.m.indexOf(m); App.drOq(); UI.show('oquvchi'); localStorage.setItem('ev_sess', JSON.stringify({l, p})); return; }
+                    
+                    let u = (m.us||[]).find(x=>x.l.toLowerCase()===l && x.p===p); 
+                    if(u) { cur=u; cur.mn=m.n; cur.mid=db.m.indexOf(m); App.drUs(); UI.show('ustoz'); localStorage.setItem('ev_sess', JSON.stringify({l, p})); return; }
+                }
+                if(!isAuto) UI.toast("Login yoki parol noto'g'ri!", "error");
+                else { localStorage.removeItem('ev_sess'); App.drawMarket(); }
+            },
+            logout: () => { 
+                cur=null; localStorage.removeItem('ev_sess'); 
+                $('log-id').value=''; $('log-pw').value=''; 
+                UI.show('market'); UI.toast("Tizimdan chiqildi"); 
+            },
             regUser: async () => {
-                let f=$('ru-rasm').files[0]; if(!f) return ui.toast("Rasm yuklash majburiy!", "error");
-                let i=$('ru-ism').value, fn=$('ru-fan').value, l=$('ru-log').value.toLowerCase(), p=$('ru-pw').value, mid=$('ru-markaz').value;
-                if(!i||!fn||!l||!p) return ui.toast("To'ldiring!", "error");
-                let r = await utils.b64(f), m = db.m[mid];
-                if(regType==='oq') { let o={i,f:fn,l,p,r,b:0,d:'-',t:'k'}; m.oq=m.oq||[]; m.oq.unshift(o); cur=o; cur.mn=m.n; app.save(); app.drOq(); ui.show('oquvchi'); }
-                else { let u={i,f:fn,l,p,r}; m.us=m.us||[]; m.us.unshift(u); cur=u; cur.mn=m.n; cur.mid=mid; app.save(); app.drUs(); ui.show('ustoz'); }
-                ui.toast("Muvaffaqiyatli kirdingiz!");
+                let f=$('ru-rasm').files[0]; if(!f) return UI.toast("Profil rasmi yuklash majburiy!", "error");
+                let i=$('ru-ism').value.trim(), fn=$('ru-fan').value.trim(), l=$('ru-log').value.trim().toLowerCase(), p=$('ru-pw').value, mid=$('ru-markaz').value;
+                if(!i||!fn||!l||!p) return UI.toast("Barcha maydonlarni to'ldiring!", "error");
+                
+                let isUsed = db.m.some(x=>x.l.toLowerCase()===l || (x.oq||[]).some(y=>y.l.toLowerCase()===l) || (x.us||[]).some(y=>y.l.toLowerCase()===l));
+                if(isUsed || l==='nvmtrpv') return UI.toast("Bu login band!", "error");
+
+                let r = await Utils.b64(f), m = db.m[mid];
+                if(regType==='oq') { let o={i,f:fn,l,p,r,b:0,d:'-',t:'k'}; m.oq=m.oq||[]; m.oq.unshift(o); App.save(); App.processLogin(l, p, false); }
+                else { let u={i,f:fn,l,p,r}; m.us=m.us||[]; m.us.unshift(u); App.save(); App.processLogin(l, p, false); }
+                UI.toast("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
             },
             regMarkaz: async () => {
-                let lf=$('rm-logo').files[0], rf=$('rm-rasm').files[0]; if(!lf||!rf) return ui.toast("Rasmlar majburiy!", "error");
-                let n=$('rm-nom').value, m=$('rm-manzil').value, t=$('rm-tel').value, sh=$('rm-shar').value, s=$('rm-son').value;
-                if(!n||!m||!t||!sh||!s) return ui.toast("To'ldiring!", "error");
-                let lg=await utils.b64(lf), rs=await utils.b64(rf);
-                db.ar.push({n,m,t,sh,s,lg,rs}); app.save(); ui.toast("Anketa yuborildi! Super admin tasdig'ini kuting."); ui.authTab('login');
+                let lf=$('rm-logo').files[0], rf=$('rm-rasm').files[0]; if(!lf||!rf) return UI.toast("Rasmlarni yuklash majburiy!", "error");
+                let n=$('rm-nom').value.trim(), m=$('rm-manzil').value.trim(), t=$('rm-tel').value.trim(), sh=$('rm-shar').value.trim(), s=$('rm-son').value;
+                if(!n||!m||!t||!sh||!s) return UI.toast("Barcha maydonlarni to'ldiring!", "error");
+                let lg=await Utils.b64(lf), rs=await Utils.b64(rf);
+                db.ar.push({n,m,t,sh,s,lg,rs}); App.save(); UI.toast("Anketa yuborildi! Super admin tasdig'ini kuting."); UI.authTab('login');
+                $('rm-nom').value='';$('rm-manzil').value='';$('rm-tel').value='';$('rm-shar').value='';$('rm-son').value='';
             },
-            sendAriza: () => {
-                let i=$('maz-id').value, n=$('maz-ism').value, t=$('maz-tel').value, f=$('maz-fan').value;
-                if(n&&t&&f){ db.m[i].az=db.m[i].az||[]; db.m[i].az.unshift({n,t,f}); app.save(); ui.close('modal-ariza'); ui.toast("Ariza qabul qilindi!"); } else ui.toast("To'ldiring","error");
+            submitAriza: () => {
+                let id=$('maz-id').value, i=$('maz-ism').value.trim(), t=$('maz-tel').value.trim(), f=$('maz-fan').value.trim();
+                if(i&&t&&f){ db.m[id].az=db.m[id].az||[]; db.m[id].az.unshift({i,t,f}); App.save(); UI.close('modal-ariza'); UI.toast("Arizangiz qabul qilindi!"); } else UI.toast("To'ldiring","error");
             },
+            
+            // SUPER ADMIN
             drSA: () => {
-                $('sa-arizalar').innerHTML = db.ar.map((a,i)=>`<div class="bg-slate-900 p-4 rounded-xl border border-slate-700"><div class="flex gap-3 items-center mb-3"><img src="${a.lg}" class="w-10 h-10 rounded"><div><h4 class="font-bold text-white">${a.n}</h4><p class="text-[10px] text-slate-400">${a.t}</p></div></div><p class="text-[11px] mb-3">Sharoit: ${a.sh}</p><div class="flex gap-2"><button onclick="app.accAr(${i})" class="flex-1 bg-primary text-white py-1.5 rounded text-xs font-bold">Tasdiqlash</button><button onclick="db.ar.splice(${i},1);app.save();app.drSA()" class="flex-1 bg-rose-600/20 text-rose-500 py-1.5 rounded text-xs font-bold">Rad etish</button></div></div>`).join('');
-                $('sa-markazlar').innerHTML = db.m.map(m=>`<div class="bg-slate-900 p-3 rounded-xl border border-slate-700 flex justify-between items-center"><div class="flex items-center gap-3"><img src="${m.lg}" class="w-8 h-8 rounded"><h4 class="font-bold text-sm text-white">${m.n}</h4></div><div class="text-[10px] font-mono text-right"><p class="text-primary">${m.l}</p><p class="text-rose-400">${m.p}</p></div></div>`).join('');
+                $('sa-arizalar').innerHTML = db.ar.length===0?'<p class="text-slate-500 text-sm">Hozircha arizalar yo\'q</p>' : db.ar.map((a,i)=>`
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                        <div class="flex gap-3 items-center mb-3"><img src="${a.lg}" class="w-12 h-12 rounded-lg object-cover"><div><h4 class="font-bold text-white text-base">${a.n}</h4><p class="text-[10px] text-slate-400 font-mono">${a.t}</p></div></div>
+                        <p class="text-xs text-slate-300 mb-3 bg-slate-800 p-2 rounded">Sharoit: ${a.sh}</p>
+                        <div class="flex gap-2"><button onclick="App.accAr(${i})" class="flex-1 btn-brand py-2 text-xs">Tasdiqlash (Login)</button><button onclick="db.ar.splice(${i},1);App.save();App.drSA()" class="flex-1 bg-rose-600/20 text-rose-500 py-2 rounded-xl text-xs font-bold hover:bg-rose-500 hover:text-white transition">Rad etish</button></div>
+                    </div>`).join('');
+                $('sa-markazlar').innerHTML = db.m.length===0?'<p class="text-slate-500 text-sm">Markazlar yo\'q</p>' : db.m.map((m,i)=>`
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
+                        <div class="flex items-center gap-3"><img src="${m.lg}" class="w-10 h-10 rounded-lg object-cover"><h4 class="font-bold text-sm text-white">${m.n}</h4></div>
+                        <div class="text-[10px] font-mono text-right"><p class="text-brand">${m.l}</p><p class="text-rose-400">${m.p}</p></div>
+                        <button onclick="if(confirm('Aniqmi?')){db.m.splice(${i},1);App.save();App.drSA();}" class="text-rose-500 p-2 hover:bg-rose-500 hover:text-white rounded-lg transition"><i class="fa-solid fa-trash"></i></button>
+                    </div>`).join('');
             },
             accAr: (i) => {
-                let l=prompt("Markaz uchun LOGIN kiriting:"), p=prompt("PAROL kiriting:");
-                if(l&&p){ let a=db.ar[i]; db.m.unshift({n:a.n, m:a.m, t:a.t, sh:a.sh, s:a.s, lg:a.lg, rs:a.rs, l, p, oq:[], us:[], az:[]}); db.ar.splice(i,1); app.save(); app.drSA(); ui.toast("Markaz qo'shildi!"); }
+                let l=prompt("Ushbu Markaz uchun yangi LOGIN kiriting:"); 
+                if(!l) return; l=l.trim().toLowerCase();
+                let p=prompt("Ushbu Markaz uchun PAROL kiriting:");
+                if(l&&p){ 
+                    if (db.m.some(x=>x.l.toLowerCase()===l)) return UI.toast("Bu login band!", "error");
+                    let a=db.ar[i]; 
+                    db.m.unshift({n:a.n, m:a.m, t:a.t, sh:a.sh, s:a.s, lg:a.lg, rs:a.rs, l, p, oq:[], us:[], az:[], yan:[], best:{}}); 
+                    db.ar.splice(i,1); App.save(); App.drSA(); UI.toast("Markaz muvaffaqiyatli tasdiqlandi!"); 
+                }
             },
+            
+            // MARKAZ ADMIN
             drMA: () => {
                 $('ma-logo').src = cur.lg; $('ma-nom').innerText = cur.n;
                 let oq = cur.oq||[], us = cur.us||[], az = cur.az||[];
-                $('st-oq').innerText = oq.length; $('st-us').innerText = us.length; $('st-ar').innerText = az.length; $('st-dar').innerText = (oq.length*450).toLocaleString() + " k";
+                $('st-oq').innerText = oq.length; $('st-us').innerText = us.length; $('st-ar').innerText = az.length; $('st-dar').innerText = ((oq.length*450000)/1000).toLocaleString() + "K";
                 
-                $('tb-dav').innerHTML = oq.map((o,i)=>`<tr><td class="py-3 flex items-center gap-2 font-bold text-white"><img src="${o.r}" class="w-8 h-8 rounded-full object-cover"> ${o.i}</td><td class="py-3">${o.f}</td><td class="py-3 text-center flex justify-center gap-2"><button onclick="app.setDav(${i},'K')" class="px-3 py-1 bg-primary text-white rounded text-xs ${o.d==='K'?'ring-2 ring-emerald-300':''}">Keldi</button><button onclick="app.setDav(${i},'Y')" class="px-3 py-1 bg-rose-500 text-white rounded text-xs ${o.d==='Y'?'ring-2 ring-rose-300':''}">Kelmad</button></td></tr>`).join('');
-                $('tb-oq').innerHTML = oq.map((o,i)=>`<tr><td class="py-3 font-bold text-white">${o.i} <span class="text-[10px] text-amber-500 ml-1">🪙 ${o.b}</span></td><td class="py-3 font-mono text-[10px] text-primary">${o.l} <br><span class="text-rose-400">${o.p}</span></td><td class="py-3 text-center"><button onclick="cur.oq[${i}].t=cur.oq[${i}].t==='ok'?'k':'ok';app.save();app.drMA()" class="px-2 py-1 rounded text-[9px] uppercase font-black ${o.t==='ok'?'bg-emerald-900 text-primary':'bg-amber-900 text-amber-400'}">${o.t==='ok'?'To\'landi':'Kutilmoqda'}</button></td><td class="py-3 text-center"><button onclick="cur.oq.splice(${i},1);app.save();app.drMA()" class="text-rose-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
-                $('tb-us').innerHTML = us.map((u,i)=>`<tr><td class="py-3 font-bold text-white flex items-center gap-2"><img src="${u.r}" class="w-8 h-8 rounded-full object-cover"> ${u.i}</td><td class="py-3">${u.f}</td><td class="py-3 text-center"><button onclick="cur.us.splice(${i},1);app.save();app.drMA()" class="text-rose-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
-                $('tb-az').innerHTML = az.map((a,i)=>`<tr><td class="py-3 font-bold text-white">${a.n}</td><td class="py-3 font-mono">${a.t}</td><td class="py-3">${a.f}</td><td class="py-3 text-center"><button onclick="cur.az.splice(${i},1);app.save();app.drMA()" class="px-3 py-1 bg-primary text-white text-[10px] rounded font-bold">O'qildi</button></td></tr>`).join('');
+                $('tb-dav').innerHTML = oq.map((o,i)=>`<tr class="hover:bg-slate-800/50 transition"><td class="p-3 flex items-center gap-3 font-bold text-white"><img src="${o.r}" class="w-8 h-8 rounded-full object-cover bg-slate-800"> ${o.i}</td><td class="p-3">${o.f}</td><td class="p-3 text-center flex justify-center gap-2"><button onclick="App.setDav(${i},'K')" class="px-4 py-1.5 bg-brand text-white rounded-lg text-xs font-bold ${o.d==='K'?'ring-2 ring-emerald-300':''}">Keldi</button><button onclick="App.setDav(${i},'Y')" class="px-4 py-1.5 bg-rose-500 text-white rounded-lg text-xs font-bold ${o.d==='Y'?'ring-2 ring-rose-300':''}">Kelmadi</button></td></tr>`).join('');
+                $('tb-oq').innerHTML = oq.map((o,i)=>`<tr class="hover:bg-slate-800/50 transition"><td class="p-3 font-bold text-white flex items-center gap-3"><img src="${o.r}" class="w-8 h-8 rounded-full object-cover"> <div>${o.i} <br><span class="text-[10px] text-amber-500 font-mono">🪙 ${o.b} coin</span></div></td><td class="p-3 font-mono text-[11px] text-brand">${o.l} <br><span class="text-rose-400">${o.p}</span></td><td class="p-3 text-center"><button onclick="cur.oq[${i}].t=cur.oq[${i}].t==='ok'?'k':'ok';App.save();App.drMA()" class="px-3 py-1.5 rounded-lg text-[9px] uppercase font-black ${o.t==='ok'?'bg-emerald-900/80 text-brand':'bg-amber-900/80 text-amber-400'}">${o.t==='ok'?'To\'langan':'Kutilmoqda'}</button></td><td class="p-3 text-center"><button onclick="if(confirm('Ochirish?')){cur.oq.splice(${i},1);App.save();App.drMA();}" class="text-rose-500 hover:bg-rose-500 hover:text-white p-2 rounded-lg transition"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
+                $('tb-us').innerHTML = us.map((u,i)=>`<tr class="hover:bg-slate-800/50 transition"><td class="p-3 font-bold text-white flex items-center gap-3"><img src="${u.r}" class="w-8 h-8 rounded-full object-cover"> ${u.i}</td><td class="p-3 font-bold">${u.f}</td><td class="p-3 font-mono text-[11px] text-blue-400">${u.l} <br><span class="text-rose-400">${u.p}</span></td><td class="p-3 text-center"><button onclick="if(confirm('Ochirish?')){cur.us.splice(${i},1);App.save();App.drMA();}" class="text-rose-500 hover:bg-rose-500 hover:text-white p-2 rounded-lg transition"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
+                $('tb-az').innerHTML = az.map((a,i)=>`<tr class="hover:bg-slate-800/50 transition"><td class="p-3 font-bold text-white">${a.i}</td><td class="p-3 font-mono text-brand">${a.t}</td><td class="p-3 font-bold">${a.f}</td><td class="p-3 text-center"><button onclick="cur.az.splice(${i},1);App.save();App.drMA()" class="px-4 py-1.5 bg-brand text-white text-[10px] rounded-lg font-bold">O'qildi (O'chirish)</button></td></tr>`).join('');
+                
+                if(cur.best && cur.best.i) { $('oy-ism').value = cur.best.i; $('oy-rasm-preview').src = cur.best.r; }
             },
-            setDav: (i, v) => { cur.oq[i].d=v; app.save(); app.drMA(); ui.toast("Saqlandi"); },
+            setDav: (i, v) => { 
+                cur.oq[i].d=v; App.save(); App.drMA(); UI.toast("Davomat saqlandi"); 
+                let o = cur.oq[i]; if(v==='Y' && o.chatId) Utils.tg(`<b>⚠️ DARS QOLDIRILDI!</b>\n\nO'quvchi: ${o.i}\nMarkaz: ${cur.n}\nSana: ${$('bg-sana').innerText}`, o.chatId);
+            },
+            addNews: () => {
+                let s=$('add-y-sar').value.trim(), m=$('add-y-mat').value.trim();
+                if(s&&m){ cur.yan=cur.yan||[]; cur.yan.unshift({s,m, sn:$('bg-sana').innerText}); App.save(); UI.toast("Yangilik e'lon qilindi!"); $('add-y-sar').value=''; $('add-y-mat').value=''; } else UI.toast("To'ldiring", "error");
+            },
+            setBestStudent: async () => {
+                let i=$('oy-ism').value.trim(), f=$('oy-rasm').files[0];
+                if(!i) return UI.toast("Ismni kiriting", "error");
+                cur.best = cur.best || {}; cur.best.i = i;
+                if(f) { let r = await Utils.b64(f); cur.best.r = r; $('oy-rasm-preview').src = r; }
+                else if(!cur.best.r) return UI.toast("Rasm yuklang", "error");
+                App.save(); UI.toast("Oy o'quvchisi o'rnatildi!");
+            },
+
+            // OQUVCHI
             drOq: () => {
                 $('oq-rasm').src = cur.r; $('oq-nom').innerText = cur.i; $('oq-mar').innerText = cur.mn; $('oq-ball').innerText = cur.b;
-                let d = $('oq-dav'); if(cur.d==='K'){ d.innerText="Keldi ✅"; d.className="text-4xl font-black mt-2 text-primary"; } else if(cur.d==='Y'){ d.innerText="Kelmadi ❌"; d.className="text-4xl font-black mt-2 text-rose-500"; } else d.innerText="-";
+                let d = $('oq-dav'); if(cur.d==='K'){ d.innerText="Keldi ✅"; d.className="text-3xl font-black mt-2 text-brand"; } else if(cur.d==='Y'){ d.innerText="Kelmadi ❌"; d.className="text-3xl font-black mt-2 text-rose-500"; } else { d.innerText="-"; d.className="text-3xl font-black mt-2 text-slate-500"; }
+                let t = $('oq-tol'); if(cur.t==='ok'){ t.innerText="Tasdiqlangan"; t.className="text-xs font-black mt-2 px-3 py-1.5 rounded-lg bg-emerald-900/50 text-brand inline-block"; } else { t.innerText="Kutilmoqda"; t.className="text-xs font-black mt-2 px-3 py-1.5 rounded-lg bg-amber-900/50 text-amber-500 inline-block"; }
+                
+                let m = db.m[cur.mid];
+                if(m.best && m.best.i) { $('oq-best-box').classList.remove('hidden'); $('oq-best-img').src=m.best.r; $('oq-best-name').innerText=m.best.i; } else { $('oq-best-box').classList.add('hidden'); }
+                $('oq-news').innerHTML = (m.yan||[]).map(y=>`<div class="bg-slate-900/50 p-4 rounded-xl border border-slate-800"><h4 class="font-bold text-brand">${y.s}</h4><p class="text-[9px] font-mono text-slate-500 mb-2">${y.sn}</p><p class="text-xs text-slate-300">${y.m}</p></div>`).join('');
             },
+            sendChek: () => { if($('oq-chek').files[0]){ cur.t='k'; App.save(); App.drOq(); UI.toast("Chek ma'muriyatga yuborildi!"); $('oq-chek').value=''; } else UI.toast("Rasm tanlang", "warning"); },
+
+            // USTOZ
             drUs: () => {
                 $('us-rasm').src = cur.r; $('us-nom').innerText = cur.i; $('us-fan').innerText = cur.f + " | " + cur.mn;
                 let m = db.m[cur.mid];
-                $('tb-usoq').innerHTML = (m.oq||[]).filter(o=>o.f.includes(cur.f)).map(o=>`<tr class="border-b border-slate-800"><td class="py-4 font-bold text-white flex items-center gap-3"><img src="${o.r}" class="w-10 h-10 rounded-full object-cover"> <div>${o.i} <br><span class="text-[10px] text-amber-500">🪙 ${o.b} coin</span></div></td><td class="py-4 text-center"><button onclick="db.m[${cur.mid}].oq[${m.oq.indexOf(o)}].b+=5;app.save();app.drUs();ui.toast('+5 Tanga!')" class="px-4 py-2 bg-amber-500/20 text-amber-500 rounded-xl font-black text-xs">+5</button></td></tr>`).join('');
+                $('us-tb').innerHTML = (m.oq||[]).filter(o=>o.f.toLowerCase().includes(cur.f.toLowerCase()) || cur.f.toLowerCase()==='umumiy').map(o=> {
+                    let idx = m.oq.indexOf(o);
+                    return `<tr class="hover:bg-slate-800/50 transition"><td class="py-3"><div class="flex items-center gap-3"><img src="${o.r}" class="w-10 h-10 rounded-full object-cover bg-slate-800"><div><p class="font-bold text-white text-sm">${o.i}</p><p class="text-[10px] text-amber-500 font-mono font-bold mt-0.5">🪙 ${o.b} Coin</p></div></div></td><td class="py-3 text-center"><button onclick="db.m[${cur.mid}].oq[${idx}].b+=10;App.save();App.drUs();UI.toast('+10 Tanga berildi!')" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-black text-xs transition shadow-lg shadow-amber-500/20">+10 Tanga</button></td></tr>`;
+                }).join('');
             }
         };
 
-        window.onload = app.init;
+        window.onload = App.init;
     </script>
 </body>
 </html>

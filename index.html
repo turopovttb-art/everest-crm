@@ -113,83 +113,175 @@ body{background: radial-gradient(circle at top right,rgba(16,185,129,0.1),transp
 </div></div>
 
 <script>
-const DB = "https://everestcrm-5b705-default-rtdb.firebaseio.com/data.json";
-const $ = id => document.getElementById(id);
-let data = { m: [], a: [] };
-let faol=null;
+const DB_URL = "https://everestcrm-5b705-default-rtdb.firebaseio.com/markazlar.json";
+const TG_BOT_TOKEN = "8952625874:AAGdtnmNZ_CIB7jvNEAuHggdmAcMsTL5cUc";
 
-async function g64(f){
-    if(!f) return null;
-    return new Promise(r=>{
-        let reader=new FileReader(); reader.onload=e=>{
-            let i=new Image(); i.onload=()=>{
-                let c=document.createElement('canvas'), x=c.getContext('2d'), m=300, w=i.width, h=i.height;
-                if(w>h){if(w>m){h*=m/w;w=m}}else{if(h>m){w*=m/h;h=m}}
-                c.width=w; c.height=h; x.drawImage(i,0,0,w,h); r(c.toDataURL('image/jpeg',0.6));
-            }; i.src=e.target.result;
-        }; reader.readAsDataURL(f);
+function getTelegramChatId() { 
+    try { if (window.Telegram?.WebApp?.initDataUnsafe?.user) return String(window.Telegram.WebApp.initDataUnsafe.user.id); } catch(e){} 
+    return null; 
+}
+
+async function yuborishTelegramXabar(matn, targetChatId) {
+    if (!targetChatId) return;
+    try { await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ chat_id: targetChatId, text: matn, parse_mode: 'HTML' }) }); } catch(e) {}
+}
+
+function showToast(x, t='success') {
+    let c = document.getElementById('toast') || document.getElementById('toastContainer');
+    if(!c) return alert(x);
+    let d = document.createElement('div');
+    d.className = `px-5 py-4 rounded-xl shadow-2xl flex items-center gap-3 text-sm font-bold toast-animate ${t==='success'?'bg-emerald-600':t==='error'?'bg-rose-600':'bg-amber-500'} text-white mb-2`;
+    d.innerHTML = `<span>${x}</span>`;
+    c.appendChild(d); setTimeout(() => d.remove(), 3500);
+}
+
+let markazlar = [], arizalar = [], faolUser = null;
+let bugun = new Date().toLocaleDateString();
+
+async function tizimniYuklash() {
+    try {
+        let r = await fetch(DB_URL), d = await r.json();
+        if (d && d.markazlar) { markazlar = d.markazlar; arizalar = d.arizalar || []; } 
+        else if (d && Array.isArray(d)) { markazlar = d; }
+    } catch(e) {}
+    if (markazlar.length === 0) markazlar = [];
+    chizishMarketplace();
+}
+
+// Avtomatik Rol aniqlaydigan Login
+function login() {
+    let lId = document.getElementById('lId') || document.getElementById('kirishLogin');
+    let lPw = document.getElementById('lPw') || document.getElementById('kirishParol');
+    let l = lId.value.trim().toLowerCase(), p = lPw.value.trim();
+    
+    if (!l || !p) return showToast("Login va parolni kiriting!", "warning");
+    if (l === "nvmtrpv") { chizishSuperAdmin(); ochishSahifa('sadmin'); return; }
+
+    for (let m of markazlar) {
+        if (m.login?.toLowerCase() === l && m.parol === p) {
+            faolUser = { rol: 'markaz', data: m }; ochishSahifa('madmin'); chizishMarkazAdmin(); return;
+        }
+        let u = (m.ustozlar || []).find(x => x.login?.toLowerCase() === l && x.parol === p);
+        if (u) {
+            faolUser = { rol: 'ustoz', data: u, markazId: m.id, markazNomi: m.nomi }; ochishSahifa('ustoz'); chizishUstoz(); return;
+        }
+        let o = (m.oquvchilar || []).find(x => x.login?.toLowerCase() === l && x.parol === p);
+        if (o) {
+            let tId = getTelegramChatId(); if (tId && !o.chatId) o.chatId = tId;
+            faolUser = { rol: 'oquvchi', data: o, markazNomi: m.nomi, markazKarta: m.karta }; 
+            ochishSahifa('oquvchi'); chizishOquvchi(); saqlashBaza(); return;
+        }
+    }
+    showToast("Login yoki parol xato!", "error");
+}
+
+function saqlashBaza() {
+    fetch(DB_URL, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ markazlar, arizalar }) });
+}
+
+function ochishSahifa(sahifa) {
+    document.querySelectorAll('main, div[id^="p-"], div[id^="sahifa"]').forEach(el => {
+        if (el.id !== 'toast' && el.id !== 'toastContainer' && !el.id.startsWith('mod-')) el.classList.add('hidden');
     });
-}
-function msg(m, t='success'){ let d=document.createElement('div'); d.className=`px-4 py-3 rounded-xl shadow-lg text-[11px] font-bold toast text-white ${t==='success'?'bg-emerald-600':'bg-rose-500'}`; d.innerHTML=m; $('toast').appendChild(d); setTimeout(()=>d.remove(),3000); }
-
-async function init(){ try{ let r=await fetch(DB), d=await r.json(); if(d) data=d; }catch(e){} if(!data.m) data.m=[]; if(!data.a) data.a=[]; rndM(); }
-function sv(){ fetch(DB,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}); }
-
-function view(p){ ['market','auth','sadmin','madmin','oquvchi'].forEach(x=>$('p-'+x).classList.add('hidden')); $('p-'+p).classList.remove('hidden'); if(p==='market')rndM(); }
-function op(id){ $(id).classList.remove('hidden'); } function cls(id){ $(id).classList.add('hidden'); }
-function sAuth(v){ $('vLogin').classList.toggle('hidden',v==='reg'); $('vReg').classList.toggle('hidden',v==='login'); $('bLg').className=`py-2.5 rounded-xl ${v==='login'?'bg-white dark:bg-slate-900 text-emerald-600 shadow-sm':'text-slate-500'}`; $('bRg').className=`py-2.5 rounded-xl ${v==='reg'?'bg-white dark:bg-slate-900 text-emerald-600 shadow-sm':'text-slate-500'}`; }
-
-function rndM(){
-    $('marketGrid').innerHTML = data.m.map((m,i)=>`<div class="glass rounded-3xl p-6 border-t-4 border-emerald-500"><div class="flex gap-4"><img src="${m.lg}" class="w-16 h-16 rounded-xl object-cover"><div><h3 class="font-black text-lg">${m.n}</h3><p class="text-[10px] text-slate-500">${m.m}</p></div></div><p class="text-[11px] font-bold mt-4 bg-emerald-50 dark:bg-emerald-900/30 p-2 rounded-lg text-emerald-700 dark:text-emerald-400">Sharoit: ${m.sh}</p><p class="text-xs font-bold mt-2">Fanlar: ${m.s} ta</p></div>`).join('');
+    let target = document.getElementById('p-' + sahifa) || document.getElementById('sahifa' + sahifa.charAt(0).toUpperCase() + sahifa.slice(1));
+    if (target) target.classList.remove('hidden');
 }
 
-async function regM(){
-    let n=$('rNom').value, m=$('rMan').value, t=$('rTel').value, s=$('rSon').value, sh=$('rSha').value, lf=$('rLog').files[0], rf=$('rRas').files[0];
-    if(!n||!m||!t||!s||!sh||!lf||!rf) return msg("Barchasini to'ldiring va rasm tanlang!","error");
-    let lg=await g64(lf), rs=await g64(rf);
-    data.a.push({n,m,t,s,sh,lg,rs, sn:new Date().toLocaleDateString()}); sv(); msg("Anketa yuborildi! Super Admin kutib oling."); sAuth('login');
+function chizishMarketplace() {
+    let grid = document.getElementById('marketGrid') || document.getElementById('markazlarGrid');
+    if (!grid) return;
+    grid.innerHTML = markazlar.map((m, i) => `
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 border-t-4 border-emerald-500 shadow-lg flex flex-col justify-between dark:text-white">
+            <div class="flex gap-4">
+                <img src="${m.logo || ''}" class="w-16 h-16 rounded-xl object-cover bg-slate-200">
+                <div><h3 class="font-black text-lg">${m.nomi}</h3><p class="text-xs text-slate-500">${m.manzil}</p></div>
+            </div>
+            <div class="mt-4">
+                <h4 class="font-bold text-xs text-emerald-600 mb-2">So'nggi E'lon:</h4>
+                <p class="text-[11px] bg-slate-100 dark:bg-slate-800 p-2 rounded-lg italic">
+                    ${(m.yangiliklar && m.yangiliklar.length > 0) ? m.yangiliklar[0].matn : "Hozircha yangiliklar yo'q"}
+                </p>
+            </div>
+            <p class="text-xs font-bold mt-4">Fanlar: ${m.fanlar ? m.fanlar.length : (m.fSon || 0)} ta</p>
+            <button onclick="ochishArizaModal(${i})" class="w-full mt-4 bg-emerald-600 text-white font-bold py-3 rounded-xl text-xs">Kursga Yozilish</button>
+        </div>
+    `).join('');
 }
 
-function login(){
-    let l=$('lId').value, p=$('lPw').value;
-    if(l==='nvmtrpv'){ rSA(); view('sadmin'); return; }
-    let md=data.m.find(x=>x.l===l&&x.p===p); if(md){ faol=md; rMA(); view('madmin'); return; }
-    for(let mx of data.m){ let oq=(mx.oq||[]).find(x=>x.l===l&&x.p===p); if(oq){ faol=oq; faol.mn=mx.n; faol.mk=mx.k; rOq(); view('oquvchi'); return; } }
-    msg("Xato!","error");
-}
-function out(){ faol=null; view('market'); }
-
-function rSA(){
-    $('saAr').innerHTML = data.a.map((a,i)=>`<div class="border border-slate-200 dark:border-slate-700 p-4 rounded-xl text-xs"><div class="flex gap-2 items-center mb-2"><img src="${a.lg}" class="w-10 h-10 rounded-lg"><div><h3 class="font-black text-sm">${a.n}</h3><p class="text-slate-500">${a.t}</p></div></div><p><b>Fanlar:</b> ${a.s} ta</p><p><b>Sharoit:</b> ${a.sh}</p><div class="flex gap-2 mt-3"><button onclick="acAr(${i})" class="flex-1 py-1.5 bg-emerald-500 text-white rounded-lg">Tasdiqlash</button><button onclick="data.a.splice(${i},1);sv();rSA();" class="flex-1 py-1.5 bg-rose-500 text-white rounded-lg">Rad</button></div></div>`).join('');
-    $('saMa').innerHTML = data.m.map((m,i)=>`<div class="border border-slate-200 dark:border-slate-700 p-3 rounded-xl flex justify-between items-center"><div class="flex gap-2 items-center"><img src="${m.lg}" class="w-8 h-8 rounded"><span class="font-black text-xs">${m.n}</span></div><div class="text-right text-[10px]"><p class="text-blue-500 font-mono">${m.l}</p><p class="text-rose-500">${m.p}</p></div></div>`).join('');
-}
-function acAr(i){ $('tId').value=i; op('mod-tas'); }
-function doTas(){
-    let i=$('tId').value, l=$('tLg').value, p=$('tPw').value; if(!l||!p) return msg("Login/Parol kiriting","error");
-    if(l==='nvmtrpv'||data.m.some(x=>x.l===l)) return msg("Band!","error");
-    let a=data.a[i]; data.m.unshift({n:a.n, m:a.m, t:a.t, s:a.s, sh:a.sh, lg:a.lg, rs:a.rs, l, p, oq:[], k:''});
-    data.a.splice(i,1); sv(); cls('mod-tas'); rSA(); msg("Markaz tizimga qo'shildi!");
-}
-
-function mtb(t){ ['dav','oqu','soz'].forEach(x=>{ $('mb-'+x).classList.add('hidden'); $('mt-'+x).className=`w-full text-left p-3 rounded-xl font-bold text-xs ${t===x?'bg-emerald-600 text-white':'hover:bg-slate-200 dark:hover:bg-slate-800'}`; }); $('mb-'+t).classList.remove('hidden'); }
-function rMA(){
-    $('maLog').src=faol.lg; $('maNm').innerText=faol.n; $('sKar').value=faol.k||'';
-    $('mDavT').innerHTML=(faol.oq||[]).map((o,i)=>`<tr><td class="p-2">${o.i}</td><td class="p-2">${o.f}</td><td class="p-2 flex gap-1"><button onclick="sDav(${i},'K')" class="px-2 py-1 bg-emerald-500 text-white rounded text-[10px] ${o.d==='K'?'ring-2':''}">Keldi</button><button onclick="sDav(${i},'Y')" class="px-2 py-1 bg-rose-500 text-white rounded text-[10px] ${o.d==='Y'?'ring-2':''}">Yoq</button></td></tr>`).join('');
-    $('mOqT').innerHTML=(faol.oq||[]).map((o,i)=>`<tr><td class="p-2">${o.i}</td><td class="p-2 font-mono text-[10px] text-blue-500">${o.l}<br><span class="text-rose-500">${o.p}</span></td><td class="p-2 text-center"><button onclick="faol.oq.splice(${i},1);sv();rMA()" class="text-rose-500"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('');
-}
-function sDav(i,v){ faol.oq[i].d=v; sv(); rMA(); msg("Saqlandi"); }
-function svKar(){ faol.k=$('sKar').value; sv(); msg("Saqlandi"); }
-function addOq(){
-    let i=$('yoI').value, f=$('yoF').value, l=$('yoL').value, p=$('yoP').value;
-    if(!i||!l||!p) return msg("To'ldiring","error"); if(l==='nvmtrpv'||data.m.some(x=>x.l===l||(x.oq||[]).some(y=>y.l===l))) return msg("Login band!","error");
-    faol.oq=faol.oq||[]; faol.oq.unshift({i,f,l,p,d:'-'}); sv(); cls('mod-yo'); rMA(); msg("O'quvchi qo'shildi!");
+function chizishSuperAdmin() {
+    let saMarkazTana = document.getElementById('saMarkazlar') || document.getElementById('superAdminMarkazlarTana');
+    let saOquvchiTana = document.getElementById('saOqTana') || document.getElementById('superAdminOquvchilarTana');
+    let saUstozTana = document.getElementById('saUsTana') || document.getElementById('superAdminUstozlarTana');
+    
+    if (saMarkazTana) {
+        saMarkazTana.innerHTML = markazlar.map((m, i) => `
+            <tr class="dark:text-white border-b dark:border-slate-800">
+                <td class="p-3"><img src="${m.logo}" class="w-8 h-8 rounded-lg object-cover"></td>
+                <td class="p-3 font-bold">${m.nomi}</td>
+                <td class="p-3 font-mono text-emerald-500">${m.login} <br> <span class="text-rose-500">${m.parol}</span></td>
+                <td class="p-3"><button onclick="markazlar.splice(${i},1);saqlashBaza();chizishSuperAdmin()" class="bg-rose-500 text-white px-3 py-1 rounded text-xs">O'chirish</button></td>
+            </tr>
+        `).join('');
+    }
+    
+    let barchaOquvchilar = [], barchaUstozlar = [];
+    markazlar.forEach(m => {
+        (m.oquvchilar || []).forEach(o => barchaOquvchilar.push(`<tr><td class="p-2">${o.ism}</td><td class="p-2">${m.nomi}</td><td class="p-2 font-mono">${o.login} / ${o.parol}</td></tr>`));
+        (m.ustozlar || []).forEach(u => barchaUstozlar.push(`<tr><td class="p-2">${u.ism}</td><td class="p-2">${m.nomi}</td><td class="p-2 font-mono">${u.login} / ${u.parol}</td></tr>`));
+    });
+    
+    if (saOquvchiTana) saOquvchiTana.innerHTML = barchaOquvchilar.join('');
+    if (saUstozTana) saUstozTana.innerHTML = barchaUstozlar.join('');
 }
 
-function rOq(){
-    $('oqN').innerText=faol.i; $('oqM').innerText=faol.mn; $('oqK').innerText=faol.mk||'Mavjud emas';
-    let d=$('oqD'); if(faol.d==='K'){ d.innerText="Keldi"; d.className="text-3xl font-black mt-2 text-emerald-500"; } else if(faol.d==='Y'){ d.innerText="Kelmadi"; d.className="text-3xl font-black mt-2 text-rose-500"; } else d.innerText="-";
+function chizishMarkazAdmin() {
+    let m = faolUser.data;
+    if(document.getElementById('maLogo')) document.getElementById('maLogo').src = m.logo;
+    if(document.getElementById('maNom')) document.getElementById('maNom').innerText = m.nomi;
+    
+    let davTana = document.getElementById('madDavTana') || document.getElementById('mAdminDavomatJadvalTana');
+    if(davTana) {
+        davTana.innerHTML = (m.oquvchilar || []).map((o, i) => `
+            <tr class="dark:text-white border-b dark:border-slate-800">
+                <td class="p-3">${o.ism}</td><td class="p-3">${o.fan}</td>
+                <td class="p-3 flex gap-2">
+                    <button onclick="belgilashDavomat(${i},'K')" class="px-3 py-1 bg-emerald-500 text-white rounded text-xs ${o.davomat==='K'?'ring-2 ring-emerald-300':''}">Keldi</button>
+                    <button onclick="belgilashDavomat(${i},'Y')" class="px-3 py-1 bg-rose-500 text-white rounded text-xs ${o.davomat==='Y'?'ring-2 ring-rose-300':''}">Kelmadi</button>
+                </td>
+            </tr>
+        `).join('');
+    }
 }
 
-window.onload=init;
+async function belgilashDavomat(idx, xolat) {
+    faolUser.data.oquvchilar[idx].davomat = xolat;
+    saqlashBaza(); chizishMarkazAdmin();
+    if (xolat === 'Y' && faolUser.data.oquvchilar[idx].chatId) {
+        await yuborishTelegramXabar(`<b>DARS QOLDIRILDI!</b>\n\nO'quvchi: ${faolUser.data.oquvchilar[idx].ism}\nSana: ${bugun}`, faolUser.data.oquvchilar[idx].chatId);
+    }
+    showToast("Davomat saqlandi");
+}
+
+function chizishOquvchi() {
+    let o = faolUser.data;
+    if(document.getElementById('oqNom')) document.getElementById('oqNom').innerText = o.ism;
+    if(document.getElementById('oqMar')) document.getElementById('oqMar').innerText = faolUser.markazNomi;
+    if(document.getElementById('oqBall')) document.getElementById('oqBall').innerText = o.ball || 0;
+    
+    let d = document.getElementById('oqDav') || document.getElementById('oquvchiDavomatHolat');
+    if(d) {
+        if(o.davomat === 'K') d.innerHTML = '<span class="text-emerald-500">Keldi</span>';
+        else if(o.davomat === 'Y') d.innerHTML = '<span class="text-rose-500">Kelmadi</span>';
+        else d.innerHTML = '-';
+    }
+}
+
+function chizishUstoz() {
+    let u = faolUser.data;
+    if(document.getElementById('uNom')) document.getElementById('uNom').innerText = u.ism;
+    if(document.getElementById('uFan')) document.getElementById('uFan').innerText = u.fan + " | " + faolUser.markazNomi;
+}
+
+window.onload = tizimniYuklash;
 </script>
 </body></html>

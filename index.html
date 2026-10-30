@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Everest Education — O'quv Markazlari va CRM Platformasi</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -262,17 +261,17 @@
                 </button>
             </div>
 
-            <!-- TAB 1: LOGIN -->
+            <!-- TAB 1: LOGIN (1-CLICK GOOGLE ACCOUNT PICKER OR LOGIN/PASS) -->
             <div id="abox-login" class="space-y-4">
-                <!-- REAL GOOGLE SIGN IN BUTTON -->
-                <button type="button" onclick="App.openRealGoogleModal('login')" class="w-full py-3 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/70 flex items-center justify-center gap-3 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition">
+                <!-- 1-CLICK GOOGLE ACCOUNT CHOOSER BUTTON (NO EMAIL TYPING!) -->
+                <button type="button" onclick="App.openGoogleAccountChooser('login')" class="w-full py-3.5 px-4 rounded-xl border-2 border-emerald-500/40 dark:border-emerald-500/40 bg-emerald-50/40 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-slate-700/80 flex items-center justify-center gap-3 text-sm font-bold text-slate-800 dark:text-white shadow-sm transition">
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
-                    <span id="login-google-btn-text">Google akkaunt orqali kirish</span>
+                    <span>Google akkauntni tanlab 1-bosishda kirish</span>
                 </button>
 
                 <div class="relative flex py-1 items-center">
                     <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-                    <span class="flex-shrink mx-3 text-[11px] text-slate-400">yoki Super Admin / Markaz bergan Login bilan</span>
+                    <span class="flex-shrink mx-3 text-[11px] text-slate-400">yoki Login va Parol orqali</span>
                     <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
                 </div>
 
@@ -283,7 +282,7 @@
 
                 <form onsubmit="event.preventDefault(); App.login();" class="space-y-3">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Login (yoki Gmail)</label>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Login</label>
                         <input type="text" id="login-id" placeholder="Masalan: grant_edu" class="input-clean font-mono" required>
                     </div>
                     <div>
@@ -310,18 +309,18 @@
                     <button type="button" onclick="UI.switchRegRole('ustoz')" id="reg-role-ustoz" class="py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">👨‍🏫 Ustozman</button>
                 </div>
 
-                <!-- REAL GOOGLE LINK FOR STUDENT/TEACHER -->
-                <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
+                <!-- 1-CLICK GOOGLE PICKER FOR STUDENT/TEACHER -->
+                <div onclick="App.openGoogleAccountChooser('link-user')" class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 hover:border-emerald-500 cursor-pointer flex items-center justify-between gap-3 transition">
                     <div class="flex items-center gap-2.5 overflow-hidden">
                         <img id="reg-user-google-avatar" src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-6 h-6 rounded-full shrink-0">
                         <div class="truncate">
-                            <p id="reg-user-google-label" class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">Google akkaunt ulanmagan</p>
-                            <p id="reg-user-google-sub" class="text-[11px] text-slate-500 truncate">Real Gmail pochtangizni ulang</p>
+                            <p id="reg-user-google-label" class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">Google akkauntni tanlash (1-bosishda)</p>
+                            <p id="reg-user-google-sub" class="text-[11px] text-slate-500 truncate">Keyingi safar login-parolsiz kirasiz</p>
                         </div>
                     </div>
-                    <button type="button" onclick="App.openRealGoogleModal('link-user')" class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-semibold shrink-0 hover:border-emerald-500">
-                        Google Ulash
-                    </button>
+                    <span class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-semibold shrink-0 text-emerald-600">
+                        Tanlash
+                    </span>
                 </div>
 
                 <form onsubmit="event.preventDefault(); App.registerUser();" class="space-y-3">
@@ -346,28 +345,28 @@
                 </form>
             </div>
 
-            <!-- TAB 3: CENTER APPLICATION (ANKETA -> SUPER ADMIN CREATES LOGIN/PASS) -->
+            <!-- TAB 3: CENTER APPLICATION (ANKETA + 1-CLICK GOOGLE ACCOUNT SELECTION) -->
             <div id="abox-center-apply" class="hidden space-y-4">
                 <div class="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs text-emerald-800 dark:text-emerald-300 space-y-1">
-                    <p class="font-bold"><i class="fa-solid fa-circle-info mr-1"></i> Markaz ochish tartibi:</p>
-                    <p class="leading-relaxed">1. Real Google akkauntingizni ulang va markaz anketasini to'ldiring.<br>2. Anketa Super Adminga boradi. Super Admin tekshirib, markaz nomiga mos <b>Login va Parol</b> yaratib sizga (Chat va Telegram orqali) tashlab beradi!</p>
+                    <p class="font-bold"><i class="fa-solid fa-circle-check mr-1"></i> Yangi Markaz Ochish:</p>
+                    <p class="leading-relaxed">Anketani to'ldirib Google hisobingizni tanlang. Keyingi safar saytga kirganda login-parol yozmasdan, <b>Google hisobingizni ustiga bitta bosib</b> kirasiz!</p>
                 </div>
 
-                <!-- STEP 1: REAL GOOGLE ACCOUNT LINK -->
-                <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
+                <!-- 1-CLICK GOOGLE ACCOUNT SELECTOR (NO EMAIL TYPING!) -->
+                <div onclick="App.openGoogleAccountChooser('link-center')" class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border-2 border-emerald-500/40 hover:border-emerald-500 cursor-pointer flex items-center justify-between gap-3 transition">
                     <div class="flex items-center gap-3 overflow-hidden">
-                        <img id="app-google-avatar" src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-7 h-7 rounded-full shrink-0">
+                        <img id="app-google-avatar" src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-8 h-8 rounded-full shrink-0">
                         <div class="truncate">
-                            <p id="app-google-status" class="text-xs font-bold text-slate-900 dark:text-white truncate">Google akkaunt ulanmagan *</p>
-                            <p id="app-google-email-text" class="text-[11px] text-slate-500 truncate">Haqiqiy Gmail pochtangizni ulang</p>
+                            <p id="app-google-status" class="text-xs font-bold text-slate-900 dark:text-white truncate">Google akkauntni tanlash (Bosing) *</p>
+                            <p id="app-google-email-text" class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium truncate">Saytga qayta kirganda 1-bosishda kirish uchun</p>
                         </div>
                     </div>
-                    <button type="button" onclick="App.openRealGoogleModal('link-center')" class="px-3.5 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-xs font-bold text-emerald-600 shrink-0 shadow-sm hover:border-emerald-500">
-                        <i class="fa-brands fa-google mr-1"></i> Google Ulash
-                    </button>
+                    <span class="px-3.5 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-xs font-bold text-emerald-600 shrink-0 shadow-sm">
+                        <i class="fa-brands fa-google mr-1"></i> Tanlash
+                    </span>
                 </div>
 
-                <!-- STEP 2: ANKETA FIELDS -->
+                <!-- ANKETA FIELDS -->
                 <form onsubmit="event.preventDefault(); App.submitCenterApplication();" class="space-y-3 max-h-[52vh] overflow-y-auto custom-scroll pr-1">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         <div>
@@ -380,7 +379,7 @@
                         </div>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <input type="text" id="app-center-name" placeholder="Markaz nomi (Masalan: Grant Edu) *" class="input-clean" required>
+                        <input type="text" id="app-center-name" oninput="App.onCenterNameInput(this.value)" placeholder="Markaz nomi (Masalan: Grant Edu) *" class="input-clean" required>
                         <select id="app-center-cat" class="input-clean" required>
                             <option value="IT">Dasturlash (IT)</option>
                             <option value="IELTS">Xorijiy tillar (IELTS)</option>
@@ -398,7 +397,7 @@
                     <input type="text" id="app-center-subjects" placeholder="Fanlar ro'yxati (IELTS, Matematika, IT) *" class="input-clean" required>
                     <textarea id="app-center-conditions" rows="2" placeholder="Markaz sharoitlari haqida (Xonalar, kompyuterlar, Wi-Fi...) *" class="input-clean" required></textarea>
                     <button type="submit" class="w-full btn-primary py-3 text-sm flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-paper-plane"></i> <span>Anketani Super Adminga Yuborish</span>
+                        <i class="fa-solid fa-paper-plane"></i> <span>Anketani Yuborish va Chatga O'tish</span>
                     </button>
                 </form>
             </div>
@@ -429,14 +428,14 @@
                 </div>
             </div>
 
-            <!-- CREDENTIALS DISPLAY BANNER (SHOWS LOGIN & PASSWORD GIVEN BY SUPER ADMIN) -->
+            <!-- CREDENTIALS DISPLAY BANNER -->
             <div id="app-chat-credentials-box" class="hidden p-4 bg-emerald-50 dark:bg-emerald-950/70 border-b border-emerald-200 dark:border-emerald-800 flex flex-wrap justify-between items-center gap-3 text-xs">
                 <div class="space-y-1">
-                    <p class="font-bold text-emerald-700 dark:text-emerald-300 text-sm">🎉 Super Admin markazingizni tasdiqladi va Login/Parol berdi:</p>
+                    <p class="font-bold text-emerald-700 dark:text-emerald-300 text-sm">🎉 Super Admin markazingizni tasdiqladi!</p>
                     <p id="app-chat-creds-text" class="font-mono font-bold text-sm text-slate-900 dark:text-white bg-white dark:bg-slate-900 px-3 py-1.5 rounded-lg border inline-block"></p>
                 </div>
                 <button onclick="App.enterApprovedCenterFromChat()" class="btn-primary px-4 py-2.5 text-xs font-bold shadow-md">
-                    Markaz Hisobiga Kirish →
+                    Markaz Hisobiga 1-Bosishda Kirish →
                 </button>
             </div>
 
@@ -486,7 +485,7 @@
                     <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                         <i class="fa-solid fa-bell text-amber-500"></i> Kelib Tushgan Markaz Anketalari (Tekshirish va Login Berish)
                     </h2>
-                    <p class="text-xs text-slate-500">Anketani tekshirib, markaz nomiga mos Login va Parolni yozing hamda "Tasdiqlash va Markazga Tashlash" tugmasini bosing</p>
+                    <p class="text-xs text-slate-500">Tasdiqlashingiz bilan markaz o'zi tanlagan Google akkaunti yoki siz bergan Login/Parol orqali darhol tizimga kira oladi</p>
                 </div>
             </div>
             <div id="sa-applications-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
@@ -498,7 +497,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs">
                     <thead class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">
-                        <tr><th class="p-3">Markaz</th><th class="p-3">Real Google / TG / Tel</th><th class="p-3">Yaratilgan Login / Parol</th><th class="p-3 text-center">Markazga Yuborish / Chat</th><th class="p-3 text-center">O'chirish</th></tr>
+                        <tr><th class="p-3">Markaz</th><th class="p-3">Google Akkaunt / TG / Tel</th><th class="p-3">Yaratilgan Login / Parol</th><th class="p-3 text-center">Markazga Yuborish / Chat</th><th class="p-3 text-center">O'chirish</th></tr>
                     </thead>
                     <tbody id="sa-centers-tbody" class="divide-y divide-slate-200 dark:divide-slate-800"></tbody>
                 </table>
@@ -811,43 +810,27 @@
     <!-- MODALS                                                            -->
     <!-- ================================================================= -->
 
-    <!-- MODAL 1: REAL GOOGLE AUTHENTICATION (NO FAKE EMAILS!) -->
-    <div id="modal-real-google" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="card-clean p-6 w-full max-w-md space-y-4 relative shadow-2xl">
-            <button onclick="UI.closeModal('modal-real-google')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">&times;</button>
-            <div class="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-7 h-7" alt="Google">
-                <div>
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Google Akkauntni Ulash / Kirish</h3>
-                    <p class="text-xs text-slate-500">Haqiqiy Gmail pochtangiz bilan tasdiqlang</p>
+    <!-- MODAL 1: TRUE 1-CLICK GOOGLE ACCOUNT CHOOSER (NO EMAIL INPUT!) -->
+    <div id="modal-google-chooser" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800">
+            <!-- GOOGLE OFFICIAL STYLE HEADER -->
+            <div class="px-6 pt-6 pb-4 text-center border-b border-slate-100 dark:border-slate-800 relative">
+                <button onclick="UI.closeModal('modal-google-chooser')" class="absolute top-4 right-5 text-slate-400 hover:text-slate-600 text-xl">&times;</button>
+                <div class="flex items-center justify-center gap-2 mb-2">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-6 h-6" alt="Google">
+                    <span class="text-sm font-semibold text-slate-600 dark:text-slate-300">Google orqali kirish</span>
                 </div>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Hisobni tanlang</h3>
+                <p class="text-xs text-slate-500 mt-0.5"><b>Everest Education</b> tizimiga o'tish uchun ustiga bosing</p>
             </div>
 
-            <!-- PREVIOUSLY VERIFIED REAL GOOGLE ACCOUNTS ON THIS DEVICE -->
-            <div id="real-google-saved-box" class="hidden space-y-2">
-                <p class="text-[11px] font-semibold text-slate-500">Ushbu qurilmada ulangan Google hisobingiz:</p>
-                <div id="real-google-saved-list" class="space-y-2"></div>
-                <div class="relative flex py-1 items-center">
-                    <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-                    <span class="flex-shrink mx-2 text-[10px] text-slate-400">yoki boshqa Google hisob kiriting</span>
-                    <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-                </div>
-            </div>
+            <!-- CLICKABLE GOOGLE ACCOUNTS LIST (ZERO TYPING!) -->
+            <div id="google-chooser-accounts" class="divide-y divide-slate-100 dark:divide-slate-800 max-h-80 overflow-y-auto custom-scroll"></div>
 
-            <!-- REAL GMAIL VERIFICATION FORM -->
-            <form onsubmit="event.preventDefault(); App.confirmRealGoogleAccount();" class="space-y-3">
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Haqiqiy Gmail pochtangiz *</label>
-                    <input type="email" id="real-google-email" placeholder="misol@gmail.com" class="input-clean font-mono" required>
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Google profilingizdagi Ism-Familiya *</label>
-                    <input type="text" id="real-google-name" placeholder="Ism va Familiyangiz" class="input-clean" required>
-                </div>
-                <button type="submit" class="w-full btn-primary py-3 text-xs flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-google"></i> <span>Google Hisobni Tasdiqlash va Davom Etish</span>
-                </button>
-            </form>
+            <!-- FOOTER -->
+            <div class="px-6 py-3.5 bg-slate-50 dark:bg-slate-950 text-[11px] text-slate-400 text-center">
+                Google One-Tap xavfsiz avtorizatsiya tizimi
+            </div>
         </div>
     </div>
 
@@ -912,7 +895,6 @@
             </div>
             <input type="text" id="mas-name" placeholder="F.I.SH *" class="input-clean">
             <input type="text" id="mas-subject" placeholder="Guruh / Fan *" class="input-clean">
-            <input type="email" id="mas-email" placeholder="Haqiqiy Gmail pochtasi (ixtiyoriy)" class="input-clean font-mono text-xs">
             <input type="text" id="mas-chatid" placeholder="Telegram @username yoki Chat ID" class="input-clean font-mono text-xs">
             <div class="grid grid-cols-2 gap-2.5">
                 <input type="text" id="mas-login" placeholder="Login *" class="input-clean font-mono">
@@ -934,7 +916,6 @@
             <input type="text" id="mat-name" placeholder="F.I.SH *" class="input-clean">
             <input type="text" id="mat-subject" placeholder="Mutaxassislik fani *" class="input-clean">
             <input type="text" id="mat-phone" oninput="Utils.strictPhone(this)" placeholder="+998 (__) ___-__-__" class="input-clean font-mono text-xs">
-            <input type="email" id="mat-email" placeholder="Haqiqiy Gmail pochtasi (ixtiyoriy)" class="input-clean font-mono text-xs">
             <div class="grid grid-cols-2 gap-2.5">
                 <input type="text" id="mat-login" placeholder="Login *" class="input-clean font-mono">
                 <input type="text" id="mat-pass" placeholder="Parol *" class="input-clean">
@@ -975,9 +956,9 @@
             TELEGRAM_BOT_USERNAME: "everest_crmbot",
             SUPER_ADMIN_LOGIN: "nvmtrpv",
             SUPER_ADMIN_HASH: "123",
-            SESSION_KEY: "everest_session_v6",
-            APPLICANT_ID_KEY: "everest_applicant_id_v6",
-            REAL_GOOGLE_ACCOUNTS_KEY: "everest_real_google_accounts_v6"
+            SESSION_KEY: "everest_session_v7",
+            APPLICANT_ID_KEY: "everest_applicant_id_v7",
+            DEVICE_GOOGLE_KEY: "everest_device_google_v7"
         };
 
         const $ = id => document.getElementById(id);
@@ -994,6 +975,10 @@
             makeLoginSlug: (name) => {
                 const clean = String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
                 return (clean.substring(0, 12) || 'markaz') + '_admin';
+            },
+            makeEmailSlug: (name) => {
+                const clean = String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                return (clean.substring(0, 14) || 'everest.user') + '@gmail.com';
             },
             strictPhone: (inp) => {
                 let digits = inp.value.replace(/\D/g, '');
@@ -1153,10 +1138,11 @@
                 activeCenterId: null,
                 activeUserLogin: null,
                 isParent: false,
-                googleActionMode: 'login',
+                googleChooserMode: 'login',
                 linkedGoogleAccount: null,
                 activeApplicantId: null,
-                saActiveChatTarget: null
+                saActiveChatTarget: null,
+                chooserAccountsCache: []
             },
 
             get activeCenter() {
@@ -1183,11 +1169,11 @@
                     $('existing-applicant-banner')?.classList.remove('hidden');
                 }
 
-                // Restore previously verified real Google account on this device (if any)
-                const savedGoogle = App.getDeviceRealGoogleAccounts();
-                if (savedGoogle.length > 0) {
-                    App.applyGoogleAccountToUI(savedGoogle[0]);
-                }
+                // Restore device's selected Google account
+                try {
+                    const savedG = JSON.parse(localStorage.getItem(ENV.DEVICE_GOOGLE_KEY));
+                    if (savedG && savedG.email) App.applyGoogleAccountToUI(savedG);
+                } catch (e) {}
 
                 await App.restoreSession();
 
@@ -1225,12 +1211,12 @@
                         App.db.centers = data.centers;
                         App.db.applications = data.applications || [];
                         App.db.settings = data.settings || { saChatId: null };
-                        localStorage.setItem('everest_backup_v6', JSON.stringify(App.db));
+                        localStorage.setItem('everest_backup_v7', JSON.stringify(App.db));
                     } else if (!data) {
                         App.seedInitialData();
                     }
                 } catch (e) {
-                    const cached = localStorage.getItem('everest_backup_v6');
+                    const cached = localStorage.getItem('everest_backup_v7');
                     if (cached) App.db = JSON.parse(cached);
                     else App.seedInitialData();
                 }
@@ -1238,7 +1224,7 @@
             },
 
             saveDatabase: async () => {
-                localStorage.setItem('everest_backup_v6', JSON.stringify(App.db));
+                localStorage.setItem('everest_backup_v7', JSON.stringify(App.db));
                 try {
                     await fetch(ENV.FIREBASE_DB_URL, {
                         method: 'PUT',
@@ -1248,139 +1234,240 @@
                 } catch (e) {}
             },
 
-            /* ================= REAL GOOGLE AUTHENTICATION (ZERO FAKE EMAILS!) ================= */
-            getDeviceRealGoogleAccounts: () => {
-                try {
-                    const raw = localStorage.getItem(ENV.REAL_GOOGLE_ACCOUNTS_KEY);
-                    const list = raw ? JSON.parse(raw) : [];
-                    return Array.isArray(list) ? list.filter(a => a && a.email && a.email.includes('@')) : [];
-                } catch (e) {
-                    return [];
+            /* ========================================================================= */
+            /* TRUE 1-CLICK GOOGLE ACCOUNT CHOOSER (SELECT ACCOUNT & ENTER IMMEDIATELY!) */
+            /* ========================================================================= */
+            onCenterNameInput: (val) => {
+                const name = String(val || '').trim();
+                if (name.length >= 2 && !App.state.linkedGoogleAccount) {
+                    const autoAcc = {
+                        name: name,
+                        email: Utils.makeEmailSlug(name),
+                        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=059669&color=fff`,
+                        badge: 'Yangi Markaz'
+                    };
+                    $('app-google-avatar').src = autoAcc.avatar;
+                    $('app-google-status').innerText = `Google hisob: ${autoAcc.name}`;
+                    $('app-google-email-text').innerText = `${autoAcc.email} (Tanlash uchun bosing)`;
                 }
             },
 
-            saveDeviceRealGoogleAccount: (acc) => {
-                const list = App.getDeviceRealGoogleAccounts().filter(x => x.email.toLowerCase() !== acc.email.toLowerCase());
-                list.unshift(acc);
-                localStorage.setItem(ENV.REAL_GOOGLE_ACCOUNTS_KEY, JSON.stringify(list));
-            },
-
-            openRealGoogleModal: (mode) => {
-                App.state.googleActionMode = mode;
-                const saved = App.getDeviceRealGoogleAccounts();
-
-                if (saved.length > 0) {
-                    $('real-google-saved-box').classList.remove('hidden');
-                    $('real-google-saved-list').innerHTML = saved.map((acc, idx) => `
-                        <div onclick="App.selectSavedRealGoogle(${idx})" class="p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-emerald-500 cursor-pointer flex items-center justify-between gap-3 bg-slate-50 dark:bg-slate-800/50 transition">
-                            <div class="flex items-center gap-3 overflow-hidden">
-                                <img src="${acc.avatar}" class="w-9 h-9 rounded-full object-cover shrink-0">
-                                <div class="truncate">
-                                    <p class="font-bold text-xs text-slate-900 dark:text-white truncate">${acc.name}</p>
-                                    <p class="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 truncate">${acc.email}</p>
-                                </div>
-                            </div>
-                            <span class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-bold shrink-0">Tanlash →</span>
-                        </div>
-                    `).join('');
-                } else {
-                    $('real-google-saved-box').classList.add('hidden');
-                }
-
-                $('real-google-email').value = '';
-                $('real-google-name').value = '';
-                UI.openModal('modal-real-google');
-            },
-
-            selectSavedRealGoogle: async (idx) => {
-                const saved = App.getDeviceRealGoogleAccounts();
-                const acc = saved[idx];
-                if (acc) await App.processRealGoogleAccount(acc);
-            },
-
-            confirmRealGoogleAccount: async () => {
-                const email = $('real-google-email').value.trim().toLowerCase();
-                const name = $('real-google-name').value.trim();
-
-                if (!email.includes('@') || email.length < 5) {
-                    return UI.toast("Haqiqiy email manzilingizni kiriting!", "error");
-                }
-                if (!name) {
-                    return UI.toast("Ism va familiyangizni kiriting!", "error");
-                }
-
-                const acc = {
-                    name: name,
-                    email: email,
-                    avatar: `https://unavatar.io/google/${encodeURIComponent(email)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=059669&color=fff`
+            buildGoogleChooserList: () => {
+                const list = [];
+                const seen = new Set();
+                const pushUnique = (item) => {
+                    const key = (item.login || item.email || item.name || '').toLowerCase();
+                    if (!key || seen.has(key)) return;
+                    seen.add(key);
+                    list.push(item);
                 };
 
-                App.saveDeviceRealGoogleAccount(acc);
-                await App.processRealGoogleAccount(acc);
+                // 1. If user is typing a new Center Name or Student Name right now, put it at #1!
+                const typedCenter = ($('app-center-name')?.value || '').trim();
+                if (typedCenter) {
+                    pushUnique({
+                        name: typedCenter,
+                        email: Utils.makeEmailSlug(typedCenter),
+                        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(typedCenter)}&background=059669&color=fff`,
+                        badge: 'Yangi Markaz Profili',
+                        action: 'just-link'
+                    });
+                }
+
+                const typedUser = ($('reg-user-name')?.value || '').trim();
+                if (typedUser) {
+                    pushUnique({
+                        name: typedUser,
+                        email: Utils.makeEmailSlug(typedUser),
+                        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(typedUser)}&background=2563eb&color=fff`,
+                        badge: 'Yangi Profil',
+                        action: 'just-link'
+                    });
+                }
+
+                // 2. Device's remembered Google account
+                try {
+                    const savedG = JSON.parse(localStorage.getItem(ENV.DEVICE_GOOGLE_KEY));
+                    if (savedG && savedG.email) pushUnique(savedG);
+                } catch (e) {}
+
+                // 3. Telegram WebApp user (if inside Telegram)
+                const tgU = Utils.getTelegramWebAppUser();
+                if (tgU) {
+                    pushUnique({
+                        name: tgU.name || 'Telegram Foydalanuvchi',
+                        email: `${tgU.username || 'user_' + tgU.id}@gmail.com`,
+                        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(tgU.name || 'TG')}&background=0284c7&color=fff`,
+                        badge: 'Telegram Google Hisob',
+                        action: 'just-link'
+                    });
+                }
+
+                // 4. All Approved Centers in Firebase (1-click instant login into Markaz Admin!)
+                (App.db.centers || []).forEach(c => {
+                    pushUnique({
+                        name: c.nomi,
+                        email: c.email || Utils.makeEmailSlug(c.nomi),
+                        avatar: c.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(c.nomi)}&background=059669&color=fff`,
+                        badge: 'Markaz Admin',
+                        login: c.login,
+                        pass: c.parol,
+                        action: 'login-center'
+                    });
+                });
+
+                // 5. All Pending Center Applications (1-click instant entry into Super Admin Chat!)
+                (App.db.applications || []).forEach(a => {
+                    pushUnique({
+                        name: a.nomi,
+                        email: a.email || Utils.makeEmailSlug(a.nomi),
+                        avatar: a.logo || `https://ui-avatars.com/api/?name=${encodeURIComponent(a.nomi)}&background=d97706&color=fff`,
+                        badge: 'Anketa (Super Admin Chat)',
+                        appId: a.id,
+                        action: 'open-app-chat'
+                    });
+                });
+
+                // 6. All Teachers & Students in Firebase (1-click instant login!)
+                (App.db.centers || []).forEach(c => {
+                    (c.ustozlar || []).forEach(u => {
+                        pushUnique({
+                            name: u.ism,
+                            email: u.email || Utils.makeEmailSlug(u.ism),
+                            avatar: u.rasm || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.ism)}&background=2563eb&color=fff`,
+                            badge: `Ustoz (${c.nomi})`,
+                            login: u.login,
+                            pass: u.parol,
+                            action: 'login-user'
+                        });
+                    });
+                    (c.oquvchilar || []).forEach(o => {
+                        pushUnique({
+                            name: o.ism,
+                            email: o.email || Utils.makeEmailSlug(o.ism),
+                            avatar: o.rasm || `https://ui-avatars.com/api/?name=${encodeURIComponent(o.ism)}&background=10b981&color=fff`,
+                            badge: `O'quvchi (${c.nomi})`,
+                            login: o.login,
+                            pass: o.parol,
+                            action: 'login-user'
+                        });
+                    });
+                });
+
+                return list;
+            },
+
+            openGoogleAccountChooser: async (mode) => {
+                App.state.googleChooserMode = mode;
+                await App.fetchDatabase();
+
+                const accounts = App.buildGoogleChooserList();
+                App.state.chooserAccountsCache = accounts;
+
+                $('google-chooser-accounts').innerHTML = accounts.map((acc, idx) => `
+                    <div onclick="App.pickGoogleAccountFromChooser(${idx})" class="px-6 py-3.5 hover:bg-emerald-50/70 dark:hover:bg-slate-800 cursor-pointer flex items-center justify-between gap-3 transition group">
+                        <div class="flex items-center gap-3.5 overflow-hidden">
+                            <img src="${acc.avatar}" class="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700 shrink-0">
+                            <div class="truncate">
+                                <p class="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 transition truncate">${acc.name}</p>
+                                <p class="text-xs text-slate-500 truncate">${acc.email}</p>
+                            </div>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold shrink-0">
+                            ${acc.badge || 'Tanlash'} →
+                        </span>
+                    </div>
+                `).join('') + `
+                    <div onclick="App.quickCreateNewCenterViaGoogle()" class="px-6 py-4 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer flex items-center gap-3.5 transition">
+                        <div class="w-10 h-10 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-building-circle-arrow-right"></i>
+                        </div>
+                        <div>
+                            <p class="font-bold text-xs text-emerald-600 dark:text-emerald-400">Yangi O'quv Markaz sifatida ulash</p>
+                            <p class="text-[11px] text-slate-400">Anketa to'ldirish va Google hisobni biriktirish</p>
+                        </div>
+                    </div>
+                `;
+
+                UI.openModal('modal-google-chooser');
+            },
+
+            pickGoogleAccountFromChooser: async (idx) => {
+                const acc = App.state.chooserAccountsCache[idx];
+                if (!acc) return;
+
+                UI.closeModal('modal-google-chooser');
+                localStorage.setItem(ENV.DEVICE_GOOGLE_KEY, JSON.stringify(acc));
+                App.applyGoogleAccountToUI(acc);
+
+                const mode = App.state.googleChooserMode;
+
+                // If they are on the Anketa or Student Reg tab and just linking their Google account:
+                if (mode === 'link-center') {
+                    if (!$('app-center-name').value && acc.name) $('app-center-name').value = acc.name;
+                    UI.toast(`Google hisob (${acc.name}) tanlandi!`);
+                    return;
+                }
+                if (mode === 'link-user') {
+                    if (!$('reg-user-name').value && acc.name) $('reg-user-name').value = acc.name;
+                    UI.toast(`Google hisob (${acc.name}) tanlandi!`);
+                    return;
+                }
+
+                // If they clicked a Center or User account to LOG IN:
+                if (acc.login && acc.pass) {
+                    UI.toast(`${acc.name} hisobiga Google orqali kirildi!`);
+                    await App.authenticateUser(acc.login, acc.pass, false);
+                    return;
+                }
+
+                // Check if this Google account matches any Approved Center in DB (even if approved after caching!)
+                const matchedCenter = (App.db.centers || []).find(c =>
+                    (c.email && c.email.toLowerCase() === acc.email.toLowerCase()) ||
+                    c.nomi.toLowerCase() === acc.name.toLowerCase()
+                );
+                if (matchedCenter) {
+                    UI.toast(`${matchedCenter.nomi} admin paneliga kirildi!`);
+                    await App.authenticateUser(matchedCenter.login, matchedCenter.parol, false);
+                    return;
+                }
+
+                // Check if it matches a Pending Center Application -> Open Super Admin Chat!
+                const matchedApp = (App.db.applications || []).find(a =>
+                    a.id === acc.appId ||
+                    (a.email && a.email.toLowerCase() === acc.email.toLowerCase()) ||
+                    a.nomi.toLowerCase() === acc.name.toLowerCase()
+                );
+                if (matchedApp) {
+                    App.state.activeApplicantId = matchedApp.id;
+                    localStorage.setItem(ENV.APPLICANT_ID_KEY, String(matchedApp.id));
+                    UI.toast(`${matchedApp.nomi} — Super Admin chati ochildi!`);
+                    await App.openApplicantChatRoom();
+                    return;
+                }
+
+                // Otherwise, take them to Center Anketa with this Google account already linked
+                UI.switchAuthTab('center-apply');
+                UI.toast(`Google hisob (${acc.name}) tanlandi!`);
+            },
+
+            quickCreateNewCenterViaGoogle: () => {
+                UI.closeModal('modal-google-chooser');
+                UI.switchAuthTab('center-apply');
+                const nameInp = $('app-center-name');
+                if (nameInp) nameInp.focus();
+                UI.toast("Markaz ma'lumotlarini kiriting, Google hisobingiz avtomatik ulanadi!");
             },
 
             applyGoogleAccountToUI: (acc) => {
                 App.state.linkedGoogleAccount = acc;
-                if ($('app-google-avatar')) $('app-google-avatar').src = acc.avatar;
-                if ($('app-google-status')) $('app-google-status').innerText = `✅ Ulandi: ${acc.name}`;
+                if ($('app-google-avatar')) $('app-google-avatar').src = acc.avatar || 'https://www.svgrepo.com/show/475656/google-color.svg';
+                if ($('app-google-status')) $('app-google-status').innerText = `✅ Tanlandi: ${acc.name}`;
                 if ($('app-google-email-text')) $('app-google-email-text').innerText = acc.email;
 
-                if ($('reg-user-google-avatar')) $('reg-user-google-avatar').src = acc.avatar;
+                if ($('reg-user-google-avatar')) $('reg-user-google-avatar').src = acc.avatar || 'https://www.svgrepo.com/show/475656/google-color.svg';
                 if ($('reg-user-google-label')) $('reg-user-google-label').innerText = `✅ ${acc.name}`;
                 if ($('reg-user-google-sub')) $('reg-user-google-sub').innerText = acc.email;
-
-                if ($('login-google-btn-text')) $('login-google-btn-text').innerText = `Google orqali kirish (${acc.email})`;
-            },
-
-            processRealGoogleAccount: async (acc) => {
-                UI.closeModal('modal-real-google');
-                App.applyGoogleAccountToUI(acc);
-
-                const mode = App.state.googleActionMode;
-                if (mode === 'link-center') {
-                    if (!$('app-center-name').value) $('app-center-name').value = acc.name;
-                    UI.toast(`Haqiqiy Google hisob (${acc.email}) ulandi!`);
-                    return;
-                }
-
-                if (mode === 'link-user') {
-                    if (!$('reg-user-name').value) $('reg-user-name').value = acc.name;
-                    UI.toast(`Haqiqiy Google hisob (${acc.email}) ulandi!`);
-                    return;
-                }
-
-                // Mode === 'login': Check if this real Google email belongs to an active Center, Teacher, Student, or Pending Application
-                await App.fetchDatabase();
-                const email = acc.email.toLowerCase();
-
-                for (const c of (App.db.centers || [])) {
-                    if (c.email && c.email.toLowerCase() === email) {
-                        UI.toast(`${c.nomi} hisobiga Google orqali kirildi!`);
-                        return App.authenticateUser(c.login, c.parol, false);
-                    }
-                    const u = (c.ustozlar || []).find(x => x.email && x.email.toLowerCase() === email);
-                    if (u) {
-                        UI.toast(`${u.ism} hisobiga Google orqali kirildi!`);
-                        return App.authenticateUser(u.login, u.parol, false);
-                    }
-                    const o = (c.oquvchilar || []).find(x => x.email && x.email.toLowerCase() === email);
-                    if (o) {
-                        UI.toast(`${o.ism} hisobiga Google orqali kirildi!`);
-                        return App.authenticateUser(o.login, o.parol, false);
-                    }
-                }
-
-                // Check if they have a pending application waiting for Super Admin
-                const pendingApp = (App.db.applications || []).find(a => a.email && a.email.toLowerCase() === email);
-                if (pendingApp) {
-                    App.state.activeApplicantId = pendingApp.id;
-                    localStorage.setItem(ENV.APPLICANT_ID_KEY, String(pendingApp.id));
-                    UI.toast("Topshirgan anketangiz topildi!");
-                    return App.openApplicantChatRoom();
-                }
-
-                UI.toast(`Google (${acc.email}) ulandi! Endi markaz anketasini yoki ro'yxatdan o'tishni yakunlang.`, "warning");
-                UI.switchAuthTab('center-apply');
             },
 
             /* ================= SEARCH & MARKETPLACE ================= */
@@ -1530,11 +1617,6 @@
 
             /* ================= CENTER APPLICATION & SUPER ADMIN CREDENTIAL CREATION ================= */
             submitCenterApplication: async () => {
-                if (!App.state.linkedGoogleAccount || !App.state.linkedGoogleAccount.email) {
-                    UI.toast("Avval 1-qadamda haqiqiy Google (Gmail) akkauntingizni ulang!", "error");
-                    return App.openRealGoogleModal('link-center');
-                }
-
                 const logoFile = $('app-center-logo').files[0];
                 const photoFile = $('app-center-photo').files[0];
                 if (!logoFile || !photoFile) return UI.toast("Markaz logotipi va bino rasmini yuklash shart!", "error");
@@ -1548,6 +1630,15 @@
                 const tgInput = $('app-center-tg').value.trim();
                 const tgWebAppUser = Utils.getTelegramWebAppUser();
 
+                // Automatically link Google account based on selection or center profile (zero email typing needed!)
+                const googleAcc = App.state.linkedGoogleAccount || {
+                    name: nomi,
+                    email: Utils.makeEmailSlug(nomi),
+                    avatar: logo
+                };
+                googleAcc.avatar = logo || googleAcc.avatar;
+                App.applyGoogleAccountToUI(googleAcc);
+
                 const appId = Date.now();
                 const suggestedLogin = Utils.makeLoginSlug(nomi);
                 const suggestedPass = String(Math.floor(100000 + Math.random() * 900000));
@@ -1558,8 +1649,8 @@
                     kategoriya: $('app-center-cat').value,
                     manzil: $('app-center-address').value.trim(),
                     tel: $('app-center-phone').value.trim(),
-                    email: App.state.linkedGoogleAccount.email,
-                    googleName: App.state.linkedGoogleAccount.name,
+                    email: googleAcc.email,
+                    googleName: googleAcc.name,
                     tg: tgInput,
                     chatId: tgWebAppUser?.id || (/^\d+$/.test(tgInput) ? tgInput : null),
                     fanSoni: Number($('app-center-count').value),
@@ -1573,7 +1664,7 @@
                     messages: [
                         {
                             sender: 'system',
-                            text: `Assalomu alaykum! "${nomi}" o'quv markazi anketangiz va haqiqiy Google hisobingiz (${App.state.linkedGoogleAccount.email}) Super Adminga yuborildi.\n\nSuper Admin anketani ko'rib chiqib, markazingiz nomiga mos Login va Parolni shu chatga hamda Telegramingizga (${tgInput}) yuboradi.`,
+                            text: `Assalomu alaykum! "${nomi}" o'quv markazi anketangiz qabul qilindi va Google hisobingizga (${googleAcc.name}) biriktirildi.\n\nEndi saytga qayta kirganingizda "Google akkauntni tanlab kirish" tugmasini bosib, o'z markazingiz ustiga 1 marta bosish orqali qiynalmasdan kira olasiz!`,
                             time: Utils.timeNow()
                         }
                     ]
@@ -1583,11 +1674,19 @@
                 App.db.applications.unshift(appObj);
                 await App.saveDatabase();
 
-                // Notify Super Admin via Telegram Bot if Super Admin linked their Telegram ID!
+                localStorage.setItem(ENV.DEVICE_GOOGLE_KEY, JSON.stringify({
+                    name: nomi,
+                    email: googleAcc.email,
+                    avatar: logo,
+                    badge: 'Mening Markazim',
+                    appId: appId
+                }));
+
+                // Notify Super Admin via Telegram Bot if linked
                 if (App.db.settings?.saChatId) {
                     await Utils.sendTelegramMessage(
                         App.db.settings.saChatId,
-                        `🔔 <b>YANGI MARKAZ ANKETASI TUSHDI!</b>\n\n🏢 <b>Markaz:</b> ${appObj.nomi}\n📍 <b>Manzil:</b> ${appObj.manzil}\n📞 <b>Tel:</b> ${appObj.tel}\n📧 <b>Real Google:</b> ${appObj.email}\n✈️ <b>Telegram:</b> ${appObj.tg}\n📚 <b>Fanlar (${appObj.fanSoni} ta):</b> ${appObj.fanlar.join(', ')}\n\n👉 Super Admin panelga kirib, Login va Parolni tasdiqlab yuboring!`
+                        `🔔 <b>YANGI MARKAZ ANKETASI TUSHDI!</b>\n\n🏢 <b>Markaz:</b> ${appObj.nomi}\n📍 <b>Manzil:</b> ${appObj.manzil}\n📞 <b>Tel:</b> ${appObj.tel}\n✈️ <b>Telegram:</b> ${appObj.tg}\n📚 <b>Fanlar (${appObj.fanSoni} ta):</b> ${appObj.fanlar.join(', ')}\n\n👉 Super Admin panelga kirib, Login va Parolni tasdiqlab yuboring!`
                     );
                 }
 
@@ -1595,7 +1694,7 @@
                 localStorage.setItem(ENV.APPLICANT_ID_KEY, String(appId));
                 $('existing-applicant-banner')?.classList.remove('hidden');
 
-                UI.toast("Anketangiz Super Adminga yuborildi!");
+                UI.toast("Anketa yuborildi va Google hisobingizga biriktirildi!");
                 App.openApplicantChatRoom();
             },
 
@@ -1616,7 +1715,7 @@
                     return;
                 }
 
-                $('app-chat-center-title').innerText = `${target.nomi} • Google: ${target.email || '-'} • TG: ${target.tg || '-'}`;
+                $('app-chat-center-title').innerText = `${target.nomi} • TG: ${target.tg || '-'}`;
 
                 if (approvedCenter) {
                     $('app-chat-status-badge').innerText = '✅ Tasdiqlandi';
@@ -1756,7 +1855,7 @@
                                     <div class="overflow-hidden space-y-0.5">
                                         <h4 class="font-bold text-base text-slate-900 dark:text-white truncate">${a.nomi}</h4>
                                         <p class="text-xs text-slate-500 font-mono">${a.tel} • ${a.manzil}</p>
-                                        <p class="text-xs text-emerald-600 font-mono truncate"><b>Real Google:</b> ${a.email}</p>
+                                        <p class="text-xs text-emerald-600 font-mono truncate"><b>Google Hisob:</b> ${a.email}</p>
                                         <p class="text-xs text-sky-500 font-mono truncate"><b>Telegram:</b> ${a.tg}</p>
                                     </div>
                                 </div>
@@ -1827,7 +1926,7 @@
                 if (!target) return;
 
                 $('sa-chat-title').innerText = `${target.nomi} — Jonli Chat`;
-                $('sa-chat-subtitle').innerText = `Tel: ${target.tel} | TG: ${target.tg || '-'} | Real Google: ${target.email || '-'}`;
+                $('sa-chat-subtitle').innerText = `Tel: ${target.tel} | TG: ${target.tg || '-'} | Google: ${target.email || '-'}`;
 
                 if (type === 'app') {
                     $('sa-chat-approve-bar').classList.remove('hidden');
@@ -1869,7 +1968,7 @@
                 if (idx === -1) return null;
 
                 const a = App.db.applications[idx];
-                const approvalMsg = `🎉 TABRIKLAYMIZ! "${a.nomi}" markazingiz Super Admin tomonidan tasdiqlandi!\n\n🔐 Markaz Logini: ${login}\n🔑 Markaz Paroli: ${parol}\n📧 Ulangan Google hisob: ${a.email}\n\nHoziroq tepada chiqqan "Markaz Hisobiga Kirish" tugmasini bosib yoki Login/Parol orqali o'z admin panelingizga kirishingiz mumkin!`;
+                const approvalMsg = `🎉 TABRIKLAYMIZ! "${a.nomi}" markazingiz Super Admin tomonidan tasdiqlandi!\n\n🔐 Markaz Logini: ${login}\n🔑 Markaz Paroli: ${parol}\n✅ Shuningdek, "Google akkauntni tanlab kirish" oynasidan o'z markazingiz ustiga 1 marta bosib, login-parol yozmasdan ham kira olasiz!`;
 
                 const messages = a.messages || [];
                 messages.push({ sender: 'admin', text: approvalMsg, time: Utils.timeNow() });
@@ -1881,7 +1980,7 @@
                     kategoriya: a.kategoriya,
                     manzil: a.manzil,
                     tel: a.tel,
-                    email: a.email || '',
+                    email: a.email || Utils.makeEmailSlug(a.nomi),
                     tg: a.tg || '',
                     chatId: a.chatId || (/^\d+$/.test(a.tg || '') ? a.tg : null),
                     fanSoni: a.fanSoni,
@@ -1901,12 +2000,10 @@
                 await App.saveDatabase();
                 App.renderSuperAdmin();
 
-                // 1. Send via Telegram Bot if chatId is known
                 if (newCenter.chatId) {
                     await Utils.sendTelegramMessage(newCenter.chatId, `<b>${approvalMsg}</b>`);
                 }
 
-                // 2. Copy credentials to clipboard so Super Admin can also paste anywhere
                 try {
                     await navigator.clipboard.writeText(approvalMsg);
                 } catch (e) {}
@@ -1916,7 +2013,7 @@
             },
 
             sendCredentialsViaTelegramLink: (nomi, tg, login, parol) => {
-                const text = `🎉 Assalomu alaykum! "${nomi}" o'quv markazingiz Everest Education platformasida tasdiqlandi!\n\n🔐 Login: ${login}\n🔑 Parol: ${parol}\n🌐 Saytga yoki @${ENV.TELEGRAM_BOT_USERNAME} ga kirib shu login-parol bilan boshqarishingiz mumkin.`;
+                const text = `🎉 Assalomu alaykum! "${nomi}" o'quv markazingiz Everest Education platformasida tasdiqlandi!\n\n🔐 Login: ${login}\n🔑 Parol: ${parol}\n🌐 Saytga kirib Google hisobingizni tanlab 1-bosishda yoki shu login-parol bilan boshqarishingiz mumkin.`;
                 const cleanTg = String(tg || '').replace('@', '').trim();
                 if (cleanTg && !/^\d+$/.test(cleanTg)) {
                     window.open(`https://t.me/${cleanTg}?text=${encodeURIComponent(text)}`, '_blank');
@@ -2005,7 +2102,6 @@
                             }
                         });
 
-                        // Check Super Admin TG username if set as @username
                         if (App.db.settings?.saChatId) {
                             const saKey = String(App.db.settings.saChatId).replace('@', '').trim().toLowerCase();
                             if (userMap[saKey] && App.db.settings.saChatId !== userMap[saKey]) {
@@ -2062,7 +2158,7 @@
                             kategoriya: "IT",
                             manzil: "Qarshi sh., Mustaqillik shoh ko'chasi 12-uy",
                             tel: "+998 (90) 123-45-67",
-                            email: "",
+                            email: "everest.academy@gmail.com",
                             tg: "@everest_admin",
                             chatId: null,
                             login: "apex_admin",
@@ -2085,7 +2181,7 @@
                                     ism: "Alisher Valiyev",
                                     fan: "Frontend React",
                                     tel: "+998 (90) 999-88-77",
-                                    email: "",
+                                    email: "alisher@gmail.com",
                                     tg: "",
                                     login: "alisher",
                                     parol: "12345",
@@ -2101,7 +2197,7 @@
                                     ism: "Sardor Raximov",
                                     fan: "Frontend React",
                                     tel: "+998 (93) 111-22-33",
-                                    email: "",
+                                    email: "sardor@gmail.com",
                                     login: "sardor",
                                     parol: "12345",
                                     rasm: "https://ui-avatars.com/api/?name=Sardor+R&background=2563eb&color=fff"
@@ -2177,7 +2273,7 @@
                 const tel = $('reg-user-phone').value.trim();
                 const login = $('reg-user-login').value.trim().toLowerCase();
                 const parol = $('reg-user-pass').value.trim();
-                const email = App.state.linkedGoogleAccount?.email || '';
+                const email = App.state.linkedGoogleAccount?.email || Utils.makeEmailSlug(ism);
 
                 if (App.isLoginTaken(login)) return UI.toast("Bu login band! Boshqa login yozing.", "error");
                 const center = (App.db.centers || []).find(x => x.id === cid);
@@ -2185,6 +2281,14 @@
 
                 const rasm = await Utils.toBase64(file);
                 const tgWebAppUser = Utils.getTelegramWebAppUser();
+
+                localStorage.setItem(ENV.DEVICE_GOOGLE_KEY, JSON.stringify({
+                    name: ism,
+                    email: email,
+                    avatar: rasm,
+                    login: login,
+                    pass: parol
+                }));
 
                 if (App.state.regRole === 'oquvchi') {
                     const student = {
@@ -2455,7 +2559,6 @@
                 if (!file) return UI.toast("O'quvchi rasmini tanlang!", "error");
                 const ism = $('mas-name').value.trim();
                 const fan = $('mas-subject').value.trim();
-                const email = ($('mas-email').value || '').trim().toLowerCase();
                 const rawTg = ($('mas-chatid').value || '').trim();
                 const login = $('mas-login').value.trim().toLowerCase();
                 const parol = $('mas-pass').value.trim();
@@ -2466,7 +2569,7 @@
                 const rasm = await Utils.toBase64(file);
                 const chatId = /^\d+$/.test(rawTg) ? rawTg : null;
                 App.activeCenter.oquvchilar.unshift({
-                    ism, fan, email, tg: rawTg, chatId, login, parol, rasm,
+                    ism, fan, email: Utils.makeEmailSlug(ism), tg: rawTg, chatId, login, parol, rasm,
                     ball: 10, davomat: 'keldi', tolov: 'kutilmoqda'
                 });
                 await App.saveDatabase();
@@ -2483,7 +2586,6 @@
                 const ism = $('mat-name').value.trim();
                 const fan = $('mat-subject').value.trim();
                 const tel = $('mat-phone').value.trim();
-                const email = ($('mat-email').value || '').trim().toLowerCase();
                 const login = $('mat-login').value.trim().toLowerCase();
                 const parol = $('mat-pass').value.trim();
 
@@ -2491,7 +2593,7 @@
                 if (App.isLoginTaken(login)) return UI.toast("Bu login band!", "error");
 
                 const rasm = await Utils.toBase64(file);
-                App.activeCenter.ustozlar.unshift({ ism, fan, tel, email, login, parol, rasm });
+                App.activeCenter.ustozlar.unshift({ ism, fan, tel, email: Utils.makeEmailSlug(ism), login, parol, rasm });
                 await App.saveDatabase();
                 UI.closeModal('modal-add-teacher');
                 App.renderMarkazAdmin();

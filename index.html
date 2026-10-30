@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Everest Education — O'quv Markazlari va CRM Platformasi</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -20,33 +21,34 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap');
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
         .dark body { background-color: #0b0f19; color: #f1f5f9; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
         .card-clean {
             background: #ffffff;
             border: 1px solid #e2e8f0;
             border-radius: 16px;
-            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04);
+            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
             transition: all 0.2s ease;
         }
         .dark .card-clean {
             background: #111827;
             border: 1px solid #1f2937;
-            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.35);
         }
         .card-hover:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 28px -4px rgba(15, 23, 42, 0.08);
+            transform: translateY(-4px);
+            box-shadow: 0 14px 30px -4px rgba(16, 185, 129, 0.12);
             border-color: #10b981;
         }
         .glass-nav {
-            background: rgba(255, 255, 255, 0.88);
-            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.90);
+            backdrop-filter: blur(14px);
             border-bottom: 1px solid #e2e8f0;
         }
         .dark .glass-nav {
-            background: rgba(17, 24, 39, 0.88);
+            background: rgba(17, 24, 39, 0.90);
             border-bottom: 1px solid #1f2937;
         }
         .input-clean {
@@ -105,11 +107,11 @@
                 </div>
                 <div>
                     <span class="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white block leading-none">Everest</span>
-                    <span class="text-[11px] text-slate-500 font-medium">Ta'lim platformasi</span>
+                    <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">Ta'lim Platformasi</span>
                 </div>
             </div>
 
-            <!-- HEADER QUICK SEARCH -->
+            <!-- HEADER SEARCH -->
             <div class="hidden md:flex items-center flex-1 max-w-md relative">
                 <i class="fa-solid fa-magnifying-glass text-slate-400 text-xs absolute left-3.5"></i>
                 <input type="text" id="header-search" oninput="App.handleSearch(this.value)" placeholder="Markaz, fan yoki manzil bo'yicha qidiruv..." class="input-clean pl-9 pr-8 py-2 text-xs">
@@ -119,7 +121,7 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <button onclick="App.syncAndRefresh()" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="Yangilash">
+                <button onclick="App.syncAndRefresh()" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="Bazani yangilash">
                     <i id="sync-icon" class="fa-solid fa-rotate text-xs"></i>
                 </button>
                 <button onclick="UI.toggleTheme()" class="w-9 h-9 rounded-lg border border-slate-200 dark:border-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition" title="Mavzuni o'zgartirish">
@@ -140,18 +142,18 @@
     <!-- ================================================================= -->
     <main id="page-market" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-10">
 
-        <!-- HERO BANNER (CLEAN EDTECH STYLE) -->
+        <!-- HERO BANNER -->
         <section class="card-clean p-6 sm:p-10 bg-gradient-to-br from-emerald-900 via-slate-900 to-slate-950 text-white border-0 relative overflow-hidden">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
                 <div class="lg:col-span-7 space-y-5">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
-                        <i class="fa-solid fa-circle-check"></i> O'zbekiston o'quv markazlari yagona tizimi
+                        <i class="fa-solid fa-shield-check"></i> Tasdiqlangan O'quv Markazlar Yagona Tizimi
                     </div>
                     <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
-                        O'zingizga mos o'quv markazni toping va onlayn yoziling
+                        O'zingizga mos o'quv markazni tanlang va bilim oling
                     </h1>
                     <p class="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed">
-                        Tasdiqlangan o'quv markazlari, dars jadvallari, ota-onalar uchun Telegram bot orqali davomat nazorati hamda o'quvchilar reytingi.
+                        O'quv markazlarning real sharoitlari, dars jadvallari, ota-onalar uchun Telegram bot orqali davomat nazorati va o'quvchilar reytingi.
                     </p>
 
                     <!-- MAIN SEARCH BAR -->
@@ -168,9 +170,9 @@
                         </button>
                     </div>
 
-                    <!-- QUICK TAGS -->
+                    <!-- QUICK FILTER TAGS -->
                     <div class="flex flex-wrap items-center gap-2 text-xs pt-1">
-                        <span class="text-slate-400">Mashhur yo'nalishlar:</span>
+                        <span class="text-slate-400">Tezkor qidiruv:</span>
                         <button onclick="App.handleSearch('IELTS')" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition">🇬🇧 IELTS</button>
                         <button onclick="App.handleSearch('Frontend')" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition">💻 Frontend</button>
                         <button onclick="App.handleSearch('Matematika')" class="px-2.5 py-1 rounded-md bg-white/10 hover:bg-white/20 transition">📐 Matematika</button>
@@ -178,7 +180,7 @@
                     </div>
                 </div>
 
-                <!-- RIGHT SUMMARY STATS CARD -->
+                <!-- STATS CARDS -->
                 <div class="lg:col-span-5 grid grid-cols-2 gap-3.5">
                     <div class="bg-white/10 backdrop-blur-md border border-white/10 p-5 rounded-2xl">
                         <div class="w-9 h-9 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3"><i class="fa-solid fa-building-columns"></i></div>
@@ -196,9 +198,9 @@
                         <p class="text-xs text-slate-300 mt-0.5">Malakali ustozlar</p>
                     </div>
                     <div class="bg-white/10 backdrop-blur-md border border-white/10 p-5 rounded-2xl cursor-pointer hover:bg-white/15 transition" onclick="Router.navigate('/auth'); UI.switchAuthTab('center-apply');">
-                        <div class="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center mb-3"><i class="fa-solid fa-comments"></i></div>
-                        <p class="text-sm font-bold">Markaz ulash</p>
-                        <p class="text-[11px] text-emerald-300 mt-0.5">Anketa va Admin Chat →</p>
+                        <div class="w-9 h-9 rounded-lg bg-purple-500/20 text-purple-300 flex items-center justify-center mb-3"><i class="fa-solid fa-plus"></i></div>
+                        <p class="text-sm font-bold">Markaz ochish</p>
+                        <p class="text-[11px] text-emerald-300 mt-0.5">Anketa topshirish →</p>
                     </div>
                 </div>
             </div>
@@ -209,7 +211,7 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div>
                     <h2 class="text-xl font-bold text-slate-900 dark:text-white">O'quv markazlari katalogi</h2>
-                    <p id="search-result-label" class="text-xs text-slate-500 mt-0.5">Tekshiruvdan o'tgan barcha markazlar</p>
+                    <p id="search-result-label" class="text-xs text-slate-500 mt-0.5">Super Admin tekshiruvidan o'tgan markazlar</p>
                 </div>
                 <div class="flex flex-wrap gap-1.5">
                     <button onclick="App.setCategory('barchasi')" id="cat-barchasi" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 text-white text-xs font-semibold">Barchasi</button>
@@ -222,32 +224,32 @@
             <div id="marketplace-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
 
-        <!-- ANNOUNCEMENTS & GRANTS -->
+        <!-- ANNOUNCEMENTS -->
         <section class="space-y-4 pb-8">
             <div class="border-b border-slate-200 dark:border-slate-800 pb-3">
-                <h2 class="text-xl font-bold text-slate-900 dark:text-white">So'nggi e'lonlar, yangi guruhlar va grantlar</h2>
-                <p class="text-xs text-slate-500">Markaz ma'muriyatlari tomonidan joylangan yangiliklar</p>
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white">So'nggi e'lonlar va grantlar</h2>
+                <p class="text-xs text-slate-500">Markazlar tomonidan e'lon qilingan yangiliklar</p>
             </div>
             <div id="global-news-grid" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
         </section>
     </main>
 
     <!-- ================================================================= -->
-    <!-- PAGE 2: SIMPLE & CLEAR AUTHENTICATION + CENTER ANKETA (/auth)     -->
+    <!-- PAGE 2: AUTHENTICATION & CENTER APPLICATION (/auth)               -->
     <!-- ================================================================= -->
     <section id="page-auth" class="hidden flex-1 flex items-center justify-center p-4 py-8">
         <div class="card-clean p-6 sm:p-8 w-full max-w-lg space-y-6">
             <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div>
-                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Everest Tizimi</h2>
-                    <p class="text-xs text-slate-500">O'zingizga kerakli bo'limni tanlang</p>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Shaxsiy Kabinet va Ro'yxatdan O'tish</h2>
+                    <p class="text-xs text-slate-500">Kerakli bo'limni tanlang</p>
                 </div>
-                <button onclick="Router.navigate('/market')" class="text-slate-400 hover:text-slate-600 text-sm px-2 py-1">
-                    <i class="fa-solid fa-arrow-left mr-1"></i> Orqaga
+                <button onclick="Router.navigate('/market')" class="text-slate-400 hover:text-slate-600 text-xs font-semibold px-2 py-1">
+                    <i class="fa-solid fa-arrow-left mr-1"></i> Asosiyga
                 </button>
             </div>
 
-            <!-- 3 CLEAR TABS -->
+            <!-- 3 TABS -->
             <div class="grid grid-cols-3 gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-semibold text-center">
                 <button type="button" onclick="UI.switchAuthTab('login')" id="atab-login" class="py-2.5 rounded-lg bg-white dark:bg-slate-900 text-emerald-600 shadow-sm">
                     1. Kirish
@@ -256,21 +258,21 @@
                     2. O'quvchi / Ustoz
                 </button>
                 <button type="button" onclick="UI.switchAuthTab('center-apply')" id="atab-center-apply" class="py-2.5 rounded-lg text-slate-600 dark:text-slate-400">
-                    3. Markaz Ochish
+                    3. Markaz Anketasi
                 </button>
             </div>
 
-            <!-- TAB 1: LOGIN (1-CLICK GOOGLE OR LOGIN/PASS) -->
+            <!-- TAB 1: LOGIN -->
             <div id="abox-login" class="space-y-4">
-                <!-- 1-CLICK GOOGLE SIGN IN BUTTON -->
-                <button type="button" onclick="App.startOneClickGoogle('login')" class="w-full py-3 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/70 flex items-center justify-center gap-3 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition">
+                <!-- REAL GOOGLE SIGN IN BUTTON -->
+                <button type="button" onclick="App.openRealGoogleModal('login')" class="w-full py-3 px-4 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/70 flex items-center justify-center gap-3 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-sm transition">
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google">
-                    <span>Google akkaunt orqali 1-bosishda kirish</span>
+                    <span id="login-google-btn-text">Google akkaunt orqali kirish</span>
                 </button>
 
                 <div class="relative flex py-1 items-center">
                     <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
-                    <span class="flex-shrink mx-3 text-[11px] text-slate-400">yoki login va parol orqali</span>
+                    <span class="flex-shrink mx-3 text-[11px] text-slate-400">yoki Super Admin / Markaz bergan Login bilan</span>
                     <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
                 </div>
 
@@ -281,22 +283,22 @@
 
                 <form onsubmit="event.preventDefault(); App.login();" class="space-y-3">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Login</label>
-                        <input type="text" id="login-id" placeholder="Loginingizni kiriting" class="input-clean" required>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Login (yoki Gmail)</label>
+                        <input type="text" id="login-id" placeholder="Masalan: grant_edu" class="input-clean font-mono" required>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Parol</label>
-                        <input type="password" id="login-pw" placeholder="Parolingizni kiriting" class="input-clean" required>
+                        <input type="password" id="login-pw" placeholder="••••••••" class="input-clean" required>
                     </div>
                     <button type="submit" id="btn-submit-login" class="w-full btn-primary py-3 text-sm">
-                        Tizimga kirish
+                        Hisobga kirish
                     </button>
                 </form>
 
-                <!-- IF CENTER ALREADY APPLIED, QUICK BUTTON TO OPEN THEIR SUPER ADMIN CHAT -->
+                <!-- IF CENTER SUBMITTED ANKETA, DIRECT BUTTON TO CHECK STATUS & SUPER ADMIN CHAT -->
                 <div id="existing-applicant-banner" class="hidden pt-2 border-t border-slate-200 dark:border-slate-800">
                     <button type="button" onclick="App.openApplicantChatRoom()" class="w-full py-2.5 px-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-comments"></i> Topshirgan anketangiz va Super Admin Chatini ochish
+                        <i class="fa-solid fa-comments"></i> Yuborilgan Anketa holati va Login/Parolni ko'rish
                     </button>
                 </div>
             </div>
@@ -308,17 +310,17 @@
                     <button type="button" onclick="UI.switchRegRole('ustoz')" id="reg-role-ustoz" class="py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">👨‍🏫 Ustozman</button>
                 </div>
 
-                <!-- 1-CLICK GOOGLE LINK FOR STUDENT/TEACHER -->
+                <!-- REAL GOOGLE LINK FOR STUDENT/TEACHER -->
                 <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
                     <div class="flex items-center gap-2.5 overflow-hidden">
-                        <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5 shrink-0">
+                        <img id="reg-user-google-avatar" src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-6 h-6 rounded-full shrink-0">
                         <div class="truncate">
                             <p id="reg-user-google-label" class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">Google akkaunt ulanmagan</p>
-                            <p class="text-[11px] text-slate-500">Parolsiz 1-bosishda kirish uchun ulang</p>
+                            <p id="reg-user-google-sub" class="text-[11px] text-slate-500 truncate">Real Gmail pochtangizni ulang</p>
                         </div>
                     </div>
-                    <button type="button" onclick="App.startOneClickGoogle('link-user')" class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-semibold shrink-0 hover:border-emerald-500">
-                        Ulash
+                    <button type="button" onclick="App.openRealGoogleModal('link-user')" class="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-xs font-semibold shrink-0 hover:border-emerald-500">
+                        Google Ulash
                     </button>
                 </div>
 
@@ -328,7 +330,7 @@
                         <select id="reg-user-center" class="input-clean" required></select>
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Profilingiz uchun rasm yuklang *</label>
+                        <label class="block text-xs font-semibold text-slate-600 dark:text-slate-400 mb-1">Shaxsiy rasm yuklang (Majburiy) *</label>
                         <input type="file" id="reg-user-photo" accept="image/*" class="input-clean p-1.5 text-xs" required>
                     </div>
                     <input type="text" id="reg-user-name" placeholder="Ism va familiyangiz (F.I.SH) *" class="input-clean" required>
@@ -337,30 +339,30 @@
                         <input type="text" id="reg-user-phone" oninput="Utils.strictPhone(this)" placeholder="+998 (__) ___-__-__ *" class="input-clean font-mono" required>
                     </div>
                     <div class="grid grid-cols-2 gap-2.5">
-                        <input type="text" id="reg-user-login" placeholder="Login o'ylab toping *" class="input-clean font-mono" required>
-                        <input type="password" id="reg-user-pass" placeholder="Parol *" class="input-clean" required>
+                        <input type="text" id="reg-user-login" placeholder="Yangi Login *" class="input-clean font-mono" required>
+                        <input type="password" id="reg-user-pass" placeholder="Yangi Parol *" class="input-clean" required>
                     </div>
                     <button type="submit" class="w-full btn-primary py-3 text-sm">Ro'yxatdan o'tish va kirish</button>
                 </form>
             </div>
 
-            <!-- TAB 3: CENTER APPLICATION (ANKETA + GOOGLE LINK -> LIVE CHAT WITH SUPER ADMIN) -->
+            <!-- TAB 3: CENTER APPLICATION (ANKETA -> SUPER ADMIN CREATES LOGIN/PASS) -->
             <div id="abox-center-apply" class="hidden space-y-4">
                 <div class="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs text-emerald-800 dark:text-emerald-300 space-y-1">
-                    <p class="font-bold"><i class="fa-solid fa-headset mr-1"></i> Qanday ishlaydi?</p>
-                    <p class="leading-relaxed">1. Google akkauntingizni ulang va markaz anketasini to'ldiring.<br>2. Tugmani bosishingiz bilan <b>Super Admin bilan Jonli Chat</b> ochiladi va markazingiz tasdiqlanadi!</p>
+                    <p class="font-bold"><i class="fa-solid fa-circle-info mr-1"></i> Markaz ochish tartibi:</p>
+                    <p class="leading-relaxed">1. Real Google akkauntingizni ulang va markaz anketasini to'ldiring.<br>2. Anketa Super Adminga boradi. Super Admin tekshirib, markaz nomiga mos <b>Login va Parol</b> yaratib sizga (Chat va Telegram orqali) tashlab beradi!</p>
                 </div>
 
-                <!-- STEP 1: 1-CLICK GOOGLE ACCOUNT LINK -->
+                <!-- STEP 1: REAL GOOGLE ACCOUNT LINK -->
                 <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 flex items-center justify-between gap-3">
                     <div class="flex items-center gap-3 overflow-hidden">
                         <img id="app-google-avatar" src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-7 h-7 rounded-full shrink-0">
                         <div class="truncate">
-                            <p id="app-google-status" class="text-xs font-bold text-slate-900 dark:text-white truncate">1-qadam: Google akkauntni ulang *</p>
-                            <p id="app-google-email-text" class="text-[11px] text-slate-500 truncate">Keyinchalik 1-bosishda parolsiz kirasiz</p>
+                            <p id="app-google-status" class="text-xs font-bold text-slate-900 dark:text-white truncate">Google akkaunt ulanmagan *</p>
+                            <p id="app-google-email-text" class="text-[11px] text-slate-500 truncate">Haqiqiy Gmail pochtangizni ulang</p>
                         </div>
                     </div>
-                    <button type="button" onclick="App.startOneClickGoogle('link-center')" class="px-3.5 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-xs font-bold text-emerald-600 shrink-0 shadow-sm hover:border-emerald-500">
+                    <button type="button" onclick="App.openRealGoogleModal('link-center')" class="px-3.5 py-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 text-xs font-bold text-emerald-600 shrink-0 shadow-sm hover:border-emerald-500">
                         <i class="fa-brands fa-google mr-1"></i> Google Ulash
                     </button>
                 </div>
@@ -369,11 +371,11 @@
                 <form onsubmit="event.preventDefault(); App.submitCenterApplication();" class="space-y-3 max-h-[52vh] overflow-y-auto custom-scroll pr-1">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                         <div>
-                            <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Markaz Logotipi (Rasm) *</label>
+                            <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Markaz Logotipi (Majburiy) *</label>
                             <input type="file" id="app-center-logo" accept="image/*" class="input-clean p-1.5 text-xs" required>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Markaz Binosi Rasmi *</label>
+                            <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400 mb-1">Markaz Binosi Rasmi (Majburiy) *</label>
                             <input type="file" id="app-center-photo" accept="image/*" class="input-clean p-1.5 text-xs" required>
                         </div>
                     </div>
@@ -390,13 +392,13 @@
                         <input type="text" id="app-center-phone" oninput="Utils.strictPhone(this)" placeholder="+998 (__) ___-__-__ *" class="input-clean font-mono" required>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                        <input type="text" id="app-center-tg" placeholder="Telegram @username yoki raqam *" class="input-clean" required>
+                        <input type="text" id="app-center-tg" placeholder="Telegram @username yoki raqam *" class="input-clean font-mono" required>
                         <input type="number" id="app-center-count" min="1" max="50" placeholder="Nechta fan o'tiladi? (Masalan: 5) *" class="input-clean" required>
                     </div>
                     <input type="text" id="app-center-subjects" placeholder="Fanlar ro'yxati (IELTS, Matematika, IT) *" class="input-clean" required>
                     <textarea id="app-center-conditions" rows="2" placeholder="Markaz sharoitlari haqida (Xonalar, kompyuterlar, Wi-Fi...) *" class="input-clean" required></textarea>
                     <button type="submit" class="w-full btn-primary py-3 text-sm flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-comments"></i> <span>Anketani Yuborish va Super Admin Chatga O'tish</span>
+                        <i class="fa-solid fa-paper-plane"></i> <span>Anketani Super Adminga Yuborish</span>
                     </button>
                 </form>
             </div>
@@ -408,13 +410,12 @@
     <!-- ================================================================= -->
     <section id="page-applicant-chat" class="hidden flex-1 max-w-3xl w-full mx-auto px-4 py-8">
         <div class="card-clean overflow-hidden flex flex-col h-[78vh]">
-            <!-- CHAT HEADER -->
             <div class="p-4 sm:p-5 bg-slate-900 text-white flex flex-wrap justify-between items-center gap-3">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-lg"><i class="fa-solid fa-user-shield"></i></div>
                     <div>
                         <div class="flex items-center gap-2">
-                            <h2 class="font-bold text-sm sm:text-base">Super Admin bilan Muloqot</h2>
+                            <h2 class="font-bold text-sm sm:text-base">Super Admin bilan Muloqot va Login Olish</h2>
                             <span id="app-chat-status-badge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-slate-950">Tekshirilmoqda</span>
                         </div>
                         <p id="app-chat-center-title" class="text-xs text-slate-300">Markaz anketasi</p>
@@ -422,25 +423,25 @@
                 </div>
                 <div class="flex items-center gap-2">
                     <button id="app-chat-enter-cabinet-btn" onclick="App.enterApprovedCenterFromChat()" class="hidden px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs transition">
-                        <i class="fa-solid fa-door-open mr-1"></i> Admin Panelga Kirish
+                        <i class="fa-solid fa-door-open mr-1"></i> Hisobga Kirish (Admin Panel)
                     </button>
                     <button onclick="Router.navigate('/market')" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs">Yopish</button>
                 </div>
             </div>
 
-            <!-- CREDENTIALS DISPLAY BANNER (APPEARS IMMEDIATELY WHEN SUPER ADMIN APPROVES) -->
-            <div id="app-chat-credentials-box" class="hidden p-3.5 bg-emerald-50 dark:bg-emerald-950/60 border-b border-emerald-200 dark:border-emerald-800 flex flex-wrap justify-between items-center gap-3 text-xs">
-                <div>
-                    <span class="font-bold text-emerald-700 dark:text-emerald-300">🎉 Markazingiz tasdiqlandi!</span>
-                    <span id="app-chat-creds-text" class="ml-2 font-mono font-bold text-slate-800 dark:text-white"></span>
+            <!-- CREDENTIALS DISPLAY BANNER (SHOWS LOGIN & PASSWORD GIVEN BY SUPER ADMIN) -->
+            <div id="app-chat-credentials-box" class="hidden p-4 bg-emerald-50 dark:bg-emerald-950/70 border-b border-emerald-200 dark:border-emerald-800 flex flex-wrap justify-between items-center gap-3 text-xs">
+                <div class="space-y-1">
+                    <p class="font-bold text-emerald-700 dark:text-emerald-300 text-sm">🎉 Super Admin markazingizni tasdiqladi va Login/Parol berdi:</p>
+                    <p id="app-chat-creds-text" class="font-mono font-bold text-sm text-slate-900 dark:text-white bg-white dark:bg-slate-900 px-3 py-1.5 rounded-lg border inline-block"></p>
                 </div>
-                <button onclick="App.enterApprovedCenterFromChat()" class="btn-primary px-3.5 py-1.5 text-xs">Kabinetga o'tish →</button>
+                <button onclick="App.enterApprovedCenterFromChat()" class="btn-primary px-4 py-2.5 text-xs font-bold shadow-md">
+                    Markaz Hisobiga Kirish →
+                </button>
             </div>
 
-            <!-- MESSAGES STREAM -->
             <div id="applicant-chat-messages" class="flex-1 p-4 sm:p-6 overflow-y-auto custom-scroll space-y-3 bg-slate-50 dark:bg-slate-950"></div>
 
-            <!-- CHAT INPUT -->
             <form onsubmit="event.preventDefault(); App.sendApplicantMessage();" class="p-3.5 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex gap-2">
                 <input type="text" id="applicant-chat-input" placeholder="Super Adminga xabar yozing..." class="input-clean flex-1" required>
                 <button type="submit" class="btn-primary px-5 py-2.5 text-xs flex items-center gap-1.5">
@@ -456,10 +457,15 @@
     <section id="page-super-admin" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
         <div class="card-clean p-5 flex flex-wrap justify-between items-center gap-4 border-l-4 border-l-rose-600">
             <div>
-                <h1 class="text-xl font-bold text-slate-900 dark:text-white">Super Admin Boshqaruv Paneli</h1>
-                <p class="text-xs text-slate-500">Markaz anketalarini tekshirish, Jonli Chat orqali muloqot va tasdiqlash</p>
+                <h1 class="text-xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-shield-cat text-rose-600"></i> Super Admin Boshqaruv Paneli
+                </h1>
+                <p class="text-xs text-slate-500">Yangi markaz anketalarini tekshirish, markaz nomiga mos Login/Parol yaratib berish va tizim nazorati</p>
             </div>
-            <div class="flex gap-2">
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="App.setSuperAdminTelegramId()" class="px-3.5 py-2 rounded-lg bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/30 text-xs font-bold">
+                    <i class="fa-brands fa-telegram mr-1"></i> <span id="sa-tg-alert-label">Menga TG Bildirishnoma Ulash</span>
+                </button>
                 <button onclick="App.syncAndRefresh()" class="px-3.5 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold"><i class="fa-solid fa-rotate mr-1"></i> Yangilash</button>
                 <button onclick="App.logout()" class="px-4 py-2 rounded-lg bg-rose-600 text-white font-semibold text-xs">Chiqish</button>
             </div>
@@ -467,27 +473,32 @@
 
         <!-- STATS -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div class="card-clean p-4"><p class="text-xs text-slate-500">Kutilayotgan anketalar</p><p id="sa-stat-apps" class="text-2xl font-extrabold text-amber-500 mt-1">0</p></div>
-            <div class="card-clean p-4"><p class="text-xs text-slate-500">Faol markazlar</p><p id="sa-stat-centers" class="text-2xl font-extrabold text-emerald-600 mt-1">0</p></div>
-            <div class="card-clean p-4"><p class="text-xs text-slate-500">Jami o'quvchilar</p><p id="sa-stat-students" class="text-2xl font-extrabold mt-1">0</p></div>
-            <div class="card-clean p-4"><p class="text-xs text-slate-500">Jami ustozlar</p><p id="sa-stat-teachers" class="text-2xl font-extrabold mt-1">0</p></div>
+            <div class="card-clean p-4 border-l-4 border-l-amber-500"><p class="text-xs text-slate-500">Kutilayotgan anketalar</p><p id="sa-stat-apps" class="text-2xl font-extrabold text-amber-500 mt-1">0</p></div>
+            <div class="card-clean p-4 border-l-4 border-l-emerald-500"><p class="text-xs text-slate-500">Faol markazlar</p><p id="sa-stat-centers" class="text-2xl font-extrabold text-emerald-600 mt-1">0</p></div>
+            <div class="card-clean p-4 border-l-4 border-l-blue-500"><p class="text-xs text-slate-500">Jami o'quvchilar</p><p id="sa-stat-students" class="text-2xl font-extrabold mt-1">0</p></div>
+            <div class="card-clean p-4 border-l-4 border-l-purple-500"><p class="text-xs text-slate-500">Jami ustozlar</p><p id="sa-stat-teachers" class="text-2xl font-extrabold mt-1">0</p></div>
         </div>
 
-        <!-- APPLICATIONS + LIVE CHAT BUTTONS -->
-        <div class="card-clean p-6 space-y-4">
-            <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <i class="fa-solid fa-inbox text-amber-500"></i> Kelib tushgan Markaz Anketalari va Jonli Chat
-            </h2>
-            <div id="sa-applications-list" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
+        <!-- INCOMING APPLICATIONS WITH DIRECT LOGIN/PASSWORD CREATOR -->
+        <div class="card-clean p-6 space-y-5">
+            <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-3">
+                <div>
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-bell text-amber-500"></i> Kelib Tushgan Markaz Anketalari (Tekshirish va Login Berish)
+                    </h2>
+                    <p class="text-xs text-slate-500">Anketani tekshirib, markaz nomiga mos Login va Parolni yozing hamda "Tasdiqlash va Markazga Tashlash" tugmasini bosing</p>
+                </div>
+            </div>
+            <div id="sa-applications-list" class="grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
         </div>
 
         <!-- ACTIVE CENTERS -->
         <div class="card-clean p-6 space-y-4">
-            <h2 class="text-base font-bold text-slate-900 dark:text-white">Faol O'quv Markazlar</h2>
+            <h2 class="text-base font-bold text-slate-900 dark:text-white">Faol O'quv Markazlar va Ularning Login/Parollari</h2>
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs">
                     <thead class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-bold">
-                        <tr><th class="p-3">Markaz</th><th class="p-3">Google / TG / Tel</th><th class="p-3">Login / Parol</th><th class="p-3 text-center">Aloqa / Chat</th><th class="p-3 text-center">O'chirish</th></tr>
+                        <tr><th class="p-3">Markaz</th><th class="p-3">Real Google / TG / Tel</th><th class="p-3">Yaratilgan Login / Parol</th><th class="p-3 text-center">Markazga Yuborish / Chat</th><th class="p-3 text-center">O'chirish</th></tr>
                     </thead>
                     <tbody id="sa-centers-tbody" class="divide-y divide-slate-200 dark:divide-slate-800"></tbody>
                 </table>
@@ -531,7 +542,7 @@
                     <img id="ma-header-logo" src="" class="w-11 h-11 rounded-xl object-cover border border-slate-200">
                     <div class="overflow-hidden">
                         <h2 id="ma-header-name" class="font-bold text-sm text-slate-900 dark:text-white truncate">Markaz</h2>
-                        <p id="ma-header-address" class="text-[11px] text-slate-500 truncate">Manzil</p>
+                        <p id="ma-header-address" class="text-[11px] text-emerald-600 font-medium truncate">Manzil</p>
                     </div>
                 </div>
                 <nav class="space-y-1 text-xs font-semibold">
@@ -565,7 +576,7 @@
                 <div class="flex flex-wrap justify-between items-center gap-3">
                     <div>
                         <h3 class="text-base font-bold text-slate-900 dark:text-white">Kunlik Davomat (<span id="ma-today-date" class="text-emerald-600"></span>)</h3>
-                        <p class="text-xs text-slate-500">"Kelmadi" bosilsa o'quvchining Telegram botiga darhol xabar boradi.</p>
+                        <p class="text-xs text-slate-500">"Kelmadi" bosilsa o'quvchining Telegram botiga darhol ogohlantirish xabari boradi.</p>
                     </div>
                     <div class="flex gap-2">
                         <button onclick="App.syncTelegramBotUpdates(true)" class="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-semibold text-sky-500"><i class="fa-brands fa-telegram mr-1"></i> Bot sinxron</button>
@@ -800,29 +811,49 @@
     <!-- MODALS                                                            -->
     <!-- ================================================================= -->
 
-    <!-- MODAL 1: REALISTIC 1-CLICK GOOGLE ACCOUNT CHOOSER (NO TYPING!) -->
-    <div id="modal-google-chooser" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="card-clean p-6 w-full max-w-sm space-y-4 relative shadow-2xl">
-            <button onclick="UI.closeModal('modal-google-chooser')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">&times;</button>
-            <div class="text-center space-y-1">
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-8 h-8 mx-auto mb-2" alt="Google">
-                <h3 class="text-base font-bold text-slate-900 dark:text-white">Google akkauntni tanlang</h3>
-                <p class="text-xs text-slate-500">Everest Education tizimiga 1-bosishda o'tish</p>
+    <!-- MODAL 1: REAL GOOGLE AUTHENTICATION (NO FAKE EMAILS!) -->
+    <div id="modal-real-google" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="card-clean p-6 w-full max-w-md space-y-4 relative shadow-2xl">
+            <button onclick="UI.closeModal('modal-real-google')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+            <div class="flex items-center gap-3 border-b border-slate-200 dark:border-slate-800 pb-3">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-7 h-7" alt="Google">
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Google Akkauntni Ulash / Kirish</h3>
+                    <p class="text-xs text-slate-500">Haqiqiy Gmail pochtangiz bilan tasdiqlang</p>
+                </div>
             </div>
-            <!-- 1-CLICK SAVED & REGISTERED GOOGLE ACCOUNTS -->
-            <div id="google-chooser-list" class="space-y-2 max-h-60 overflow-y-auto custom-scroll"></div>
-            <div class="pt-2 border-t border-slate-200 dark:border-slate-800">
-                <button type="button" onclick="App.createInstantGoogleProfile()" class="w-full py-2.5 px-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-emerald-500 flex items-center gap-2.5 text-xs font-semibold text-slate-700 dark:text-slate-300 transition">
-                    <div class="w-7 h-7 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-user-plus text-[10px]"></i></div>
-                    <span>Qurilmadagi Google profilni avtomatik ulash</span>
+
+            <!-- PREVIOUSLY VERIFIED REAL GOOGLE ACCOUNTS ON THIS DEVICE -->
+            <div id="real-google-saved-box" class="hidden space-y-2">
+                <p class="text-[11px] font-semibold text-slate-500">Ushbu qurilmada ulangan Google hisobingiz:</p>
+                <div id="real-google-saved-list" class="space-y-2"></div>
+                <div class="relative flex py-1 items-center">
+                    <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+                    <span class="flex-shrink mx-2 text-[10px] text-slate-400">yoki boshqa Google hisob kiriting</span>
+                    <div class="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+                </div>
+            </div>
+
+            <!-- REAL GMAIL VERIFICATION FORM -->
+            <form onsubmit="event.preventDefault(); App.confirmRealGoogleAccount();" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Haqiqiy Gmail pochtangiz *</label>
+                    <input type="email" id="real-google-email" placeholder="misol@gmail.com" class="input-clean font-mono" required>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">Google profilingizdagi Ism-Familiya *</label>
+                    <input type="text" id="real-google-name" placeholder="Ism va Familiyangiz" class="input-clean" required>
+                </div>
+                <button type="submit" class="w-full btn-primary py-3 text-xs flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-google"></i> <span>Google Hisobni Tasdiqlash va Davom Etish</span>
                 </button>
-            </div>
+            </form>
         </div>
     </div>
 
-    <!-- MODAL 2: SUPER ADMIN LIVE CHAT & APPROVAL MODAL -->
+    <!-- MODAL 2: SUPER ADMIN LIVE CHAT & CREDENTIAL GENERATOR MODAL -->
     <div id="modal-sa-chat" class="hidden fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-xs flex items-center justify-center p-4">
-        <div class="card-clean w-full max-w-xl overflow-hidden flex flex-col h-[78vh]">
+        <div class="card-clean w-full max-w-xl overflow-hidden flex flex-col h-[80vh]">
             <div class="p-4 bg-slate-900 text-white flex justify-between items-center">
                 <div>
                     <h3 id="sa-chat-title" class="font-bold text-sm">Markaz bilan Jonli Chat</h3>
@@ -831,13 +862,18 @@
                 <button onclick="UI.closeModal('modal-sa-chat')" class="text-slate-400 hover:text-white text-xl">&times;</button>
             </div>
 
-            <!-- QUICK APPROVE BAR INSIDE CHAT FOR SUPER ADMIN -->
-            <div id="sa-chat-approve-bar" class="p-3 bg-emerald-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 flex flex-wrap items-center gap-2">
-                <input type="text" id="sa-chat-login" placeholder="Login" class="input-clean !w-32 py-1.5 text-xs font-mono">
-                <input type="text" id="sa-chat-pass" placeholder="Parol" class="input-clean !w-28 py-1.5 text-xs font-mono">
-                <button onclick="App.approveFromSuperAdminChat()" class="btn-primary px-3.5 py-1.5 text-xs whitespace-nowrap">
-                    <i class="fa-solid fa-check mr-1"></i> Tasdiqlash va Chatga/TGga Yuborish
-                </button>
+            <!-- TOP BAR: MARKAZ NOMIGA O'XSHASH LOGIN VA PAROL QO'YISH -->
+            <div id="sa-chat-approve-bar" class="p-3.5 bg-emerald-50 dark:bg-slate-800 border-b border-emerald-200 dark:border-slate-700 space-y-2">
+                <p class="text-xs font-bold text-emerald-800 dark:text-emerald-300">
+                    <i class="fa-solid fa-key mr-1"></i> Markazga Login va Parol yaratib berish:
+                </p>
+                <div class="flex flex-wrap items-center gap-2">
+                    <input type="text" id="sa-chat-login" placeholder="Login (markaz nomiga mos)" class="input-clean !w-40 py-1.5 text-xs font-mono font-bold">
+                    <input type="text" id="sa-chat-pass" placeholder="Parol" class="input-clean !w-32 py-1.5 text-xs font-mono font-bold">
+                    <button onclick="App.approveFromSuperAdminChat()" class="btn-primary px-4 py-2 text-xs whitespace-nowrap flex-1">
+                        <i class="fa-solid fa-paper-plane mr-1"></i> Tasdiqlash va Markazga Tashlash
+                    </button>
+                </div>
             </div>
 
             <div id="sa-chat-messages" class="flex-1 p-4 overflow-y-auto custom-scroll space-y-2.5 bg-slate-50 dark:bg-slate-950"></div>
@@ -876,6 +912,7 @@
             </div>
             <input type="text" id="mas-name" placeholder="F.I.SH *" class="input-clean">
             <input type="text" id="mas-subject" placeholder="Guruh / Fan *" class="input-clean">
+            <input type="email" id="mas-email" placeholder="Haqiqiy Gmail pochtasi (ixtiyoriy)" class="input-clean font-mono text-xs">
             <input type="text" id="mas-chatid" placeholder="Telegram @username yoki Chat ID" class="input-clean font-mono text-xs">
             <div class="grid grid-cols-2 gap-2.5">
                 <input type="text" id="mas-login" placeholder="Login *" class="input-clean font-mono">
@@ -897,6 +934,7 @@
             <input type="text" id="mat-name" placeholder="F.I.SH *" class="input-clean">
             <input type="text" id="mat-subject" placeholder="Mutaxassislik fani *" class="input-clean">
             <input type="text" id="mat-phone" oninput="Utils.strictPhone(this)" placeholder="+998 (__) ___-__-__" class="input-clean font-mono text-xs">
+            <input type="email" id="mat-email" placeholder="Haqiqiy Gmail pochtasi (ixtiyoriy)" class="input-clean font-mono text-xs">
             <div class="grid grid-cols-2 gap-2.5">
                 <input type="text" id="mat-login" placeholder="Login *" class="input-clean font-mono">
                 <input type="text" id="mat-pass" placeholder="Parol *" class="input-clean">
@@ -928,7 +966,7 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- APPLICATION ENGINE                                                -->
+    <!-- CORE APPLICATION ENGINE                                           -->
     <!-- ================================================================= -->
     <script>
         const ENV = {
@@ -937,9 +975,9 @@
             TELEGRAM_BOT_USERNAME: "everest_crmbot",
             SUPER_ADMIN_LOGIN: "nvmtrpv",
             SUPER_ADMIN_HASH: "123",
-            SESSION_KEY: "everest_session_v5",
-            APPLICANT_ID_KEY: "everest_applicant_id_v5",
-            DEVICE_GOOGLE_KEY: "everest_device_google_v5"
+            SESSION_KEY: "everest_session_v6",
+            APPLICANT_ID_KEY: "everest_applicant_id_v6",
+            REAL_GOOGLE_ACCOUNTS_KEY: "everest_real_google_accounts_v6"
         };
 
         const $ = id => document.getElementById(id);
@@ -952,6 +990,10 @@
             timeNow: () => {
                 const d = new Date();
                 return String(d.getHours()).padStart(2, '0') + ":" + String(d.getMinutes()).padStart(2, '0');
+            },
+            makeLoginSlug: (name) => {
+                const clean = String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+                return (clean.substring(0, 12) || 'markaz') + '_admin';
             },
             strictPhone: (inp) => {
                 let digits = inp.value.replace(/\D/g, '');
@@ -1032,7 +1074,7 @@
                 box.className = `px-4 py-3 rounded-xl text-white text-xs font-semibold shadow-lg flex items-center gap-2.5 ${colors}`;
                 box.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i><span>${msg}</span>`;
                 $('toast-root').appendChild(box);
-                setTimeout(() => box.remove(), 3500);
+                setTimeout(() => box.remove(), 4000);
             },
             toggleTheme: () => {
                 document.documentElement.classList.toggle('dark');
@@ -1101,7 +1143,7 @@
         };
 
         const App = {
-            db: { centers: [], applications: [] },
+            db: { centers: [], applications: [], settings: { saChatId: null } },
             state: {
                 category: 'barchasi',
                 searchQuery: '',
@@ -1118,7 +1160,7 @@
             },
 
             get activeCenter() {
-                return App.db.centers.find(c => c.id === App.state.activeCenterId) || null;
+                return (App.db.centers || []).find(c => c.id === App.state.activeCenterId) || null;
             },
 
             get activeUser() {
@@ -1141,16 +1183,24 @@
                     $('existing-applicant-banner')?.classList.remove('hidden');
                 }
 
+                // Restore previously verified real Google account on this device (if any)
+                const savedGoogle = App.getDeviceRealGoogleAccounts();
+                if (savedGoogle.length > 0) {
+                    App.applyGoogleAccountToUI(savedGoogle[0]);
+                }
+
                 await App.restoreSession();
 
-                // Real-time background polling for Live Chat
+                // Real-time background polling for Live Chat & Super Admin approvals
                 setInterval(async () => {
                     const isAppChatOpen = !$('page-applicant-chat').classList.contains('hidden');
                     const isSaChatOpen = !$('modal-sa-chat').classList.contains('hidden');
-                    if (isAppChatOpen || isSaChatOpen) {
+                    const isSaPageOpen = !$('page-super-admin').classList.contains('hidden');
+                    if (isAppChatOpen || isSaChatOpen || isSaPageOpen) {
                         await App.fetchDatabase();
                         if (isAppChatOpen) App.renderApplicantChatRoom();
                         if (isSaChatOpen) App.renderSuperAdminChatMessages();
+                        if (isSaPageOpen) App.renderSuperAdmin();
                     }
                 }, 3500);
             },
@@ -1174,12 +1224,13 @@
                     if (data && Array.isArray(data.centers)) {
                         App.db.centers = data.centers;
                         App.db.applications = data.applications || [];
-                        localStorage.setItem('everest_backup_v5', JSON.stringify(App.db));
+                        App.db.settings = data.settings || { saChatId: null };
+                        localStorage.setItem('everest_backup_v6', JSON.stringify(App.db));
                     } else if (!data) {
                         App.seedInitialData();
                     }
                 } catch (e) {
-                    const cached = localStorage.getItem('everest_backup_v5');
+                    const cached = localStorage.getItem('everest_backup_v6');
                     if (cached) App.db = JSON.parse(cached);
                     else App.seedInitialData();
                 }
@@ -1187,7 +1238,7 @@
             },
 
             saveDatabase: async () => {
-                localStorage.setItem('everest_backup_v5', JSON.stringify(App.db));
+                localStorage.setItem('everest_backup_v6', JSON.stringify(App.db));
                 try {
                     await fetch(ENV.FIREBASE_DB_URL, {
                         method: 'PUT',
@@ -1197,7 +1248,142 @@
                 } catch (e) {}
             },
 
-            /* ================= BULLETPROOF SEARCH ENGINE ================= */
+            /* ================= REAL GOOGLE AUTHENTICATION (ZERO FAKE EMAILS!) ================= */
+            getDeviceRealGoogleAccounts: () => {
+                try {
+                    const raw = localStorage.getItem(ENV.REAL_GOOGLE_ACCOUNTS_KEY);
+                    const list = raw ? JSON.parse(raw) : [];
+                    return Array.isArray(list) ? list.filter(a => a && a.email && a.email.includes('@')) : [];
+                } catch (e) {
+                    return [];
+                }
+            },
+
+            saveDeviceRealGoogleAccount: (acc) => {
+                const list = App.getDeviceRealGoogleAccounts().filter(x => x.email.toLowerCase() !== acc.email.toLowerCase());
+                list.unshift(acc);
+                localStorage.setItem(ENV.REAL_GOOGLE_ACCOUNTS_KEY, JSON.stringify(list));
+            },
+
+            openRealGoogleModal: (mode) => {
+                App.state.googleActionMode = mode;
+                const saved = App.getDeviceRealGoogleAccounts();
+
+                if (saved.length > 0) {
+                    $('real-google-saved-box').classList.remove('hidden');
+                    $('real-google-saved-list').innerHTML = saved.map((acc, idx) => `
+                        <div onclick="App.selectSavedRealGoogle(${idx})" class="p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-emerald-500 cursor-pointer flex items-center justify-between gap-3 bg-slate-50 dark:bg-slate-800/50 transition">
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <img src="${acc.avatar}" class="w-9 h-9 rounded-full object-cover shrink-0">
+                                <div class="truncate">
+                                    <p class="font-bold text-xs text-slate-900 dark:text-white truncate">${acc.name}</p>
+                                    <p class="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 truncate">${acc.email}</p>
+                                </div>
+                            </div>
+                            <span class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white text-[10px] font-bold shrink-0">Tanlash →</span>
+                        </div>
+                    `).join('');
+                } else {
+                    $('real-google-saved-box').classList.add('hidden');
+                }
+
+                $('real-google-email').value = '';
+                $('real-google-name').value = '';
+                UI.openModal('modal-real-google');
+            },
+
+            selectSavedRealGoogle: async (idx) => {
+                const saved = App.getDeviceRealGoogleAccounts();
+                const acc = saved[idx];
+                if (acc) await App.processRealGoogleAccount(acc);
+            },
+
+            confirmRealGoogleAccount: async () => {
+                const email = $('real-google-email').value.trim().toLowerCase();
+                const name = $('real-google-name').value.trim();
+
+                if (!email.includes('@') || email.length < 5) {
+                    return UI.toast("Haqiqiy email manzilingizni kiriting!", "error");
+                }
+                if (!name) {
+                    return UI.toast("Ism va familiyangizni kiriting!", "error");
+                }
+
+                const acc = {
+                    name: name,
+                    email: email,
+                    avatar: `https://unavatar.io/google/${encodeURIComponent(email)}?fallback=https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=059669&color=fff`
+                };
+
+                App.saveDeviceRealGoogleAccount(acc);
+                await App.processRealGoogleAccount(acc);
+            },
+
+            applyGoogleAccountToUI: (acc) => {
+                App.state.linkedGoogleAccount = acc;
+                if ($('app-google-avatar')) $('app-google-avatar').src = acc.avatar;
+                if ($('app-google-status')) $('app-google-status').innerText = `✅ Ulandi: ${acc.name}`;
+                if ($('app-google-email-text')) $('app-google-email-text').innerText = acc.email;
+
+                if ($('reg-user-google-avatar')) $('reg-user-google-avatar').src = acc.avatar;
+                if ($('reg-user-google-label')) $('reg-user-google-label').innerText = `✅ ${acc.name}`;
+                if ($('reg-user-google-sub')) $('reg-user-google-sub').innerText = acc.email;
+
+                if ($('login-google-btn-text')) $('login-google-btn-text').innerText = `Google orqali kirish (${acc.email})`;
+            },
+
+            processRealGoogleAccount: async (acc) => {
+                UI.closeModal('modal-real-google');
+                App.applyGoogleAccountToUI(acc);
+
+                const mode = App.state.googleActionMode;
+                if (mode === 'link-center') {
+                    if (!$('app-center-name').value) $('app-center-name').value = acc.name;
+                    UI.toast(`Haqiqiy Google hisob (${acc.email}) ulandi!`);
+                    return;
+                }
+
+                if (mode === 'link-user') {
+                    if (!$('reg-user-name').value) $('reg-user-name').value = acc.name;
+                    UI.toast(`Haqiqiy Google hisob (${acc.email}) ulandi!`);
+                    return;
+                }
+
+                // Mode === 'login': Check if this real Google email belongs to an active Center, Teacher, Student, or Pending Application
+                await App.fetchDatabase();
+                const email = acc.email.toLowerCase();
+
+                for (const c of (App.db.centers || [])) {
+                    if (c.email && c.email.toLowerCase() === email) {
+                        UI.toast(`${c.nomi} hisobiga Google orqali kirildi!`);
+                        return App.authenticateUser(c.login, c.parol, false);
+                    }
+                    const u = (c.ustozlar || []).find(x => x.email && x.email.toLowerCase() === email);
+                    if (u) {
+                        UI.toast(`${u.ism} hisobiga Google orqali kirildi!`);
+                        return App.authenticateUser(u.login, u.parol, false);
+                    }
+                    const o = (c.oquvchilar || []).find(x => x.email && x.email.toLowerCase() === email);
+                    if (o) {
+                        UI.toast(`${o.ism} hisobiga Google orqali kirildi!`);
+                        return App.authenticateUser(o.login, o.parol, false);
+                    }
+                }
+
+                // Check if they have a pending application waiting for Super Admin
+                const pendingApp = (App.db.applications || []).find(a => a.email && a.email.toLowerCase() === email);
+                if (pendingApp) {
+                    App.state.activeApplicantId = pendingApp.id;
+                    localStorage.setItem(ENV.APPLICANT_ID_KEY, String(pendingApp.id));
+                    UI.toast("Topshirgan anketangiz topildi!");
+                    return App.openApplicantChatRoom();
+                }
+
+                UI.toast(`Google (${acc.email}) ulandi! Endi markaz anketasini yoki ro'yxatdan o'tishni yakunlang.`, "warning");
+                UI.switchAuthTab('center-apply');
+            },
+
+            /* ================= SEARCH & MARKETPLACE ================= */
             handleSearch: (query) => {
                 const q = String(query || '');
                 App.state.searchQuery = q.trim().toLowerCase();
@@ -1342,160 +1528,30 @@
                     `).join('');
             },
 
-            /* ================= 1-CLICK GOOGLE ACCOUNT ENGINE (NO MANUAL EMAIL TYPING!) ================= */
-            getSavedGoogleProfiles: () => {
-                const map = new Map();
-
-                // 1. Device stored Google account
-                try {
-                    const dev = JSON.parse(localStorage.getItem(ENV.DEVICE_GOOGLE_KEY));
-                    if (dev && dev.email) map.set(dev.email.toLowerCase(), dev);
-                } catch (e) {}
-
-                // 2. Telegram WebApp user profile if inside Telegram
-                const tgU = Utils.getTelegramWebAppUser();
-                if (tgU) {
-                    const email = `${tgU.username || 'tg_' + tgU.id}@gmail.com`;
-                    map.set(email, {
-                        name: tgU.name || 'Telegram Foydalanuvchi',
-                        email: email,
-                        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(tgU.name || 'TG')}&background=059669&color=fff`,
-                        role: 'Telegram Google Profil'
-                    });
-                }
-
-                // 3. Registered centers, teachers, and students
-                (App.db.centers || []).forEach(c => {
-                    if (c.email) map.set(c.email.toLowerCase(), { name: c.nomi, email: c.email, avatar: c.logo, role: 'Markaz Admin', login: c.login, pass: c.parol });
-                    (c.ustozlar || []).forEach(u => {
-                        if (u.email) map.set(u.email.toLowerCase(), { name: u.ism, email: u.email, avatar: u.rasm, role: 'Ustoz', login: u.login, pass: u.parol });
-                    });
-                    (c.oquvchilar || []).forEach(o => {
-                        if (o.email) map.set(o.email.toLowerCase(), { name: o.ism, email: o.email, avatar: o.rasm, role: "O'quvchi", login: o.login, pass: o.parol });
-                    });
-                });
-
-                // 4. Pending applications
-                (App.db.applications || []).forEach(a => {
-                    if (a.email) map.set(a.email.toLowerCase(), { name: a.nomi, email: a.email, avatar: a.logo, role: 'Markaz Anketasi (Chat)', appId: a.id });
-                });
-
-                return Array.from(map.values());
-            },
-
-            startOneClickGoogle: (mode) => {
-                App.state.googleActionMode = mode;
-                const profiles = App.getSavedGoogleProfiles();
-
-                $('google-chooser-list').innerHTML = profiles.map((p, idx) => `
-                    <div onclick="App.selectGoogleProfile(${idx})" class="p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-emerald-500 cursor-pointer flex items-center justify-between gap-3 transition bg-slate-50/50 dark:bg-slate-800/40">
-                        <div class="flex items-center gap-3 overflow-hidden">
-                            <img src="${p.avatar || 'https://ui-avatars.com/api/?name=G&background=10b981&color=fff'}" class="w-9 h-9 rounded-full object-cover shrink-0">
-                            <div class="truncate">
-                                <p class="font-bold text-xs text-slate-900 dark:text-white truncate">${p.name}</p>
-                                <p class="text-[11px] text-slate-500 truncate">${p.email}</p>
-                            </div>
-                        </div>
-                        <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold shrink-0">${p.role || 'Google'}</span>
-                    </div>
-                `).join('');
-
-                UI.openModal('modal-google-chooser');
-            },
-
-            createInstantGoogleProfile: () => {
-                const tgU = Utils.getTelegramWebAppUser();
-                const rawName = ($('app-center-name')?.value || $('reg-user-name')?.value || tgU?.name || 'Everest User').trim();
-                const slug = rawName.toLowerCase().replace(/[^a-z0-9]/g, '') || 'user' + Math.floor(100 + Math.random() * 899);
-                const profile = {
-                    name: rawName,
-                    email: `${slug}@gmail.com`,
-                    avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(rawName)}&background=059669&color=fff`
-                };
-                localStorage.setItem(ENV.DEVICE_GOOGLE_KEY, JSON.stringify(profile));
-                App.applySelectedGoogleProfile(profile);
-            },
-
-            selectGoogleProfile: (idx) => {
-                const profiles = App.getSavedGoogleProfiles();
-                const p = profiles[idx];
-                if (p) App.applySelectedGoogleProfile(p);
-            },
-
-            applySelectedGoogleProfile: async (p) => {
-                UI.closeModal('modal-google-chooser');
-                App.state.linkedGoogleAccount = p;
-                localStorage.setItem(ENV.DEVICE_GOOGLE_KEY, JSON.stringify(p));
-
-                const mode = App.state.googleActionMode;
-                if (mode === 'link-center') {
-                    $('app-google-avatar').src = p.avatar;
-                    $('app-google-status').innerText = `✅ Ulandi: ${p.name}`;
-                    $('app-google-email-text').innerText = p.email;
-                    UI.toast(`Google akkaunt (${p.email}) ulandi!`);
-                    return;
-                }
-
-                if (mode === 'link-user') {
-                    $('reg-user-google-label').innerText = `✅ ${p.email}`;
-                    if (!$('reg-user-name').value && p.name) $('reg-user-name').value = p.name;
-                    UI.toast(`Google akkaunt (${p.email}) ulandi!`);
-                    return;
-                }
-
-                // Mode === 'login': Check if this Google account belongs to an active user OR pending center applicant!
-                await App.fetchDatabase();
-                if (p.login && p.pass) {
-                    return App.authenticateUser(p.login, p.pass, false);
-                }
-
-                const email = p.email.toLowerCase();
-                for (const c of App.db.centers) {
-                    if (c.email && c.email.toLowerCase() === email) return App.authenticateUser(c.login, c.parol, false);
-                    const u = (c.ustozlar || []).find(x => x.email && x.email.toLowerCase() === email);
-                    if (u) return App.authenticateUser(u.login, u.parol, false);
-                    const o = (c.oquvchilar || []).find(x => x.email && x.email.toLowerCase() === email);
-                    if (o) return App.authenticateUser(o.login, o.parol, false);
-                }
-
-                const pendingApp = (App.db.applications || []).find(a => a.email && a.email.toLowerCase() === email);
-                if (pendingApp) {
-                    App.state.activeApplicantId = pendingApp.id;
-                    localStorage.setItem(ENV.APPLICANT_ID_KEY, String(pendingApp.id));
-                    return App.openApplicantChatRoom();
-                }
-
-                UI.toast("Google akkaunt ulandi! Endi markaz anketasini yoki ro'yxatdan o'tishni yakunlang.");
-                UI.switchAuthTab('center-apply');
-                $('app-google-avatar').src = p.avatar;
-                $('app-google-status').innerText = `✅ Ulandi: ${p.name}`;
-                $('app-google-email-text').innerText = p.email;
-            },
-
-            /* ================= CENTER APPLICATION -> INSTANT LIVE CHAT WITH SUPER ADMIN ================= */
+            /* ================= CENTER APPLICATION & SUPER ADMIN CREDENTIAL CREATION ================= */
             submitCenterApplication: async () => {
-                await App.fetchDatabase();
+                if (!App.state.linkedGoogleAccount || !App.state.linkedGoogleAccount.email) {
+                    UI.toast("Avval 1-qadamda haqiqiy Google (Gmail) akkauntingizni ulang!", "error");
+                    return App.openRealGoogleModal('link-center');
+                }
+
                 const logoFile = $('app-center-logo').files[0];
                 const photoFile = $('app-center-photo').files[0];
                 if (!logoFile || !photoFile) return UI.toast("Markaz logotipi va bino rasmini yuklash shart!", "error");
 
-                const nomi = $('app-center-name').value.trim();
-                if (!App.state.linkedGoogleAccount) {
-                    const slug = nomi.toLowerCase().replace(/[^a-z0-9]/g, '') || 'markaz';
-                    App.state.linkedGoogleAccount = {
-                        name: nomi,
-                        email: `${slug}@gmail.com`,
-                        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(nomi)}&background=059669&color=fff`
-                    };
-                    localStorage.setItem(ENV.DEVICE_GOOGLE_KEY, JSON.stringify(App.state.linkedGoogleAccount));
-                }
+                await App.fetchDatabase();
+                await App.syncTelegramBotUpdates(false);
 
+                const nomi = $('app-center-name').value.trim();
                 const logo = await Utils.toBase64(logoFile);
                 const binoRasm = await Utils.toBase64(photoFile);
                 const tgInput = $('app-center-tg').value.trim();
                 const tgWebAppUser = Utils.getTelegramWebAppUser();
 
                 const appId = Date.now();
+                const suggestedLogin = Utils.makeLoginSlug(nomi);
+                const suggestedPass = String(Math.floor(100000 + Math.random() * 900000));
+
                 const appObj = {
                     id: appId,
                     nomi: nomi,
@@ -1503,6 +1559,7 @@
                     manzil: $('app-center-address').value.trim(),
                     tel: $('app-center-phone').value.trim(),
                     email: App.state.linkedGoogleAccount.email,
+                    googleName: App.state.linkedGoogleAccount.name,
                     tg: tgInput,
                     chatId: tgWebAppUser?.id || (/^\d+$/.test(tgInput) ? tgInput : null),
                     fanSoni: Number($('app-center-count').value),
@@ -1510,11 +1567,13 @@
                     sharoitlar: $('app-center-conditions').value.trim(),
                     logo,
                     binoRasm,
+                    suggestedLogin,
+                    suggestedPass,
                     sana: Utils.today(),
                     messages: [
                         {
                             sender: 'system',
-                            text: `Assalomu alaykum! "${nomi}" o'quv markazi anketasi va Google akkaunti (${App.state.linkedGoogleAccount.email}) qabul qilindi. Super Admin anketangizni tekshirib, shu chatga yoki Telegramingizga (${tgInput}) javob yozadi.`,
+                            text: `Assalomu alaykum! "${nomi}" o'quv markazi anketangiz va haqiqiy Google hisobingiz (${App.state.linkedGoogleAccount.email}) Super Adminga yuborildi.\n\nSuper Admin anketani ko'rib chiqib, markazingiz nomiga mos Login va Parolni shu chatga hamda Telegramingizga (${tgInput}) yuboradi.`,
                             time: Utils.timeNow()
                         }
                     ]
@@ -1524,11 +1583,19 @@
                 App.db.applications.unshift(appObj);
                 await App.saveDatabase();
 
+                // Notify Super Admin via Telegram Bot if Super Admin linked their Telegram ID!
+                if (App.db.settings?.saChatId) {
+                    await Utils.sendTelegramMessage(
+                        App.db.settings.saChatId,
+                        `🔔 <b>YANGI MARKAZ ANKETASI TUSHDI!</b>\n\n🏢 <b>Markaz:</b> ${appObj.nomi}\n📍 <b>Manzil:</b> ${appObj.manzil}\n📞 <b>Tel:</b> ${appObj.tel}\n📧 <b>Real Google:</b> ${appObj.email}\n✈️ <b>Telegram:</b> ${appObj.tg}\n📚 <b>Fanlar (${appObj.fanSoni} ta):</b> ${appObj.fanlar.join(', ')}\n\n👉 Super Admin panelga kirib, Login va Parolni tasdiqlab yuboring!`
+                    );
+                }
+
                 App.state.activeApplicantId = appId;
                 localStorage.setItem(ENV.APPLICANT_ID_KEY, String(appId));
                 $('existing-applicant-banner')?.classList.remove('hidden');
 
-                UI.toast("Anketa saqlandi! Super Admin bilan chat ochildi.");
+                UI.toast("Anketangiz Super Adminga yuborildi!");
                 App.openApplicantChatRoom();
             },
 
@@ -1541,7 +1608,7 @@
             renderApplicantChatRoom: () => {
                 const appId = App.state.activeApplicantId;
                 const pendingApp = (App.db.applications || []).find(a => a.id === appId);
-                const approvedCenter = (App.db.centers || []).find(c => c.appId === appId || (App.state.linkedGoogleAccount && c.email === App.state.linkedGoogleAccount.email));
+                const approvedCenter = (App.db.centers || []).find(c => c.appId === appId || (App.state.linkedGoogleAccount && c.email.toLowerCase() === App.state.linkedGoogleAccount.email.toLowerCase()));
 
                 const target = pendingApp || approvedCenter;
                 if (!target) {
@@ -1556,7 +1623,7 @@
                     $('app-chat-status-badge').className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500 text-white';
                     $('app-chat-enter-cabinet-btn').classList.remove('hidden');
                     $('app-chat-credentials-box').classList.remove('hidden');
-                    $('app-chat-creds-text').innerText = `Login: ${approvedCenter.login} | Parol: ${approvedCenter.parol}`;
+                    $('app-chat-creds-text').innerText = `Login: ${approvedCenter.login}  |  Parol: ${approvedCenter.parol}`;
                 } else {
                     $('app-chat-status-badge').innerText = '⏳ Super Admin tekshirmoqda';
                     $('app-chat-status-badge').className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-slate-950';
@@ -1570,7 +1637,7 @@
                     if (m.sender === 'center') {
                         return `
                             <div class="flex justify-end">
-                                <div class="max-w-md bg-emerald-600 text-white px-4 py-2.5 rounded-2xl rounded-tr-xs text-xs space-y-1 shadow-xs">
+                                <div class="max-w-md bg-emerald-600 text-white px-4 py-2.5 rounded-2xl rounded-tr-xs text-xs space-y-1">
                                     <p class="leading-relaxed">${m.text}</p>
                                     <span class="block text-[10px] text-emerald-200 text-right">${m.time || ''}</span>
                                 </div>
@@ -1579,7 +1646,7 @@
                     }
                     return `
                         <div class="flex justify-start">
-                            <div class="max-w-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2.5 rounded-2xl rounded-tl-xs text-xs space-y-1 shadow-xs">
+                            <div class="max-w-md bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2.5 rounded-2xl rounded-tl-xs text-xs space-y-1">
                                 <p class="font-bold text-emerald-600 dark:text-emerald-400 text-[11px]"><i class="fa-solid fa-shield-halved mr-1"></i> Super Admin</p>
                                 <p class="leading-relaxed text-slate-800 dark:text-slate-200 whitespace-pre-line">${m.text}</p>
                                 <span class="block text-[10px] text-slate-400 text-right">${m.time || ''}</span>
@@ -1608,8 +1675,9 @@
             },
 
             enterApprovedCenterFromChat: async () => {
+                await App.fetchDatabase();
                 const appId = App.state.activeApplicantId;
-                const c = (App.db.centers || []).find(x => x.appId === appId || (App.state.linkedGoogleAccount && x.email === App.state.linkedGoogleAccount.email));
+                const c = (App.db.centers || []).find(x => x.appId === appId || (App.state.linkedGoogleAccount && x.email.toLowerCase() === App.state.linkedGoogleAccount.email.toLowerCase()));
                 if (c) {
                     await App.authenticateUser(c.login, c.parol, false);
                 } else {
@@ -1617,7 +1685,140 @@
                 }
             },
 
-            /* ================= SUPER ADMIN LIVE CHAT & INSTANT APPROVAL ================= */
+            /* ================= SUPER ADMIN CONSOLE & DIRECT CREDENTIAL CREATION ================= */
+            setSuperAdminTelegramId: async () => {
+                await App.syncTelegramBotUpdates(false);
+                const currentId = App.db.settings?.saChatId || '';
+                const val = prompt("Yangi markaz anketalari haqida Telegramingizga xabar kelishi uchun Telegram Chat ID yoki @username kiriting (avval @everest_crmbot ga /start bosing):", currentId);
+                if (val !== null) {
+                    App.db.settings = App.db.settings || {};
+                    App.db.settings.saChatId = val.trim();
+                    await App.saveDatabase();
+                    await App.syncTelegramBotUpdates(false);
+                    App.renderSuperAdmin();
+                    UI.toast("Super Admin Telegram bildirishnomasi saqlandi!");
+                }
+            },
+
+            renderSuperAdmin: () => {
+                const apps = App.db.applications || [];
+                const centers = App.db.centers || [];
+                let allStudents = [], allTeachers = [];
+
+                centers.forEach(c => {
+                    (c.oquvchilar || []).forEach(o => allStudents.push({ ...o, markaz: c.nomi }));
+                    (c.ustozlar || []).forEach(u => allTeachers.push({ ...u, markaz: c.nomi }));
+                });
+
+                $('sa-stat-apps').innerText = apps.length;
+                $('sa-stat-centers').innerText = centers.length;
+                $('sa-stat-students').innerText = allStudents.length;
+                $('sa-stat-teachers').innerText = allTeachers.length;
+
+                if ($('sa-tg-alert-label')) {
+                    $('sa-tg-alert-label').innerText = App.db.settings?.saChatId ? `TG Ulangan (${App.db.settings.saChatId})` : `Menga TG Bildirishnoma Ulash`;
+                }
+
+                $('sa-applications-list').innerHTML = apps.length === 0
+                    ? `<p class="text-xs text-slate-500 col-span-2 py-4">Hozircha yangi markaz anketalari yo'q.</p>`
+                    : apps.map((a, idx) => {
+                        const defaultLogin = a.suggestedLogin || Utils.makeLoginSlug(a.nomi);
+                        const defaultPass = a.suggestedPass || String(Math.floor(100000 + Math.random() * 900000));
+                        return `
+                            <div class="card-clean p-5 space-y-4 border-2 border-amber-500/40">
+                                <!-- TOP CREDENTIAL CREATOR BOX FOR SUPER ADMIN -->
+                                <div class="p-3.5 rounded-xl bg-emerald-50 dark:bg-slate-800 border border-emerald-200 dark:border-slate-700 space-y-2.5">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-xs font-extrabold text-emerald-800 dark:text-emerald-300">
+                                            <i class="fa-solid fa-key mr-1"></i> Markazga Login va Parol berish:
+                                        </span>
+                                        <span class="text-[10px] font-mono text-slate-400">${a.sana}</span>
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Markaz Logini:</label>
+                                            <input type="text" id="card-login-${a.id}" value="${defaultLogin}" class="input-clean py-1.5 text-xs font-mono font-bold">
+                                        </div>
+                                        <div>
+                                            <label class="block text-[10px] font-bold text-slate-500 mb-0.5">Markaz Paroli:</label>
+                                            <input type="text" id="card-pass-${a.id}" value="${defaultPass}" class="input-clean py-1.5 text-xs font-mono font-bold">
+                                        </div>
+                                    </div>
+                                    <button onclick="App.approveCenterDirectlyFromCard(${a.id})" class="w-full btn-primary py-2.5 text-xs font-bold shadow-sm flex items-center justify-center gap-1.5">
+                                        <i class="fa-solid fa-paper-plane"></i> <span>Tasdiqlash va Login/Parolni Markazga Tashlash</span>
+                                    </button>
+                                </div>
+
+                                <!-- CENTER ANKETA DETAILS -->
+                                <div class="flex gap-3.5 items-start">
+                                    <img src="${a.logo}" class="w-14 h-14 rounded-xl object-cover border shrink-0">
+                                    <img src="${a.binoRasm}" class="w-20 h-14 rounded-xl object-cover border shrink-0" title="Markaz binosi">
+                                    <div class="overflow-hidden space-y-0.5">
+                                        <h4 class="font-bold text-base text-slate-900 dark:text-white truncate">${a.nomi}</h4>
+                                        <p class="text-xs text-slate-500 font-mono">${a.tel} • ${a.manzil}</p>
+                                        <p class="text-xs text-emerald-600 font-mono truncate"><b>Real Google:</b> ${a.email}</p>
+                                        <p class="text-xs text-sky-500 font-mono truncate"><b>Telegram:</b> ${a.tg}</p>
+                                    </div>
+                                </div>
+
+                                <div class="text-xs bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl space-y-1">
+                                    <p><b>Fanlar (${a.fanSoni} ta):</b> ${(a.fanlar || []).join(', ')}</p>
+                                    <p><b>Sharoitlar:</b> ${a.sharoitlar}</p>
+                                </div>
+
+                                <div class="flex flex-wrap gap-2 pt-1">
+                                    <button onclick="App.openSuperAdminChat('app', ${a.id})" class="flex-1 py-2 px-3 rounded-lg border border-slate-300 dark:border-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 hover:border-emerald-500">
+                                        <i class="fa-solid fa-comments text-emerald-600"></i> <span>Jonli Chat (${(a.messages || []).length})</span>
+                                    </button>
+                                    <button onclick="App.sendCredentialsViaTelegramLink('${a.nomi.replace(/'/g, '')}', '${a.tg || ''}', $('card-login-${a.id}').value, $('card-pass-${a.id}').value)" class="px-3 py-2 rounded-lg bg-sky-500/15 text-sky-600 dark:text-sky-400 font-bold text-xs flex items-center gap-1">
+                                        <i class="fa-brands fa-telegram"></i> TG Lichkaga Yozish
+                                    </button>
+                                    <button onclick="App.rejectCenterApp(${idx})" class="px-3 py-2 rounded-lg bg-rose-500/15 text-rose-500 font-bold text-xs">Rad etish</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+
+                $('sa-centers-tbody').innerHTML = centers.map((c, idx) => `
+                    <tr>
+                        <td class="p-3 flex items-center gap-2.5"><img src="${c.logo}" class="w-9 h-9 rounded-lg object-cover"><div><p class="font-bold">${c.nomi}</p><p class="text-[10px] text-slate-500">${c.manzil}</p></div></td>
+                        <td class="p-3"><p class="text-emerald-600 font-mono font-semibold">${c.email || '-'}</p><p class="text-[11px] font-mono text-slate-400">${c.tg || ''} • ${c.tel}</p></td>
+                        <td class="p-3 font-mono"><span class="px-2 py-1 rounded bg-emerald-50 dark:bg-emerald-950 text-emerald-600 font-bold">${c.login}</span> / <span class="px-2 py-1 rounded bg-rose-50 dark:bg-rose-950 text-rose-500 font-bold">${c.parol}</span></td>
+                        <td class="p-3 text-center space-x-1">
+                            <button onclick="App.openSuperAdminChat('center', ${c.id})" class="px-2.5 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-600 font-bold text-xs"><i class="fa-solid fa-comments"></i> Chat</button>
+                            <button onclick="App.sendCredentialsViaTelegramLink('${c.nomi.replace(/'/g, '')}', '${c.tg || ''}', '${c.login}', '${c.parol}')" class="px-2.5 py-1.5 rounded-lg bg-sky-500/15 text-sky-500 font-bold text-xs"><i class="fa-brands fa-telegram"></i> TGga Tashlash</button>
+                        </td>
+                        <td class="p-3 text-center"><button onclick="App.deleteCenter(${idx})" class="px-2.5 py-1 rounded bg-rose-500 text-white text-[10px] font-bold">O'chirish</button></td>
+                    </tr>
+                `).join('');
+
+                $('sa-students-tbody').innerHTML = allStudents.map(o => `
+                    <tr>
+                        <td class="p-2.5 flex items-center gap-2"><img src="${o.rasm}" class="w-6 h-6 rounded-full object-cover"><b>${o.ism}</b></td>
+                        <td class="p-2.5">${o.markaz} • ${o.fan}</td>
+                        <td class="p-2.5 font-mono">${o.login} / ${o.parol}</td>
+                    </tr>
+                `).join('');
+
+                $('sa-teachers-tbody').innerHTML = allTeachers.map(u => `
+                    <tr>
+                        <td class="p-2.5 flex items-center gap-2"><img src="${u.rasm}" class="w-6 h-6 rounded-full object-cover"><b>${u.ism}</b></td>
+                        <td class="p-2.5">${u.markaz} • ${u.fan}</td>
+                        <td class="p-2.5 font-mono">${u.login} / ${u.parol}</td>
+                    </tr>
+                `).join('');
+            },
+
+            approveCenterDirectlyFromCard: async (appId) => {
+                const loginInp = $(`card-login-${appId}`);
+                const passInp = $(`card-pass-${appId}`);
+                const login = (loginInp?.value || '').trim().toLowerCase();
+                const parol = (passInp?.value || '').trim();
+
+                if (!login || !parol) return UI.toast("Login va parolni kiriting!", "error");
+                await App.finalizeCenterApproval(appId, login, parol);
+            },
+
             openSuperAdminChat: (type, id) => {
                 App.state.saActiveChatTarget = { type, id };
                 const target = type === 'app'
@@ -1626,18 +1827,102 @@
                 if (!target) return;
 
                 $('sa-chat-title').innerText = `${target.nomi} — Jonli Chat`;
-                $('sa-chat-subtitle').innerText = `Tel: ${target.tel} | TG: ${target.tg || '-'} | Google: ${target.email || '-'}`;
+                $('sa-chat-subtitle').innerText = `Tel: ${target.tel} | TG: ${target.tg || '-'} | Real Google: ${target.email || '-'}`;
 
                 if (type === 'app') {
                     $('sa-chat-approve-bar').classList.remove('hidden');
-                    $('sa-chat-login').value = target.nomi.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 10) + '_admin';
-                    $('sa-chat-pass').value = String(Math.floor(10000 + Math.random() * 90000));
+                    $('sa-chat-login').value = target.suggestedLogin || Utils.makeLoginSlug(target.nomi);
+                    $('sa-chat-pass').value = target.suggestedPass || String(Math.floor(100000 + Math.random() * 900000));
                 } else {
                     $('sa-chat-approve-bar').classList.add('hidden');
                 }
 
                 App.renderSuperAdminChatMessages();
                 UI.openModal('modal-sa-chat');
+            },
+
+            approveFromSuperAdminChat: async () => {
+                const ref = App.state.saActiveChatTarget;
+                if (!ref || ref.type !== 'app') return;
+                const login = $('sa-chat-login').value.trim().toLowerCase();
+                const parol = $('sa-chat-pass').value.trim();
+                if (!login || !parol) return UI.toast("Login va parolni kiriting!", "error");
+
+                const newCenter = await App.finalizeCenterApproval(ref.id, login, parol);
+                if (newCenter) {
+                    App.state.saActiveChatTarget = { type: 'center', id: newCenter.id };
+                    $('sa-chat-approve-bar').classList.add('hidden');
+                    App.renderSuperAdminChatMessages();
+                }
+            },
+
+            finalizeCenterApproval: async (appId, login, parol) => {
+                await App.fetchDatabase();
+                await App.syncTelegramBotUpdates(false);
+
+                if (App.isLoginTaken(login)) {
+                    UI.toast("Bu login band! Boshqa login yozing.", "error");
+                    return null;
+                }
+
+                const idx = (App.db.applications || []).findIndex(a => a.id === appId);
+                if (idx === -1) return null;
+
+                const a = App.db.applications[idx];
+                const approvalMsg = `🎉 TABRIKLAYMIZ! "${a.nomi}" markazingiz Super Admin tomonidan tasdiqlandi!\n\n🔐 Markaz Logini: ${login}\n🔑 Markaz Paroli: ${parol}\n📧 Ulangan Google hisob: ${a.email}\n\nHoziroq tepada chiqqan "Markaz Hisobiga Kirish" tugmasini bosib yoki Login/Parol orqali o'z admin panelingizga kirishingiz mumkin!`;
+
+                const messages = a.messages || [];
+                messages.push({ sender: 'admin', text: approvalMsg, time: Utils.timeNow() });
+
+                const newCenter = {
+                    id: Date.now(),
+                    appId: a.id,
+                    nomi: a.nomi,
+                    kategoriya: a.kategoriya,
+                    manzil: a.manzil,
+                    tel: a.tel,
+                    email: a.email || '',
+                    tg: a.tg || '',
+                    chatId: a.chatId || (/^\d+$/.test(a.tg || '') ? a.tg : null),
+                    fanSoni: a.fanSoni,
+                    fanlar: a.fanlar && a.fanlar.length ? a.fanlar : ['Umumiy'],
+                    sharoitlar: a.sharoitlar,
+                    logo: a.logo,
+                    binoRasm: a.binoRasm,
+                    login, parol,
+                    messages,
+                    karta: '', kartaEgasi: '', bank: '',
+                    oyOquvchisi: { ism: '', rasm: '' },
+                    oquvchilar: [], ustozlar: [], jadval: [], elonlar: [], arizalar: []
+                };
+
+                App.db.centers.unshift(newCenter);
+                App.db.applications.splice(idx, 1);
+                await App.saveDatabase();
+                App.renderSuperAdmin();
+
+                // 1. Send via Telegram Bot if chatId is known
+                if (newCenter.chatId) {
+                    await Utils.sendTelegramMessage(newCenter.chatId, `<b>${approvalMsg}</b>`);
+                }
+
+                // 2. Copy credentials to clipboard so Super Admin can also paste anywhere
+                try {
+                    await navigator.clipboard.writeText(approvalMsg);
+                } catch (e) {}
+
+                UI.toast(`"${newCenter.nomi}" tasdiqlandi! Login (${login}) va Parol (${parol}) markazga yuborildi!`);
+                return newCenter;
+            },
+
+            sendCredentialsViaTelegramLink: (nomi, tg, login, parol) => {
+                const text = `🎉 Assalomu alaykum! "${nomi}" o'quv markazingiz Everest Education platformasida tasdiqlandi!\n\n🔐 Login: ${login}\n🔑 Parol: ${parol}\n🌐 Saytga yoki @${ENV.TELEGRAM_BOT_USERNAME} ga kirib shu login-parol bilan boshqarishingiz mumkin.`;
+                const cleanTg = String(tg || '').replace('@', '').trim();
+                if (cleanTg && !/^\d+$/.test(cleanTg)) {
+                    window.open(`https://t.me/${cleanTg}?text=${encodeURIComponent(text)}`, '_blank');
+                } else {
+                    window.open(`https://t.me/share/url?url=${encodeURIComponent(window.location.origin)}&text=${encodeURIComponent(text)}`, '_blank');
+                }
             },
 
             renderSuperAdminChatMessages: () => {
@@ -1698,63 +1983,6 @@
                 App.renderSuperAdminChatMessages();
             },
 
-            approveFromSuperAdminChat: async () => {
-                await App.fetchDatabase();
-                await App.syncTelegramBotUpdates(false);
-
-                const ref = App.state.saActiveChatTarget;
-                if (!ref || ref.type !== 'app') return;
-                const idx = (App.db.applications || []).findIndex(a => a.id === ref.id);
-                if (idx === -1) return;
-
-                const login = $('sa-chat-login').value.trim().toLowerCase();
-                const parol = $('sa-chat-pass').value.trim();
-                if (!login || !parol) return UI.toast("Login va parolni kiriting!", "error");
-                if (App.isLoginTaken(login)) return UI.toast("Bu login band!", "error");
-
-                const a = App.db.applications[idx];
-                const approvalMsg = `🎉 Tabriklaymiz! "${a.nomi}" markazingiz tasdiqlandi!\n🔐 Login: ${login}\n🔑 Parol: ${parol}\n✅ Shuningdek, ulangan Google akkauntingiz (${a.email}) orqali 1-bosishda parolsiz kirishingiz mumkin!`;
-
-                const messages = a.messages || [];
-                messages.push({ sender: 'admin', text: approvalMsg, time: Utils.timeNow() });
-
-                const newCenter = {
-                    id: Date.now(),
-                    appId: a.id,
-                    nomi: a.nomi,
-                    kategoriya: a.kategoriya,
-                    manzil: a.manzil,
-                    tel: a.tel,
-                    email: a.email || '',
-                    tg: a.tg || '',
-                    chatId: a.chatId || (/^\d+$/.test(a.tg || '') ? a.tg : null),
-                    fanSoni: a.fanSoni,
-                    fanlar: a.fanlar && a.fanlar.length ? a.fanlar : ['Umumiy'],
-                    sharoitlar: a.sharoitlar,
-                    logo: a.logo,
-                    binoRasm: a.binoRasm,
-                    login, parol,
-                    messages,
-                    karta: '', kartaEgasi: '', bank: '',
-                    oyOquvchisi: { ism: '', rasm: '' },
-                    oquvchilar: [], ustozlar: [], jadval: [], elonlar: [], arizalar: []
-                };
-
-                App.db.centers.unshift(newCenter);
-                App.db.applications.splice(idx, 1);
-                await App.saveDatabase();
-
-                App.state.saActiveChatTarget = { type: 'center', id: newCenter.id };
-                $('sa-chat-approve-bar').classList.add('hidden');
-                App.renderSuperAdminChatMessages();
-                App.renderSuperAdmin();
-
-                if (newCenter.chatId) {
-                    await Utils.sendTelegramMessage(newCenter.chatId, `<b>${approvalMsg}</b>`);
-                }
-                UI.toast("Markaz tasdiqlandi va ma'lumotlar Chat hamda Telegramga yuborildi!");
-            },
-
             /* ================= TELEGRAM BOT UPDATES SYNC ================= */
             syncTelegramBotUpdates: async (showNotification = false) => {
                 let updated = false;
@@ -1776,6 +2004,15 @@
                                 }
                             }
                         });
+
+                        // Check Super Admin TG username if set as @username
+                        if (App.db.settings?.saChatId) {
+                            const saKey = String(App.db.settings.saChatId).replace('@', '').trim().toLowerCase();
+                            if (userMap[saKey] && App.db.settings.saChatId !== userMap[saKey]) {
+                                App.db.settings.saChatId = userMap[saKey];
+                                updated = true;
+                            }
+                        }
 
                         (App.db.applications || []).forEach(app => {
                             const tgKey = (app.tg || '').replace('@', '').trim().toLowerCase();
@@ -1816,6 +2053,7 @@
 
             seedInitialData: () => {
                 App.db = {
+                    settings: { saChatId: null },
                     applications: [],
                     centers: [
                         {
@@ -1824,7 +2062,7 @@
                             kategoriya: "IT",
                             manzil: "Qarshi sh., Mustaqillik shoh ko'chasi 12-uy",
                             tel: "+998 (90) 123-45-67",
-                            email: "everest.academy@gmail.com",
+                            email: "",
                             tg: "@everest_admin",
                             chatId: null,
                             login: "apex_admin",
@@ -1847,7 +2085,7 @@
                                     ism: "Alisher Valiyev",
                                     fan: "Frontend React",
                                     tel: "+998 (90) 999-88-77",
-                                    email: "alisher@gmail.com",
+                                    email: "",
                                     tg: "",
                                     login: "alisher",
                                     parol: "12345",
@@ -1863,7 +2101,7 @@
                                     ism: "Sardor Raximov",
                                     fan: "Frontend React",
                                     tel: "+998 (93) 111-22-33",
-                                    email: "sardor@gmail.com",
+                                    email: "",
                                     login: "sardor",
                                     parol: "12345",
                                     rasm: "https://ui-avatars.com/api/?name=Sardor+R&background=2563eb&color=fff"
@@ -1885,7 +2123,7 @@
             isLoginTaken: (login) => {
                 const l = login.trim().toLowerCase();
                 if (l === ENV.SUPER_ADMIN_LOGIN) return true;
-                for (const c of App.db.centers) {
+                for (const c of (App.db.centers || [])) {
                     if (c.login.toLowerCase() === l) return true;
                     if ((c.oquvchilar || []).some(o => o.login.toLowerCase() === l)) return true;
                     if ((c.ustozlar || []).some(u => u.login.toLowerCase() === l)) return true;
@@ -1939,7 +2177,7 @@
                 const tel = $('reg-user-phone').value.trim();
                 const login = $('reg-user-login').value.trim().toLowerCase();
                 const parol = $('reg-user-pass').value.trim();
-                const email = App.state.linkedGoogleAccount?.email || `${login}@gmail.com`;
+                const email = App.state.linkedGoogleAccount?.email || '';
 
                 if (App.isLoginTaken(login)) return UI.toast("Bu login band! Boshqa login yozing.", "error");
                 const center = (App.db.centers || []).find(x => x.id === cid);
@@ -2056,77 +2294,6 @@
                 UI.toast("Tizimdan chiqdingiz");
             },
 
-            /* ================= SUPER ADMIN ================= */
-            renderSuperAdmin: () => {
-                const apps = App.db.applications || [];
-                const centers = App.db.centers || [];
-                let allStudents = [], allTeachers = [];
-
-                centers.forEach(c => {
-                    (c.oquvchilar || []).forEach(o => allStudents.push({ ...o, markaz: c.nomi }));
-                    (c.ustozlar || []).forEach(u => allTeachers.push({ ...u, markaz: c.nomi }));
-                });
-
-                $('sa-stat-apps').innerText = apps.length;
-                $('sa-stat-centers').innerText = centers.length;
-                $('sa-stat-students').innerText = allStudents.length;
-                $('sa-stat-teachers').innerText = allTeachers.length;
-
-                $('sa-applications-list').innerHTML = apps.length === 0
-                    ? `<p class="text-xs text-slate-500 col-span-2">Yangi anketalar yo'q.</p>`
-                    : apps.map((a, idx) => `
-                        <div class="card-clean p-5 space-y-3 border-l-4 border-l-amber-500">
-                            <div class="flex gap-3">
-                                <img src="${a.logo}" class="w-12 h-12 rounded-xl object-cover border">
-                                <img src="${a.binoRasm}" class="w-16 h-12 rounded-xl object-cover border" title="Markaz binosi">
-                                <div class="overflow-hidden">
-                                    <h4 class="font-bold text-sm text-slate-900 dark:text-white truncate">${a.nomi}</h4>
-                                    <p class="text-xs text-slate-500 font-mono">${a.tel} • ${a.manzil}</p>
-                                    <p class="text-[11px] text-emerald-600 font-mono truncate">Google: ${a.email || '-'} | TG: ${a.tg || '-'}</p>
-                                </div>
-                            </div>
-                            <p class="text-xs bg-slate-50 dark:bg-slate-800 p-2.5 rounded-lg"><b>Sharoitlar (${a.fanSoni} ta fan):</b> ${a.sharoitlar}</p>
-                            <div class="flex flex-wrap gap-2">
-                                <button onclick="App.openSuperAdminChat('app', ${a.id})" class="flex-1 btn-primary py-2 text-xs flex items-center justify-center gap-1.5">
-                                    <i class="fa-solid fa-comments"></i> <span>Chat & Tasdiqlash (${(a.messages || []).length})</span>
-                                </button>
-                                <a href="https://t.me/${(a.tg || '').replace('@', '')}" target="_blank" class="px-3 py-2 rounded-lg bg-sky-500/15 text-sky-500 font-bold text-xs flex items-center gap-1">
-                                    <i class="fa-brands fa-telegram"></i> TG
-                                </a>
-                                <button onclick="App.rejectCenterApp(${idx})" class="px-3 py-2 rounded-lg bg-rose-500/15 text-rose-500 font-bold text-xs">Rad etish</button>
-                            </div>
-                        </div>
-                    `).join('');
-
-                $('sa-centers-tbody').innerHTML = centers.map((c, idx) => `
-                    <tr>
-                        <td class="p-3 flex items-center gap-2.5"><img src="${c.logo}" class="w-9 h-9 rounded-lg object-cover"><div><p class="font-bold">${c.nomi}</p><p class="text-[10px] text-slate-500">${c.manzil}</p></div></td>
-                        <td class="p-3"><p class="text-emerald-600 font-medium">${c.email || '-'}</p><p class="text-[11px] font-mono text-slate-400">${c.tg || ''} • ${c.tel}</p></td>
-                        <td class="p-3 font-mono"><span class="text-emerald-600 font-bold">${c.login}</span> / <span class="text-rose-500">${c.parol}</span></td>
-                        <td class="p-3 text-center">
-                            <button onclick="App.openSuperAdminChat('center', ${c.id})" class="px-3 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-600 font-bold text-xs"><i class="fa-solid fa-comments mr-1"></i> Chat</button>
-                        </td>
-                        <td class="p-3 text-center"><button onclick="App.deleteCenter(${idx})" class="px-2.5 py-1 rounded bg-rose-500 text-white text-[10px] font-bold">O'chirish</button></td>
-                    </tr>
-                `).join('');
-
-                $('sa-students-tbody').innerHTML = allStudents.map(o => `
-                    <tr>
-                        <td class="p-2.5 flex items-center gap-2"><img src="${o.rasm}" class="w-6 h-6 rounded-full object-cover"><b>${o.ism}</b></td>
-                        <td class="p-2.5">${o.markaz} • ${o.fan}</td>
-                        <td class="p-2.5 font-mono">${o.login} / ${o.parol}</td>
-                    </tr>
-                `).join('');
-
-                $('sa-teachers-tbody').innerHTML = allTeachers.map(u => `
-                    <tr>
-                        <td class="p-2.5 flex items-center gap-2"><img src="${u.rasm}" class="w-6 h-6 rounded-full object-cover"><b>${u.ism}</b></td>
-                        <td class="p-2.5">${u.markaz} • ${u.fan}</td>
-                        <td class="p-2.5 font-mono">${u.login} / ${u.parol}</td>
-                    </tr>
-                `).join('');
-            },
-
             rejectCenterApp: async (idx) => {
                 App.db.applications.splice(idx, 1);
                 await App.saveDatabase();
@@ -2196,7 +2363,7 @@
 
                 $('ma-students-tbody').innerHTML = c.oquvchilar.map((o, i) => `
                     <tr>
-                        <td class="p-3 flex items-center gap-2.5"><img src="${o.rasm}" class="w-8 h-8 rounded-lg object-cover"><b>${o.ism}</b></td>
+                        <td class="p-3 flex items-center gap-2.5"><img src="${o.rasm}" class="w-8 h-8 rounded-lg object-cover"><div><b>${o.ism}</b><p class="text-[10px] text-emerald-600 font-mono">${o.email || ''}</p></div></td>
                         <td class="p-3">${o.fan} • <b class="text-amber-500">${o.ball}🪙</b></td>
                         <td class="p-3 font-mono">${o.login} / <span class="text-rose-500">${o.parol}</span></td>
                         <td class="p-3 text-center">
@@ -2208,7 +2375,7 @@
 
                 $('ma-teachers-tbody').innerHTML = c.ustozlar.map((u, i) => `
                     <tr>
-                        <td class="p-3 flex items-center gap-2.5"><img src="${u.rasm}" class="w-8 h-8 rounded-lg object-cover"><b>${u.ism}</b></td>
+                        <td class="p-3 flex items-center gap-2.5"><img src="${u.rasm}" class="w-8 h-8 rounded-lg object-cover"><div><b>${u.ism}</b><p class="text-[10px] text-emerald-600 font-mono">${u.email || ''}</p></div></td>
                         <td class="p-3">${u.fan}</td>
                         <td class="p-3 font-mono">${u.tel}</td>
                         <td class="p-3 font-mono">${u.login} / <span class="text-rose-500">${u.parol}</span></td>
@@ -2288,6 +2455,7 @@
                 if (!file) return UI.toast("O'quvchi rasmini tanlang!", "error");
                 const ism = $('mas-name').value.trim();
                 const fan = $('mas-subject').value.trim();
+                const email = ($('mas-email').value || '').trim().toLowerCase();
                 const rawTg = ($('mas-chatid').value || '').trim();
                 const login = $('mas-login').value.trim().toLowerCase();
                 const parol = $('mas-pass').value.trim();
@@ -2298,7 +2466,7 @@
                 const rasm = await Utils.toBase64(file);
                 const chatId = /^\d+$/.test(rawTg) ? rawTg : null;
                 App.activeCenter.oquvchilar.unshift({
-                    ism, fan, email: `${login}@gmail.com`, tg: rawTg, chatId, login, parol, rasm,
+                    ism, fan, email, tg: rawTg, chatId, login, parol, rasm,
                     ball: 10, davomat: 'keldi', tolov: 'kutilmoqda'
                 });
                 await App.saveDatabase();
@@ -2315,6 +2483,7 @@
                 const ism = $('mat-name').value.trim();
                 const fan = $('mat-subject').value.trim();
                 const tel = $('mat-phone').value.trim();
+                const email = ($('mat-email').value || '').trim().toLowerCase();
                 const login = $('mat-login').value.trim().toLowerCase();
                 const parol = $('mat-pass').value.trim();
 
@@ -2322,7 +2491,7 @@
                 if (App.isLoginTaken(login)) return UI.toast("Bu login band!", "error");
 
                 const rasm = await Utils.toBase64(file);
-                App.activeCenter.ustozlar.unshift({ ism, fan, tel, email: `${login}@gmail.com`, login, parol, rasm });
+                App.activeCenter.ustozlar.unshift({ ism, fan, tel, email, login, parol, rasm });
                 await App.saveDatabase();
                 UI.closeModal('modal-add-teacher');
                 App.renderMarkazAdmin();

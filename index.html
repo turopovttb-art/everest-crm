@@ -253,7 +253,7 @@
             <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-800 pb-4">
                 <div>
                     <h2 class="text-lg font-black text-slate-900 dark:text-white">Shaxsiy Kabinet va Ro'yxatdan O'tish</h2>
-                    <p class="text-xs text-slate-500">Sayt va @everest_crmbot uchun yagona kirish oynasi</p>
+                    <p id="auth-db-counter" class="text-xs text-emerald-400 font-semibold">Sayt va @everest_crmbot yagona bazasi</p>
                 </div>
                 <button type="button" onclick="Router.go('market')" class="px-3 py-1.5 rounded-xl glass text-xs font-bold hover:border-emerald-500">
                     <i class="fa-solid fa-arrow-left mr-1"></i> Vitrinaga
@@ -273,7 +273,7 @@
                 </button>
             </div>
 
-            <!-- TAB 1: LOGIN (CLEAN LOGIN & PASSWORD) -->
+            <!-- TAB 1: LOGIN -->
             <div id="abox-login" class="space-y-4">
                 <div class="grid grid-cols-2 gap-2 text-xs font-extrabold">
                     <button type="button" onclick="UI.setLoginRole('normal')" id="lrole-normal" class="py-2.5 rounded-xl bg-emerald-500/15 text-emerald-400 border border-emerald-500/40">⚡ Shaxsiy kabinet</button>
@@ -888,7 +888,7 @@
                 <input type="text" id="mas-login" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Login *" class="input-ui font-mono font-bold">
                 <input type="text" id="mas-pass" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Parol *" class="input-ui font-mono font-bold">
             </div>
-            <button type="button" id="btn-mas-save" onclick="App.adminAddStudent()" class="w-full btn-emerald py-2.5 text-xs">Saqlash</button>
+            <button type="button" id="btn-mas-save" onclick="App.adminAddStudent()" class="w-full btn-emerald py-2.5 text-xs">Saqlash (Bulutga yozish)</button>
         </div>
     </div>
 
@@ -911,7 +911,7 @@
                 <input type="text" id="mat-login" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Login *" class="input-ui font-mono font-bold">
                 <input type="text" id="mat-pass" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Parol *" class="input-ui font-mono font-bold">
             </div>
-            <button type="button" id="btn-mat-save" onclick="App.adminAddTeacher()" class="w-full btn-emerald py-2.5 text-xs">Saqlash</button>
+            <button type="button" id="btn-mat-save" onclick="App.adminAddTeacher()" class="w-full btn-emerald py-2.5 text-xs">Saqlash (Bulutga yozish)</button>
         </div>
     </div>
 
@@ -938,17 +938,19 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- CORE ENGINE (FAST FIREBASE + RELIABLE TELEGRAM BOT ATTENDANCE)    -->
+    <!-- DUAL-SYNC CLOUD ENGINE (AUTO-MERGES v3 + v4 + LOCALSTORAGE!)      -->
     <!-- ================================================================= -->
     <script>
         const ENV = {
-            DB_URL: "https://everestcrm-5b705-default-rtdb.firebaseio.com/everest_v3.json",
+            DB_V3_URL: "https://everestcrm-5b705-default-rtdb.firebaseio.com/everest_v3.json",
+            DB_V4_URL: "https://everestcrm-5b705-default-rtdb.firebaseio.com/everest_v4.json",
             BOT_TOKEN: "8952625874:AAGdtnmNZ_CIB7jvNEAuHggdmAcMsTL5cUc",
             BOT_USER: "everest_crmbot",
             SA_LOGIN: "nvmtrpv",
             SA_PASS: "123",
-            SESS_KEY: "ev_final_sess_v1",
-            APP_KEY: "ev_final_app_v1"
+            SESS_KEY: "ev_unified_sess",
+            APP_KEY: "ev_unified_app",
+            BACKUP_KEY: "ev_unified_backup"
         };
 
         const $ = id => document.getElementById(id);
@@ -1018,8 +1020,8 @@
                                 try {
                                     const canvas = document.createElement('canvas');
                                     const ctx = canvas.getContext('2d');
-                                    const maxDim = 150;
-                                    let w = img.width || 150, h = img.height || 150;
+                                    const maxDim = 140;
+                                    let w = img.width || 140, h = img.height || 140;
                                     if (w > h) { if (w > maxDim) { h *= maxDim / w; w = maxDim; } }
                                     else { if (h > maxDim) { w *= maxDim / h; h = maxDim; } }
                                     canvas.width = w; canvas.height = h;
@@ -1090,7 +1092,7 @@
                 box.className = `px-4 py-3 rounded-xl text-white text-xs font-extrabold shadow-2xl flex items-center gap-2.5 ${colors}`;
                 box.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i><span>${msg}</span>`;
                 root.appendChild(box);
-                setTimeout(() => box.remove(), 3500);
+                setTimeout(() => box.remove(), 4000);
             },
             setCloudStatus: (saving = false) => {
                 const badge = $('cloud-badge');
@@ -1098,7 +1100,7 @@
                 if (saving) {
                     badge.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-[9px]"></i> Saqlanmoqda...`;
                 } else {
-                    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Online`;
+                    badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Sinxron`;
                 }
             },
             togglePassVis: (inpId, btn) => {
@@ -1201,9 +1203,41 @@
                 return c.oquvchilar.find(o => String(o.login).trim().toLowerCase() === loginKey) || null;
             },
 
-            normalizeDB: (raw) => {
-                if (!raw || typeof raw !== 'object') return null;
-                const centers = Utils.toArray(raw.centers || raw.markazlar).map((c, idx) => ({
+            normalizeStudent: (o) => ({
+                ism: String(o.ism || o.i || "O'quvchi").trim(),
+                fan: String(o.fan || o.f || "Umumiy").trim(),
+                tel: o.tel || "+998",
+                tg: o.tg || "",
+                chatId: o.chatId || null,
+                login: String(o.login || o.l || "").trim(),
+                parol: String(o.parol || o.p || "").trim(),
+                ball: Number(o.ball ?? o.b ?? 10),
+                davomat: (o.davomat === 'kelmadi' || o.d === 'Y') ? 'kelmadi' : 'keldi',
+                tolov: (o.tolov === 'tasdiqlangan' || o.t === 'ok') ? 'tasdiqlangan' : 'kutilmoqda',
+                rasm: o.rasm || o.r || `https://ui-avatars.com/api/?name=${encodeURIComponent(o.ism || 'O')}&background=10b981&color=fff`
+            }),
+
+            normalizeTeacher: (u) => ({
+                ism: String(u.ism || u.i || "Ustoz").trim(),
+                fan: String(u.fan || u.f || "Umumiy").trim(),
+                tel: u.tel || "+998",
+                login: String(u.login || u.l || "").trim(),
+                parol: String(u.parol || u.p || "").trim(),
+                rasm: u.rasm || u.r || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.ism || 'U')}&background=2563eb&color=fff`
+            }),
+
+            normalizeCenter: (c, idx = 0) => {
+                const sMap = new Map();
+                Utils.toArray(c.oquvchilar || c.oq).forEach(rawO => {
+                    const no = App.normalizeStudent(rawO);
+                    if (no.login) sMap.set(no.login.toLowerCase(), no);
+                });
+                const tMap = new Map();
+                Utils.toArray(c.ustozlar || c.us).forEach(rawU => {
+                    const nu = App.normalizeTeacher(rawU);
+                    if (nu.login) tMap.set(nu.login.toLowerCase(), nu);
+                });
+                return {
                     id: Number(c.id) || (101 + idx),
                     appId: c.appId || null,
                     nomi: String(c.nomi || c.n || "O'quv Markaz").trim(),
@@ -1223,52 +1257,88 @@
                     kartaEgasi: c.kartaEgasi || "",
                     bank: c.bank || "",
                     oyOquvchisi: c.oyOquvchisi || { ism: "", rasm: "" },
-                    oquvchilar: Utils.toArray(c.oquvchilar || c.oq).map(o => ({
-                        ism: String(o.ism || o.i || "O'quvchi").trim(),
-                        fan: String(o.fan || o.f || "Umumiy").trim(),
-                        tel: o.tel || "+998",
-                        tg: o.tg || "",
-                        chatId: o.chatId || null,
-                        login: String(o.login || o.l || "").trim(),
-                        parol: String(o.parol || o.p || "").trim(),
-                        ball: Number(o.ball ?? o.b ?? 10),
-                        davomat: (o.davomat === 'kelmadi' || o.d === 'Y') ? 'kelmadi' : 'keldi',
-                        tolov: (o.tolov === 'tasdiqlangan' || o.t === 'ok') ? 'tasdiqlangan' : 'kutilmoqda',
-                        rasm: o.rasm || o.r || `https://ui-avatars.com/api/?name=${encodeURIComponent(o.ism || 'O')}&background=10b981&color=fff`
-                    })),
-                    ustozlar: Utils.toArray(c.ustozlar || c.us).map(u => ({
-                        ism: String(u.ism || u.i || "Ustoz").trim(),
-                        fan: String(u.fan || u.f || "Umumiy").trim(),
-                        tel: u.tel || "+998",
-                        login: String(u.login || u.l || "").trim(),
-                        parol: String(u.parol || u.p || "").trim(),
-                        rasm: u.rasm || u.r || `https://ui-avatars.com/api/?name=${encodeURIComponent(u.ism || 'U')}&background=2563eb&color=fff`
-                    })),
+                    oquvchilar: Array.from(sMap.values()),
+                    ustozlar: Array.from(tMap.values()),
                     jadval: Utils.toArray(c.jadval),
                     elonlar: Utils.toArray(c.elonlar),
                     arizalar: Utils.toArray(c.arizalar),
                     messages: Utils.toArray(c.messages)
-                }));
-
-                const applications = Utils.toArray(raw.applications).map(a => ({
-                    ...a,
-                    id: Number(a.id) || Date.now(),
-                    fanlar: Array.isArray(a.fanlar) ? a.fanlar : String(a.fanlar || "Umumiy").split(',').map(s => s.trim()).filter(Boolean),
-                    messages: Utils.toArray(a.messages)
-                }));
-
-                return {
-                    centers,
-                    applications,
-                    settings: raw.settings || { saChatId: null }
                 };
             },
 
-            getDefaultDB: () => App.normalizeDB({
+            /* MERGES MULTIPLE DB SOURCES (v3 + v4 + LOCALSTORAGE) SO NO STUDENT OR CENTER IS EVER LOST! */
+            mergeMultipleDBs: (dbList) => {
+                const centerMap = new Map();
+                const appMap = new Map();
+                let saChatId = null;
+
+                dbList.forEach(raw => {
+                    if (!raw || typeof raw !== 'object') return;
+                    if (raw.settings?.saChatId) saChatId = raw.settings.saChatId;
+
+                    Utils.toArray(raw.centers || raw.markazlar).forEach((rawC, idx) => {
+                        if (!rawC || typeof rawC !== 'object') return;
+                        const nc = App.normalizeCenter(rawC, idx);
+                        const key = nc.login.toLowerCase();
+                        if (!centerMap.has(key)) {
+                            centerMap.set(key, nc);
+                        } else {
+                            const ex = centerMap.get(key);
+                            // Merge students
+                            const sMap = new Map(ex.oquvchilar.map(o => [o.login.toLowerCase(), o]));
+                            nc.oquvchilar.forEach(o => {
+                                if (!sMap.has(o.login.toLowerCase())) sMap.set(o.login.toLowerCase(), o);
+                                else if (o.chatId && !sMap.get(o.login.toLowerCase()).chatId) {
+                                    sMap.get(o.login.toLowerCase()).chatId = o.chatId;
+                                }
+                            });
+                            ex.oquvchilar = Array.from(sMap.values());
+
+                            // Merge teachers
+                            const tMap = new Map(ex.ustozlar.map(u => [u.login.toLowerCase(), u]));
+                            nc.ustozlar.forEach(u => {
+                                if (!tMap.has(u.login.toLowerCase())) tMap.set(u.login.toLowerCase(), u);
+                            });
+                            ex.ustozlar = Array.from(tMap.values());
+
+                            if (nc.jadval.length > ex.jadval.length) ex.jadval = nc.jadval;
+                            if (nc.elonlar.length > ex.elonlar.length) ex.elonlar = nc.elonlar;
+                            if (nc.arizalar.length > ex.arizalar.length) ex.arizalar = nc.arizalar;
+                            if (nc.messages.length > ex.messages.length) ex.messages = nc.messages;
+                        }
+                    });
+
+                    Utils.toArray(raw.applications).forEach(a => {
+                        if (!a || typeof a !== 'object') return;
+                        const key = String(a.nomi || '').trim().toLowerCase();
+                        if (key && !appMap.has(key)) {
+                            appMap.set(key, {
+                                ...a,
+                                id: Number(a.id) || Date.now(),
+                                fanlar: Array.isArray(a.fanlar) ? a.fanlar : String(a.fanlar || "Umumiy").split(',').map(s => s.trim()).filter(Boolean),
+                                messages: Utils.toArray(a.messages)
+                            });
+                        }
+                    });
+                });
+
+                const finalCenters = Array.from(centerMap.values());
+                const finalApps = Array.from(appMap.values()).filter(a =>
+                    !finalCenters.some(c => c.nomi.toLowerCase() === String(a.nomi || '').trim().toLowerCase())
+                );
+
+                return {
+                    centers: finalCenters,
+                    applications: finalApps,
+                    settings: { saChatId }
+                };
+            },
+
+            getDefaultDB: () => ({
                 settings: { saChatId: null },
                 applications: [],
                 centers: [
-                    {
+                    App.normalizeCenter({
                         id: 101,
                         nomi: "Everest IT & IELTS Academy",
                         kategoriya: "IT",
@@ -1297,16 +1367,16 @@
                         ],
                         elonlar: [
                             { sarlavha: "Yangi Grant Imtihoni!", matn: "Shanba kuni Frontend va IELTS yo'nalishlari bo'yicha 100% lik grant tanlovi bo'lib o'tadi.", sana: Utils.today() }
-                        ],
-                        arizalar: [],
-                        messages: []
-                    }
+                        ]
+                    })
                 ]
             }),
 
             init: async () => {
                 if ($('ma-today-date')) $('ma-today-date').innerText = Utils.today();
-                await App.fetchDatabase();
+
+                // 1. Fetch from cloud AND merge any local browser data (such as `salomtt / 2015`!) and push unified state to Cloud!
+                await App.fetchAndUnifyAllDatabases(true);
                 await App.syncTelegramUpdates(false);
 
                 const savedAppId = SafeStorage.get(ENV.APP_KEY);
@@ -1320,7 +1390,7 @@
 
             syncAll: async (notify = false) => {
                 $('sync-icon')?.classList.add('fa-spin');
-                await App.fetchDatabase();
+                await App.fetchAndUnifyAllDatabases(false);
                 await App.syncTelegramUpdates(false);
                 if (App.state.role === 'super') App.renderSuperAdmin();
                 if (App.state.role === 'markaz') App.renderMarkazAdmin();
@@ -1331,50 +1401,64 @@
                 if (notify) UI.toast("Baza va Telegram Bot sinxronlandi!");
             },
 
-            fetchDatabase: async () => {
+            /* FETCHES BOTH v3 AND v4 + ANY PREVIOUS LOCAL BACKUPS SO `salomtt / 2015` IS IMMEDIATELY SYNCED! */
+            fetchAndUnifyAllDatabases: async (pushMergedOnInit = false) => {
+                const stamp = `${Date.now()}_${Math.random()}`;
+                let rawV3 = null, rawV4 = null;
+
                 try {
-                    const res = await fetch(`${ENV.DB_URL}?t=${Date.now()}`, { cache: 'no-store' });
-                    if (res.ok) {
-                        const raw = await res.json();
-                        if (raw && typeof raw === 'object') {
-                            const norm = App.normalizeDB(raw);
-                            if (norm && (norm.centers.length > 0 || norm.applications.length > 0)) {
-                                App.db = norm;
-                                SafeStorage.set('ev_final_backup_v1', App.db);
-                                App.renderMarketplace();
-                                return;
-                            }
-                        } else if (raw === null) {
-                            App.db = App.getDefaultDB();
-                            await App.saveDatabase();
-                            App.renderMarketplace();
-                            return;
-                        }
-                    }
+                    const [res3, res4] = await Promise.all([
+                        fetch(`${ENV.DB_V3_URL}?nocache=${stamp}`, { cache: 'no-store' }).catch(() => null),
+                        fetch(`${ENV.DB_V4_URL}?nocache=${stamp}`, { cache: 'no-store' }).catch(() => null)
+                    ]);
+                    if (res3 && res3.ok) rawV3 = await res3.json();
+                    if (res4 && res4.ok) rawV4 = await res4.json();
                 } catch (e) {}
 
-                const cached = App.normalizeDB(SafeStorage.get('ev_final_backup_v1'));
-                if (cached && cached.centers.length > 0) {
-                    App.db = cached;
-                } else if (!App.db.centers || App.db.centers.length === 0) {
+                // Also rescue any centers/students saved in localStorage on this browser!
+                const localBackups = [
+                    SafeStorage.get(ENV.BACKUP_KEY),
+                    SafeStorage.get('ev_final_backup_v1'),
+                    SafeStorage.get('ev_clean_backup_v4'),
+                    SafeStorage.get('ev_backup_v10'),
+                    SafeStorage.get('ev_backup_v9'),
+                    SafeStorage.get('ev_backup_v8')
+                ].filter(Boolean);
+
+                const merged = App.mergeMultipleDBs([rawV4, rawV3, ...localBackups]);
+                if (merged.centers.length > 0) {
+                    App.db = merged;
+                } else {
                     App.db = App.getDefaultDB();
                 }
+
+                SafeStorage.set(ENV.BACKUP_KEY, App.db);
                 App.renderMarketplace();
+
+                if (pushMergedOnInit) {
+                    await App.saveDatabase();
+                }
             },
 
+            fetchDatabase: async () => {
+                await App.fetchAndUnifyAllDatabases(false);
+            },
+
+            /* SAVES TO BOTH v3 AND v4 SIMULTANEOUSLY SO WEB & BOT ARE 100% IDENTICAL! */
             saveDatabase: async () => {
                 UI.setCloudStatus(true);
-                SafeStorage.set('ev_final_backup_v1', App.db);
+                SafeStorage.set(ENV.BACKUP_KEY, App.db);
+                const payload = JSON.stringify(App.db);
                 try {
-                    await fetch(ENV.DB_URL, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(App.db)
-                    });
+                    await Promise.all([
+                        fetch(ENV.DB_V3_URL, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: payload }),
+                        fetch(ENV.DB_V4_URL, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: payload })
+                    ]);
                 } catch (e) {
                     UI.toast("Internet aloqasini tekshiring!", "warning");
                 } finally {
                     UI.setCloudStatus(false);
+                    App.renderMarketplace();
                 }
             },
 
@@ -1424,6 +1508,7 @@
                 if ($('stat-total-centers')) $('stat-total-centers').innerText = App.db.centers.length;
                 if ($('stat-total-students')) $('stat-total-students').innerText = totalStudents;
                 if ($('stat-total-teachers')) $('stat-total-teachers').innerText = totalTeachers;
+                if ($('auth-db-counter')) $('auth-db-counter').innerText = `Sinxron baza: ${App.db.centers.length} ta markaz • ${totalStudents} ta o'quvchi`;
 
                 const filtered = App.db.centers.filter(c => {
                     const matchCat = App.state.category === 'barchasi' || String(c.kategoriya).toLowerCase() === App.state.category.toLowerCase();
@@ -1642,9 +1727,9 @@
 
             login: async () => {
                 const btn = $('btn-login-submit');
-                if (btn) btn.innerText = "Tekshirilmoqda...";
+                if (btn) btn.innerText = "Bulutdan tekshirilmoqda...";
                 try {
-                    await App.fetchDatabase();
+                    await App.fetchAndUnifyAllDatabases(false);
                     await App.syncTelegramUpdates(false);
                     const l = $('login-id').value;
                     const p = $('login-pw').value;
@@ -1666,7 +1751,12 @@
                     return true;
                 }
 
+                let loginExistsButWrongPass = false;
+
                 for (const c of App.db.centers) {
+                    if (String(c.login).trim().toLowerCase() === cleanL || String(c.nomi).trim().toLowerCase() === cleanL) {
+                        loginExistsButWrongPass = true;
+                    }
                     if (App.matchCredential(c, cleanL, cleanP)) {
                         const tgU = Utils.getTelegramUser();
                         if (tgU && tgU.id && c.chatId !== tgU.id) {
@@ -1682,38 +1772,54 @@
                         return true;
                     }
 
-                    const u = c.ustozlar.find(x => App.matchCredential(x, cleanL, cleanP));
-                    if (u) {
-                        App.state.role = 'ustoz';
-                        App.state.activeCenterId = c.id;
-                        App.state.activeUserLogin = u.login;
-                        SafeStorage.set(ENV.SESS_KEY, { l: u.login, p: u.parol, role: 'ustoz' });
-                        App.renderTeacherCabinet();
-                        Router.go('ustoz');
-                        return true;
+                    for (const x of c.ustozlar) {
+                        if (String(x.login).trim().toLowerCase() === cleanL || String(x.ism).trim().toLowerCase() === cleanL) {
+                            loginExistsButWrongPass = true;
+                        }
+                        if (App.matchCredential(x, cleanL, cleanP)) {
+                            App.state.role = 'ustoz';
+                            App.state.activeCenterId = c.id;
+                            App.state.activeUserLogin = x.login;
+                            SafeStorage.set(ENV.SESS_KEY, { l: x.login, p: x.parol, role: 'ustoz' });
+                            App.renderTeacherCabinet();
+                            Router.go('ustoz');
+                            return true;
+                        }
                     }
 
-                    const o = c.oquvchilar.find(x => App.matchCredential(x, cleanL, cleanP));
-                    if (o) {
-                        const tgU = Utils.getTelegramUser();
-                        if (tgU && tgU.id && o.chatId !== tgU.id) {
-                            o.chatId = tgU.id;
-                            if (tgU.username && !o.tg) o.tg = '@' + tgU.username;
-                            await App.saveDatabase();
-                            await Utils.sendTelegram(o.chatId, `<b>✅ EVEREST BOT ULANDI!</b>\nHurmatli <b>${o.ism}</b> (${c.nomi}), davomat xabarnomalari shu yerga keladi.`);
+                    for (const x of c.oquvchilar) {
+                        if (String(x.login).trim().toLowerCase() === cleanL || String(x.ism).trim().toLowerCase() === cleanL) {
+                            loginExistsButWrongPass = true;
                         }
-                        App.state.role = 'oquvchi';
-                        App.state.activeCenterId = c.id;
-                        App.state.activeUserLogin = o.login;
-                        App.state.isParent = (App.state.loginRole === 'otaona');
-                        SafeStorage.set(ENV.SESS_KEY, { l: o.login, p: o.parol, role: App.state.loginRole });
-                        App.renderStudentCabinet();
-                        Router.go('oquvchi');
-                        return true;
+                        if (App.matchCredential(x, cleanL, cleanP)) {
+                            const tgU = Utils.getTelegramUser();
+                            if (tgU && tgU.id && x.chatId !== tgU.id) {
+                                x.chatId = tgU.id;
+                                if (tgU.username && !x.tg) x.tg = '@' + tgU.username;
+                                await App.saveDatabase();
+                                await Utils.sendTelegram(x.chatId, `<b>✅ EVEREST BOT ULANDI!</b>\nHurmatli <b>${x.ism}</b> (${c.nomi}), davomat xabarnomalari shu yerga keladi.`);
+                            }
+                            App.state.role = 'oquvchi';
+                            App.state.activeCenterId = c.id;
+                            App.state.activeUserLogin = x.login;
+                            App.state.isParent = (App.state.loginRole === 'otaona');
+                            SafeStorage.set(ENV.SESS_KEY, { l: x.login, p: x.parol, role: App.state.loginRole });
+                            App.renderStudentCabinet();
+                            Router.go('oquvchi');
+                            return true;
+                        }
                     }
                 }
 
-                if (!silent) UI.toast("Login yoki parol xato!", "error");
+                if (!silent) {
+                    if (loginExistsButWrongPass) {
+                        UI.toast(`"${cleanL}" logini topildi, lekin parol xato kiritildi!`, "error");
+                    } else {
+                        let totalSt = 0;
+                        App.db.centers.forEach(c => totalSt += c.oquvchilar.length);
+                        UI.toast(`"${cleanL}" logini topilmadi! (Bazadagi o'quvchilar: ${totalSt} ta. Saytda Ctrl+F5 bosing)`, "error");
+                    }
+                }
                 return false;
             },
 
@@ -1772,12 +1878,12 @@
                         });
                         await App.saveDatabase();
                         await App.syncTelegramUpdates(false);
-                        UI.toast("O'quvchi saqlandi!");
+                        UI.toast("O'quvchi bulutga saqlandi!");
                         await App.authenticateUser(login, parol, false);
                     } else {
                         center.ustozlar.unshift({ ism, fan, tel, login, parol, rasm });
                         await App.saveDatabase();
-                        UI.toast("Ustoz saqlandi!");
+                        UI.toast("Ustoz bulutga saqlandi!");
                         await App.authenticateUser(login, parol, false);
                     }
                 } finally {
@@ -2182,7 +2288,6 @@
             },
 
             markAttendance: async (idx, status) => {
-                // 1. Always sync latest bot updates first so if the student just pressed START on @everest_crmbot, we grab their chatId!
                 await App.fetchDatabase();
                 await App.syncTelegramUpdates(false);
 
@@ -2241,10 +2346,9 @@
 
             adminAddStudent: async () => {
                 const btn = $('btn-mas-save');
-                if (btn) btn.innerText = "Saqlanmoqda...";
+                if (btn) btn.innerText = "Bulutga saqlanmoqda...";
 
                 try {
-                    await App.fetchDatabase();
                     const c = App.activeCenter;
                     if (!c) return UI.toast("Markaz topilmadi!", "error");
 
@@ -2277,9 +2381,9 @@
                     $('mas-pass').value = '';
                     UI.closeModal('modal-add-student');
                     App.renderMarkazAdmin();
-                    UI.toast(`O'quvchi saqlandi! Login: ${login} | Parol: ${parol}`);
+                    UI.toast(`✅ "${login}" bulutli bazaga saqlandi! Botda ham tayyor.`);
                 } finally {
-                    if (btn) btn.innerText = "Saqlash";
+                    if (btn) btn.innerText = "Saqlash (Bulutga yozish)";
                 }
             },
 
@@ -2298,10 +2402,9 @@
 
             adminAddTeacher: async () => {
                 const btn = $('btn-mat-save');
-                if (btn) btn.innerText = "Saqlanmoqda...";
+                if (btn) btn.innerText = "Bulutga saqlanmoqda...";
 
                 try {
-                    await App.fetchDatabase();
                     const c = App.activeCenter;
                     if (!c) return UI.toast("Markaz topilmadi!", "error");
 
@@ -2329,9 +2432,9 @@
                     $('mat-pass').value = '';
                     UI.closeModal('modal-add-teacher');
                     App.renderMarkazAdmin();
-                    UI.toast(`Ustoz saqlandi! Login: ${login} | Parol: ${parol}`);
+                    UI.toast(`✅ Ustoz ("${login}") bulutga saqlandi!`);
                 } finally {
-                    if (btn) btn.innerText = "Saqlash";
+                    if (btn) btn.innerText = "Saqlash (Bulutga yozish)";
                 }
             },
 
@@ -2515,14 +2618,12 @@
                 UI.toast("Chek yuborildi!");
             },
 
-            /* AUTOMATIC WEBHOOK-SAFE TELEGRAM BOT SYNC ENGINE */
             syncTelegramUpdates: async (notify = false) => {
                 let changed = false;
                 try {
                     let res = await fetch(`https://api.telegram.org/bot${ENV.BOT_TOKEN}/getUpdates?limit=100`);
                     let json = await res.json();
 
-                    // If a webhook is blocking getUpdates (409 Conflict), automatically remove the webhook and retry!
                     if (!json.ok && json.error_code === 409) {
                         await fetch(`https://api.telegram.org/bot${ENV.BOT_TOKEN}/deleteWebhook`);
                         res = await fetch(`https://api.telegram.org/bot${ENV.BOT_TOKEN}/getUpdates?limit=100`);
@@ -2531,14 +2632,12 @@
 
                     if (json && json.ok && Array.isArray(json.result)) {
                         const uMap = {}, startMap = {}, nameMap = {};
-                        let latestChatId = null;
 
                         json.result.forEach(u => {
                             const m = u.message || u.edited_message || u.callback_query?.message;
                             const from = u.message?.from || u.callback_query?.from;
                             const cid = String(m?.chat?.id || from?.id || '');
                             if (cid) {
-                                latestChatId = cid;
                                 if (from?.username) uMap[from.username.toLowerCase()] = cid;
                                 const fullName = [from?.first_name, from?.last_name].filter(Boolean).join(' ').trim().toLowerCase();
                                 if (fullName) nameMap[fullName] = cid;
@@ -2549,7 +2648,6 @@
                                     const payload = text.substring(7).trim().toLowerCase();
                                     if (payload) startMap[payload] = cid;
                                 } else if (text && !text.startsWith('/')) {
-                                    // If student typed their login directly in the bot chat, bind it!
                                     startMap[text.toLowerCase()] = cid;
                                 }
                             }

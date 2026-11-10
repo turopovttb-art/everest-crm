@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="uz" class="dark">
 <head>
@@ -35,7 +36,7 @@
         }
         .font-mono { font-family: 'JetBrains Mono', monospace; }
         .glass {
-            background: rgba(15, 23, 42, 0.82);
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.09);
@@ -714,7 +715,7 @@
     </div>
 
     <!-- ================================================================= -->
-    <!-- REAL-TIME JAVASCRIPT ENGINE                                       -->
+    <!-- REAL-TIME JAVASCRIPT ENGINE (HECH QANDAY NULL POINTERSIZ!)         -->
     <!-- ================================================================= -->
     <script>
         const ENV = {
@@ -724,12 +725,16 @@
             BOT_USER: "everest_crmbot",
             SA_LOGIN: "nvmtrpv",
             SA_PASS: "123",
-            SESS_KEY: "everest_os_session_v6",
-            APP_KEY: "everest_os_app_v6",
-            BACKUP_KEY: "everest_os_backup_v6"
+            SESS_KEY: "everest_os_sess_v7",
+            APP_KEY: "everest_os_app_v7",
+            BACKUP_KEY: "everest_os_backup_v7"
         };
 
         const $ = id => document.getElementById(id);
+        const safeSetTxt = (id, txt) => { const el = $(id); if (el) el.innerText = txt; };
+        const safeSetHTML = (id, html) => { const el = $(id); if (el) el.innerHTML = html; };
+        const safeSetVal = (id, val) => { const el = $(id); if (el) el.value = val; };
+        const safeGetVal = (id) => $(id)?.value || '';
 
         const SafeStorage = {
             get: (k, def = null) => {
@@ -1112,9 +1117,9 @@
 
             init: async () => {
                 App.state.selectedDate = Utils.today();
-                if ($('att-date-picker')) $('att-date-picker').value = App.state.selectedDate;
+                safeSetVal('att-date-picker', App.state.selectedDate);
 
-                // Frame 1 da bazani yuklash
+                // Frame 1 render to completely prevent white screen!
                 App.db = App.mergeDBList([SafeStorage.get(ENV.BACKUP_KEY), App.getDefaultSeedDB()]);
                 App.renderMarketplace();
 
@@ -1122,7 +1127,7 @@
                 await App.syncTelegramUpdates(false);
                 await App.restoreSession();
 
-                // Fon rejimida yangilab turish
+                // Background sync loop
                 setInterval(async () => {
                     if (!App.isSaving) {
                         await App.fetchDatabase(false);
@@ -1196,8 +1201,8 @@
             /* ================= LOGIN & DEMO ================= */
             quickDemoLogin: async (l, p, roleMode) => {
                 UI.setLoginRole(roleMode);
-                $('login-id').value = l;
-                $('login-pw').value = p;
+                safeSetVal('login-id', l);
+                safeSetVal('login-pw', p);
                 await App.login();
             },
 
@@ -1231,8 +1236,8 @@
                 try {
                     await App.fetchDatabase(false);
                     await App.syncTelegramUpdates(false);
-                    const l = $('login-id').value;
-                    const p = $('login-pw').value;
+                    const l = safeGetVal('login-id');
+                    const p = safeGetVal('login-pw');
                     await App.authenticateUser(l, p, false);
                 } finally {
                     if (btn) btn.innerText = "Hisobga Kirish";
@@ -1326,13 +1331,13 @@
                 if (btn) btn.innerText = "Yuborilmoqda...";
 
                 try {
-                    const nomi = $('anketa-name').value.trim();
-                    const kategoriya = $('anketa-cat').value;
-                    const manzil = $('anketa-address').value.trim();
-                    const tel = $('anketa-phone').value.trim();
-                    const tg = $('anketa-tg').value.trim();
-                    const fanlar = $('anketa-subjects').value.split(',').map(s => s.trim()).filter(Boolean);
-                    const sharoitlar = $('anketa-conditions').value.trim();
+                    const nomi = safeGetVal('anketa-name').trim();
+                    const kategoriya = safeGetVal('anketa-cat');
+                    const manzil = safeGetVal('anketa-address').trim();
+                    const tel = safeGetVal('anketa-phone').trim();
+                    const tg = safeGetVal('anketa-tg').trim();
+                    const fanlar = safeGetVal('anketa-subjects').split(',').map(s => s.trim()).filter(Boolean);
+                    const sharoitlar = safeGetVal('anketa-conditions').trim();
 
                     const appId = Date.now();
                     const appObj = {
@@ -1355,7 +1360,6 @@
                     App.db.applications.unshift(appObj);
                     await App.saveDatabase();
 
-                    // Super Adminga Telegram xabar yuborish
                     if (App.db.settings?.saChatId || App.db.settings?.lastActiveTgId) {
                         const tgTarget = App.db.settings.saChatId || App.db.settings.lastActiveTgId;
                         await Utils.sendTelegram(tgTarget, `🔔 <b>YANGI MARKAZ ANKETASI:</b>\n🏢 <b>Markaz:</b> ${nomi}\n📞 <b>Tel:</b> ${tel}\n✈️ <b>TG:</b> ${tg}`);
@@ -1379,35 +1383,40 @@
                 const target = pending || approved;
 
                 if (!target) {
-                    $('chat-messages-box').innerHTML = `<p class="text-xs text-slate-400 text-center py-8">Anketa topilmadi.</p>`;
+                    safeSetHTML('chat-messages-box', `<p class="text-xs text-slate-400 text-center py-8">Anketa topilmadi.</p>`);
                     return;
                 }
 
-                $('chat-center-sub').innerText = `${target.nomi} • Tel: ${target.tel}`;
+                safeSetTxt('chat-center-sub', `${target.nomi} • Tel: ${target.tel}`);
 
                 if (approved) {
-                    $('chat-status-badge').innerText = '✅ Tasdiqlandi';
-                    $('chat-status-badge').className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500 text-white';
-                    $('chat-creds-banner').classList.remove('hidden');
-                    $('chat-creds-text').innerText = `Login: ${approved.login}  |  Parol: ${approved.parol}`;
+                    const badge = $('chat-status-badge');
+                    if (badge) {
+                        badge.innerText = '✅ Tasdiqlandi';
+                        badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500 text-white';
+                    }
+                    $('chat-creds-banner')?.classList.remove('hidden');
+                    safeSetTxt('chat-creds-text', `Login: ${approved.login}  |  Parol: ${approved.parol}`);
                 } else {
-                    $('chat-status-badge').innerText = '⏳ Super Admin tekshirmoqda';
-                    $('chat-status-badge').className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-slate-950';
-                    $('chat-creds-banner').classList.add('hidden');
+                    const badge = $('chat-status-badge');
+                    if (badge) {
+                        badge.innerText = '⏳ Super Admin tekshirmoqda';
+                        badge.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500 text-slate-950';
+                    }
+                    $('chat-creds-banner')?.classList.add('hidden');
                 }
 
-                $('chat-messages-box').innerHTML = (target.messages || []).map(m => m.sender === 'center' ? `
+                safeSetHTML('chat-messages-box', (target.messages || []).map(m => m.sender === 'center' ? `
                     <div class="flex justify-end"><div class="max-w-md bg-emerald-600 text-white px-4 py-2 rounded-2xl text-xs"><p>${m.text}</p></div></div>
                 ` : `
                     <div class="flex justify-start"><div class="max-w-md glass px-4 py-2 rounded-2xl text-xs"><p class="font-bold text-amber-400 mb-1">Super Admin</p><p class="whitespace-pre-line text-white">${m.text}</p></div></div>
-                `).join('');
+                `).join(''));
             },
 
             sendCenterMessage: async () => {
-                const inp = $('chat-input');
-                const txt = inp.value.trim();
+                const txt = safeGetVal('chat-input').trim();
                 if (!txt) return;
-                inp.value = '';
+                safeSetVal('chat-input', '');
                 const appId = Number(App.state.applicantId);
                 const target = App.db.applications.find(a => Number(a.id) === appId) || App.db.centers.find(c => Number(c.appId) === appId);
                 if (!target) return;
@@ -1429,9 +1438,9 @@
                 const apps = App.db.applications || [];
                 const centers = App.db.centers || [];
 
-                $('sa-count-apps').innerText = `${apps.length} ta`;
+                safeSetTxt('sa-count-apps', `${apps.length} ta`);
 
-                $('sa-anketa-list').innerHTML = apps.length === 0
+                safeSetHTML('sa-anketa-list', apps.length === 0
                     ? `<p class="text-xs text-slate-400 py-3">Hozircha yangi anketalar yo'q.</p>`
                     : apps.map(a => `
                         <div class="glass p-5 space-y-3.5 border-2 border-amber-500/40">
@@ -1455,9 +1464,9 @@
                                 </button>
                             </div>
                         </div>
-                    `).join('');
+                    `).join(''));
 
-                $('sa-centers-tbody').innerHTML = centers.map((c, idx) => {
+                safeSetHTML('sa-centers-tbody', centers.map((c, idx) => {
                     const topCount = c.oquvchilar.filter(o => (Number(o.ball) || 0) >= 80).length;
                     return `
                         <tr>
@@ -1468,14 +1477,12 @@
                             <td class="p-3 text-center"><button onclick="App.deleteCenter(${c.id})" class="px-2.5 py-1 rounded-lg bg-rose-600 text-white text-xs font-bold">O'chirish</button></td>
                         </tr>
                     `;
-                }).join('');
+                }).join(''));
             },
 
             approveCenterApplication: async (appId) => {
-                const loginInp = $(`sa-login-${appId}`);
-                const passInp = $(`sa-pass-${appId}`);
-                const login = (loginInp?.value || '').trim();
-                const parol = (passInp?.value || '').trim();
+                const login = safeGetVal(`sa-login-${appId}`).trim();
+                const parol = safeGetVal(`sa-pass-${appId}`).trim();
 
                 if (!login || !parol) return UI.toast("Login va parol kiriting!", "error");
                 if (App.isLoginTaken(login)) return UI.toast("Bu login band!", "error");
@@ -1524,15 +1531,378 @@
                 UI.toast("Markaz o'chirildi!");
             },
 
+            /* ================= SMART DAVOMAT 5.0 (MARKAZ + USTOZ) ================= */
+            onAttendanceDateChange: (val) => {
+                App.state.selectedDate = val || Utils.today();
+                App.renderMarkazAdmin();
+            },
+
+            renderMarkazAdmin: () => {
+                const c = App.activeCenter;
+                if (!c) return;
+
+                const logoEl = $('ma-logo');
+                if (logoEl) logoEl.src = c.logo;
+                safeSetTxt('ma-name', c.nomi);
+                safeSetTxt('ma-address', c.manzil);
+                safeSetTxt('ma-leads-badge', c.arizalar.length);
+
+                let present = 0, late = 0, excused = 0, absent = 0;
+                c.oquvchilar.forEach(o => {
+                    if (o.davomat === 'kelmadi') absent++;
+                    else if (o.davomat === 'kechikdi') late++;
+                    else if (o.davomat === 'sababli') excused++;
+                    else present++;
+                });
+                const total = c.oquvchilar.length;
+                const rate = total > 0 ? Math.round(((present + late + excused) / total) * 100) : 100;
+
+                safeSetTxt('att-kpi-total', total);
+                safeSetTxt('att-kpi-present', present);
+                safeSetTxt('att-kpi-late', late);
+                safeSetTxt('att-kpi-excused', excused);
+                safeSetTxt('att-kpi-absent', absent);
+                safeSetTxt('att-kpi-rate', rate + '%');
+                const progBar = $('att-progress-bar');
+                if (progBar) progBar.style.width = rate + '%';
+
+                safeSetHTML('ma-attendance-tbody', c.oquvchilar.map((o, i) => {
+                    const pct = App.calcAttendancePercent(o);
+                    const isTop = (Number(o.ball) || 0) >= 80;
+                    const badgeStyle = o.davomat === 'keldi'
+                        ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                        : o.davomat === 'kechikdi'
+                            ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
+                            : o.davomat === 'sababli'
+                                ? 'bg-sky-500/20 text-sky-400 border border-sky-500/30'
+                                : 'bg-rose-500/20 text-rose-400 border border-rose-500/30';
+
+                    const badgeText = o.davomat === 'keldi' ? '✅ KELDI' : o.davomat === 'kechikdi' ? '⏳ KECHIKDI' : o.davomat === 'sababli' ? '📄 SABABLI' : '❌ KELMADI';
+
+                    return `
+                        <tr class="hover:bg-slate-800/40 transition">
+                            <td class="p-3 flex items-center gap-2.5">
+                                <img src="${o.rasm}" class="w-10 h-10 rounded-xl object-cover border border-emerald-500/40">
+                                <div>
+                                    <p class="font-extrabold text-white">${o.ism} ${isTop ? '<span class="text-amber-400 text-xs" title="Top Natijador">🏆</span>' : ''}</p>
+                                    <p class="text-[10px] font-mono text-slate-400">Login: <b class="text-emerald-400">${o.login}</b> / <b class="text-rose-400">${o.parol}</b></p>
+                                </div>
+                            </td>
+                            <td class="p-3 space-y-0.5">
+                                <p class="font-bold text-slate-200">${o.fan}</p>
+                                <p class="text-[10px] text-emerald-400 font-bold">Davomat: ${pct}% • 🪙 ${o.ball} Coin</p>
+                            </td>
+                            <td class="p-3">
+                                <input type="text" id="att-note-${i}" value="${o.izoh || ''}" placeholder="Sabab / Izoh..." class="input-ui !py-1.5 !px-2.5 !text-xs max-w-[150px]">
+                            </td>
+                            <td class="p-3 text-center">
+                                <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase ${badgeStyle}">${badgeText}</span>
+                            </td>
+                            <td class="p-3 text-center space-x-1 whitespace-nowrap">
+                                <button type="button" onclick="App.markAttendance(${i}, 'keldi')" class="px-2.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] shadow">
+                                    ✅ Keldi
+                                </button>
+                                <button type="button" onclick="App.markAttendance(${i}, 'kechikdi')" class="px-2.5 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-[11px] shadow">
+                                    ⏳ Kechikdi
+                                </button>
+                                <button type="button" onclick="App.markAttendance(${i}, 'sababli')" class="px-2.5 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-bold text-[11px] shadow">
+                                    📄 Sababli
+                                </button>
+                                <button type="button" onclick="App.markAttendance(${i}, 'kelmadi')" class="px-2.5 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white font-bold text-[11px] shadow">
+                                    ❌ Kelmadi (TG)
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join(''));
+
+                const logs = c.davomatJurnali || [];
+                safeSetHTML('ma-attendance-logs', logs.length === 0
+                    ? `<p class="text-xs text-slate-400">Davomat harakatlari shu yerda real vaqtda ko'rinadi.</p>`
+                    : logs.slice(0, 15).map(l => {
+                        const col = l.holat === 'keldi' ? 'text-emerald-400 border-l-emerald-500' : l.holat === 'kechikdi' ? 'text-amber-400 border-l-amber-500' : l.holat === 'sababli' ? 'text-sky-400 border-l-sky-500' : 'text-rose-400 border-l-rose-500';
+                        return `
+                            <div class="p-3 rounded-xl glass border-l-4 ${col} flex flex-wrap justify-between items-center gap-2 text-xs">
+                                <div>
+                                    <b class="text-white">${l.oquvchi}</b> • <span>${l.fan}</span> • <b class="uppercase">${l.holat}</b>
+                                    <span class="text-slate-400 ml-1">(${l.izoh || '-'})</span>
+                                </div>
+                                <span class="font-mono text-[11px] text-slate-400">${l.sana} ${l.vaqt} • ${l.tgSent ? '📲 TG + Sayt' : '🌐 Sayt Kundaligi'}</span>
+                            </div>
+                        `;
+                    }).join(''));
+
+                safeSetHTML('ma-students-tbody', c.oquvchilar.map((o, i) => {
+                    const isTop = (Number(o.ball) || 0) >= 80;
+                    return `
+                        <tr>
+                            <td class="p-3 font-bold text-white">${o.ism}</td>
+                            <td class="p-3">${o.fan}</td>
+                            <td class="p-3"><b class="text-amber-400">${o.ball}🪙</b> ${isTop ? '<span class="ml-1 px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[10px] font-bold">🏆 Yuqori Daraja</span>' : ''}</td>
+                            <td class="p-3 font-mono"><b class="text-emerald-400">${o.login}</b> / <b class="text-rose-400">${o.parol}</b></td>
+                            <td class="p-3 text-center"><button type="button" onclick="App.deleteStudent(${i})" class="text-rose-500 hover:text-rose-400"><i class="fa-solid fa-trash"></i></button></td>
+                        </tr>
+                    `;
+                }).join(''));
+
+                safeSetHTML('ma-teachers-tbody', c.ustozlar.map((u, i) => `
+                    <tr>
+                        <td class="p-3 font-bold text-white">${u.ism}</td>
+                        <td class="p-3">${u.fan}</td>
+                        <td class="p-3 font-mono">${u.tel}</td>
+                        <td class="p-3 font-mono"><b class="text-emerald-400">${u.login}</b> / <b class="text-rose-400">${u.parol}</b></td>
+                        <td class="p-3 text-center"><button type="button" onclick="App.deleteTeacher(${i})" class="text-rose-500"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `).join(''));
+
+                safeSetHTML('ma-schedule-tbody', c.jadval.map((j, i) => `
+                    <div class="p-3 rounded-xl glass flex justify-between items-center text-xs">
+                        <div><b class="text-emerald-400">${j.fan}</b> • ${j.ustoz}</div>
+                        <div class="font-mono">${j.kunlar} (${j.vaqt}) <button onclick="App.deleteSchedule(${i})" class="text-rose-500 ml-3"><i class="fa-solid fa-trash"></i></button></div>
+                    </div>
+                `).join(''));
+
+                safeSetHTML('ma-leads-tbody', c.arizalar.map((a, i) => `
+                    <div class="p-3 rounded-xl glass flex justify-between items-center text-xs">
+                        <div><b>${a.ism}</b> • <span class="font-mono text-emerald-400">${a.tel}</span> • ${a.fan}</div>
+                        <button onclick="App.deleteLead(${i})" class="px-3 py-1 rounded bg-emerald-600 text-white text-[10px] font-bold">Qabul qilindi</button>
+                    </div>
+                `).join(''));
+            },
+
+            markAttendance: async (idx, status) => {
+                await App.syncTelegramUpdates(false);
+                const c = App.activeCenter;
+                if (!c || !c.oquvchilar[idx]) return;
+                const s = c.oquvchilar[idx];
+
+                const noteInp = $(`att-note-${idx}`) || $(`tch-note-${idx}`);
+                let customNote = noteInp ? noteInp.value.trim() : '';
+                if (!customNote) {
+                    customNote = status === 'keldi' ? 'Vaqtida keldi (+5 Coin)' : status === 'kechikdi' ? 'Kechikib keldi (+2 Coin)' : status === 'sababli' ? 'Sababli dars qoldirdi' : 'Sababsiz dars qoldirdi';
+                }
+
+                s.davomat = status;
+                s.izoh = customNote;
+
+                if (status === 'keldi') s.ball = (Number(s.ball) || 0) + 5;
+                if (status === 'kechikdi') s.ball = (Number(s.ball) || 0) + 2;
+                if (status === 'kelmadi') s.ball = Math.max(0, (Number(s.ball) || 0) - 5);
+
+                const sana = App.state.selectedDate || Utils.today();
+                const vaqt = Utils.timeNow();
+                const markedBy = App.state.role === 'ustoz' ? (App.activeUser?.ism || 'Ustoz') : 'Markaz Admin';
+
+                s.tarix = Utils.toArray(s.tarix);
+                s.tarix.unshift({ sana, vaqt, fan: s.fan, holat: status, izoh: customNote, kim: markedBy });
+
+                const targetChatId = s.chatId || App.db.settings?.lastActiveTgId || null;
+                let tgSent = false;
+
+                if (targetChatId) {
+                    const tgMsg = status === 'keldi'
+                        ? `<b>✅ DAVOMAT: DARSGA QATNASHDI!</b>\n\n👤 <b>O'quvchi:</b> ${s.ism}\n🏢 <b>Markaz:</b> ${c.nomi}\n📚 <b>Fan:</b> ${s.fan}\n📅 <b>Vaqt:</b> ${sana} (${vaqt})\n📝 <b>Izoh:</b> ${customNote}\n🪙 <b>Balans:</b> ${s.ball} Coin`
+                        : status === 'kechikdi'
+                            ? `<b>⏳ DAVOMAT: DARSGA KECHIKDI!</b>\n\n👤 <b>O'quvchi:</b> ${s.ism}\n🏢 <b>Markaz:</b> ${c.nomi}\n📚 <b>Fan:</b> ${s.fan}\n📅 <b>Vaqt:</b> ${sana} (${vaqt})\n📝 <b>Izoh:</b> ${customNote}`
+                            : status === 'sababli'
+                                ? `<b>📄 DAVOMAT: SABABLI DARS QOLDIRDI</b>\n\n👤 <b>O'quvchi:</b> ${s.ism}\n🏢 <b>Markaz:</b> ${c.nomi}\n📚 <b>Fan:</b> ${s.fan}\n📅 <b>Vaqt:</b> ${sana} (${vaqt})\n📝 <b>Izoh:</b> ${customNote}`
+                                : `<b>⚠️ DIQQAT: DARS QOLDIRILDI (KELMADI)!</b>\n\n👤 <b>O'quvchi:</b> ${s.ism}\n🏢 <b>Markaz:</b> ${c.nomi}\n📚 <b>Fan:</b> ${s.fan}\n📅 <b>Vaqt:</b> ${sana} (${vaqt})\n❌ <b>Holat:</b> Darsga kelmadi!\n📝 <b>Sabab:</b> ${customNote}`;
+
+                    tgSent = await Utils.sendTelegram(targetChatId, tgMsg);
+                }
+
+                c.davomatJurnali = Utils.toArray(c.davomatJurnali);
+                c.davomatJurnali.unshift({
+                    sana, vaqt, oquvchi: s.ism, fan: s.fan, holat: status, izoh: customNote, kim: markedBy, tgSent
+                });
+
+                await App.saveDatabase();
+
+                if (App.state.role === 'markaz') App.renderMarkazAdmin();
+                if (App.state.role === 'ustoz') App.renderTeacherCabinet();
+
+                UI.toast(`${s.ism}: ${status.toUpperCase()} (${tgSent ? 'Sayt + TG Botga bordi!' : 'Saytga saqlandi!'})`, status === 'kelmadi' ? 'warning' : 'success');
+            },
+
+            markAllPresent: async () => {
+                const c = App.activeCenter;
+                if (!c || c.oquvchilar.length === 0) return;
+                const sana = App.state.selectedDate || Utils.today();
+                const vaqt = Utils.timeNow();
+
+                c.oquvchilar.forEach(s => {
+                    s.davomat = 'keldi';
+                    s.izoh = 'Vaqtida keldi (+5 Coin)';
+                    s.ball = (Number(s.ball) || 0) + 5;
+                    s.tarix = Utils.toArray(s.tarix);
+                    s.tarix.unshift({ sana, vaqt, fan: s.fan, holat: 'keldi', izoh: 'Guruh davomati: Keldi', kim: 'Admin' });
+                });
+
+                c.davomatJurnali = Utils.toArray(c.davomatJurnali);
+                c.davomatJurnali.unshift({
+                    sana, vaqt, oquvchi: `Barcha o'quvchilar (${c.oquvchilar.length} ta)`, fan: 'Umumiy', holat: 'keldi', izoh: 'Yoppasiga keldi (+5 Coin)', kim: 'Admin', tgSent: true
+                });
+
+                await App.saveDatabase();
+                if (App.state.role === 'markaz') App.renderMarkazAdmin();
+                if (App.state.role === 'ustoz') App.renderTeacherCabinet();
+                UI.toast(`Barcha o'quvchilar "Keldi (+5 Coin)" deb belgilandi!`);
+            },
+
+            sendDailySummaryToTelegram: async () => {
+                await App.syncTelegramUpdates(false);
+                const c = App.activeCenter;
+                if (!c) return;
+                let p = 0, l = 0, e = 0, a = 0;
+                c.oquvchilar.forEach(o => {
+                    if (o.davomat === 'kelmadi') a++;
+                    else if (o.davomat === 'kechikdi') l++;
+                    else if (o.davomat === 'sababli') e++;
+                    else p++;
+                });
+                const targetId = App.db.settings?.lastActiveTgId;
+                const report = `📊 <b>KUNLIK DAVOMAT HISOBOTI (${Utils.today()})</b>\n🏢 <b>Markaz:</b> ${c.nomi}\n\n👥 <b>Jami o'quvchilar:</b> ${c.oquvchilar.length} ta\n✅ <b>Keldi:</b> ${p} ta\n⏳ <b>Kechikdi:</b> ${l} ta\n📄 <b>Sababli:</b> ${e} ta\n❌ <b>Kelmadi:</b> ${a} ta`;
+
+                if (targetId) {
+                    await Utils.sendTelegram(targetId, report);
+                    UI.toast("Hisobot Telegram botga yuborildi!");
+                } else {
+                    window.open(`https://t.me/${ENV.BOT_USER}`, '_blank');
+                    UI.toast("Hisobot tayyor! (@everest_crmbot ga kiring)", "warning");
+                }
+            },
+
+            /* ================= USTOZ VA O'QUVCHI KABINETI ================= */
+            renderTeacherCabinet: () => {
+                const u = App.activeUser;
+                const c = App.activeCenter;
+                if (!u || !c) return;
+                const avEl = $('teacher-avatar');
+                if (avEl) avEl.src = u.rasm;
+                safeSetTxt('teacher-name', u.ism);
+                safeSetTxt('teacher-meta', `${u.fan} • ${c.nomi}`);
+
+                safeSetHTML('teacher-students-tbody', c.oquvchilar.map((o, i) => `
+                    <tr>
+                        <td class="p-3 font-bold text-white">${o.ism} <span class="text-[10px] font-mono text-emerald-400">(${o.login})</span></td>
+                        <td class="p-3">${o.fan} • <b class="text-amber-400">🪙 ${o.ball}</b></td>
+                        <td class="p-3"><input type="text" id="tch-note-${i}" value="${o.izoh || ''}" class="input-ui !py-1 !px-2 !text-xs max-w-[140px]"></td>
+                        <td class="p-3 text-center uppercase font-black text-[10px]">${o.davomat}</td>
+                        <td class="p-3 text-center space-x-1 whitespace-nowrap">
+                            <button type="button" onclick="App.markAttendance(${i}, 'keldi')" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold text-[10px]">✅ Keldi</button>
+                            <button type="button" onclick="App.markAttendance(${i}, 'kechikdi')" class="px-2.5 py-1 rounded-lg bg-amber-500 text-slate-950 font-bold text-[10px]">⏳ Kechikdi</button>
+                            <button type="button" onclick="App.markAttendance(${i}, 'sababli')" class="px-2.5 py-1 rounded-lg bg-sky-500 text-white font-bold text-[10px]">📄 Sababli</button>
+                            <button type="button" onclick="App.markAttendance(${i}, 'kelmadi')" class="px-2.5 py-1 rounded-lg bg-rose-600 text-white font-bold text-[10px]">❌ Kelmadi</button>
+                        </td>
+                    </tr>
+                `).join(''));
+            },
+
+            renderStudentCabinet: () => {
+                const o = App.activeUser;
+                const c = App.activeCenter;
+                if (!o || !c) return;
+
+                $('parent-mode-banner')?.classList.toggle('hidden', !App.state.isParent);
+                const stAv = $('student-avatar');
+                if (stAv) stAv.src = o.rasm;
+                safeSetTxt('student-name', o.ism);
+                safeSetTxt('student-meta', `${c.nomi} • ${o.fan} (Login: ${o.login})`);
+                safeSetTxt('student-score', `🪙 ${o.ball || 0}`);
+                const bLink = $('student-bot-link');
+                if (bLink) bLink.href = `https://t.me/${ENV.BOT_USER}?start=${encodeURIComponent(o.login)}`;
+
+                const pct = App.calcAttendancePercent(o);
+                safeSetTxt('student-att-percent', pct + '%');
+                safeSetTxt('student-att-summary', `Jami belgilangan darslar: ${Utils.toArray(o.tarix).length} ta`);
+
+                const alertBox = $('student-live-att-alert');
+                if (alertBox) {
+                    if (o.davomat === 'kelmadi') {
+                        alertBox.className = "p-4 rounded-2xl bg-rose-500/15 border-2 border-rose-500/40 text-rose-300 flex flex-wrap justify-between items-center gap-3";
+                        alertBox.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-rose-600 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                                <div>
+                                    <p class="font-black text-sm text-white">⚠️ DIQQAT: Bugungi dars qoldirildi (KELMADI)!</p>
+                                    <p class="text-xs text-rose-300">Fan: <b>${o.fan}</b> • Sabab: <b>${o.izoh || 'Sababsiz'}</b></p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-rose-600 text-white text-[10px] font-black uppercase">${Utils.today()}</span>
+                        `;
+                    } else if (o.davomat === 'kechikdi') {
+                        alertBox.className = "p-4 rounded-2xl bg-amber-500/15 border border-amber-500/40 text-amber-300 flex flex-wrap justify-between items-center gap-3";
+                        alertBox.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center text-lg"><i class="fa-solid fa-clock"></i></div>
+                                <div>
+                                    <p class="font-black text-sm text-white">⏳ Bugun darsga kechikib keldi (+2 Coin)</p>
+                                    <p class="text-xs text-amber-300">Fan: <b>${o.fan}</b> • Izoh: <b>${o.izoh}</b></p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-amber-500 text-slate-950 text-[10px] font-black uppercase">${Utils.today()}</span>
+                        `;
+                    } else {
+                        alertBox.className = "p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 flex flex-wrap justify-between items-center gap-3";
+                        alertBox.innerHTML = `
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center text-lg"><i class="fa-solid fa-circle-check"></i></div>
+                                <div>
+                                    <p class="font-black text-sm text-white">✅ Bugun darsda faol qatnashmoqda!</p>
+                                    <p class="text-xs text-emerald-300">Fan: <b>${o.fan}</b> • Izoh: <b>${o.izoh || 'Vaqtida keldi'}</b></p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-emerald-600 text-white text-[10px] font-black uppercase">${Utils.today()}</span>
+                        `;
+                    }
+                }
+
+                safeSetHTML('student-attendance', o.davomat.toUpperCase());
+                safeSetTxt('student-att-note', `Izoh: ${o.izoh || '-'}`);
+
+                const history = Utils.toArray(o.tarix);
+                safeSetHTML('student-att-history-list', history.length === 0
+                    ? `<p class="text-xs text-slate-400">Davomat tarixi hozircha bo'sh.</p>`
+                    : history.map(h => {
+                        const badge = h.holat === 'keldi' ? 'bg-emerald-500/20 text-emerald-400' : h.holat === 'kechikdi' ? 'bg-amber-500/20 text-amber-400' : h.holat === 'sababli' ? 'bg-sky-500/20 text-sky-400' : 'bg-rose-500/20 text-rose-400';
+                        return `
+                            <div class="p-3 rounded-xl glass flex flex-wrap justify-between items-center gap-2 text-xs">
+                                <div class="flex items-center gap-3">
+                                    <span class="px-2.5 py-1 rounded-lg font-black uppercase text-[10px] ${badge}">${h.holat}</span>
+                                    <div>
+                                        <p class="font-bold text-white">${h.fan} — <span class="text-slate-300">${h.izoh || ''}</span></p>
+                                        <p class="text-[10px] text-slate-400">Belgiladi: ${h.kim || 'Admin'}</p>
+                                    </div>
+                                </div>
+                                <span class="font-mono text-[11px] text-slate-400">${h.sana} • ${h.vaqt || ''}</span>
+                            </div>
+                        `;
+                    }).join(''));
+            },
+
+            bindStudentTelegram: async () => {
+                await App.syncTelegramUpdates(false);
+                const o = App.activeUser;
+                const targetId = o.chatId || App.db.settings?.lastActiveTgId;
+                if (targetId) {
+                    o.chatId = targetId;
+                    await App.saveDatabase();
+                    await Utils.sendTelegram(targetId, `<b>📊 SHAXSIY DAVOMAT HISOBOTI</b>\n\n👤 <b>O'quvchi:</b> ${o.ism}\n📚 <b>Fan:</b> ${o.fan}\n📈 <b>Davomat foizi:</b> ${App.calcAttendancePercent(o)}%\n📌 <b>Oxirgi holat:</b> ${o.davomat.toUpperCase()} (${o.izoh})\n🪙 <b>Ball:</b> ${o.ball} Coin`);
+                    return UI.toast("Telegramingizga jonli davomat hisoboti yuborildi!");
+                }
+                window.open(`https://t.me/${ENV.BOT_USER}?start=${encodeURIComponent(o.login)}`, '_blank');
+                UI.toast("@everest_crmbot ochildi! Botda START tugmasini bosing.");
+            },
+
             /* ================= BOSHQA FUNKSIYALAR ================= */
             adminAddStudent: async () => {
                 const c = App.activeCenter;
                 if (!c) return;
-                const ism = $('mas-name').value.trim();
-                const fan = $('mas-subject').value.trim();
-                const rawTg = ($('mas-chatid').value || '').trim();
-                const login = $('mas-login').value.trim();
-                const parol = $('mas-pass').value.trim();
+                const ism = safeGetVal('mas-name').trim();
+                const fan = safeGetVal('mas-subject').trim();
+                const rawTg = safeGetVal('mas-chatid').trim();
+                const login = safeGetVal('mas-login').trim();
+                const parol = safeGetVal('mas-pass').trim();
 
                 if (!ism || !fan || !login || !parol) return UI.toast("Barcha maydonlarni to'ldiring!", "error");
                 if (App.isLoginTaken(login)) return UI.toast("Bu login band!", "error");
@@ -1545,11 +1915,11 @@
                 }));
 
                 await App.saveDatabase();
-                $('mas-name').value = '';
-                $('mas-subject').value = '';
-                $('mas-chatid').value = '';
-                $('mas-login').value = '';
-                $('mas-pass').value = '';
+                safeSetVal('mas-name', '');
+                safeSetVal('mas-subject', '');
+                safeSetVal('mas-chatid', '');
+                safeSetVal('mas-login', '');
+                safeSetVal('mas-pass', '');
                 UI.closeModal('modal-add-student');
                 App.renderMarkazAdmin();
                 UI.toast(`✅ "${login}" saqlandi!`);
@@ -1558,11 +1928,11 @@
             adminAddTeacher: async () => {
                 const c = App.activeCenter;
                 if (!c) return;
-                const ism = $('mat-name').value.trim();
-                const fan = $('mat-subject').value.trim();
-                const tel = $('mat-phone').value.trim();
-                const login = $('mat-login').value.trim();
-                const parol = $('mat-pass').value.trim();
+                const ism = safeGetVal('mat-name').trim();
+                const fan = safeGetVal('mat-subject').trim();
+                const tel = safeGetVal('mat-phone').trim();
+                const login = safeGetVal('mat-login').trim();
+                const parol = safeGetVal('mat-pass').trim();
                 if (!ism || !fan || !login || !parol) return UI.toast("Maydonlarni to'ldiring!", "error");
 
                 c.ustozlar.unshift({
@@ -1576,16 +1946,16 @@
             },
 
             registerUser: async () => {
-                const cid = Number($('reg-center-select').value);
+                const cid = Number(safeGetVal('reg-center-select'));
                 const center = App.db.centers.find(c => Number(c.id) === cid) || App.db.centers[0];
                 if (!center) return;
 
-                const ism = $('reg-user-name').value.trim();
-                const fan = $('reg-user-subject').value.trim();
-                const tel = $('reg-user-phone').value.trim();
-                const rawTg = ($('reg-user-tg')?.value || '').trim();
-                const login = $('reg-user-login').value.trim();
-                const parol = $('reg-user-pass').value.trim();
+                const ism = safeGetVal('reg-user-name').trim();
+                const fan = safeGetVal('reg-user-subject').trim();
+                const tel = safeGetVal('reg-user-phone').trim();
+                const rawTg = safeGetVal('reg-user-tg').trim();
+                const login = safeGetVal('reg-user-login').trim();
+                const parol = safeGetVal('reg-user-pass').trim();
 
                 if (App.isLoginTaken(login)) return UI.toast("Bu login band!", "error");
                 const tgU = Utils.getTelegramUser();
@@ -1621,13 +1991,122 @@
             addSchedule: async () => {
                 const c = App.activeCenter;
                 c.jadval.push({
-                    fan: $('sch-subject').value.trim(),
-                    ustoz: $('sch-teacher').value.trim(),
-                    kunlar: $('sch-days').value,
-                    vaqt: $('sch-time').value.trim()
+                    fan: safeGetVal('sch-subject').trim(),
+                    ustoz: safeGetVal('sch-teacher').trim(),
+                    kunlar: safeGetVal('sch-days'),
+                    vaqt: safeGetVal('sch-time').trim()
                 });
                 await App.saveDatabase();
                 App.renderMarkazAdmin();
+            },
+
+            handleSearch: (val) => {
+                App.state.searchQuery = String(val || '').trim().toLowerCase();
+                App.renderMarketplace();
+            },
+
+            clearSearch: () => {
+                App.state.searchQuery = '';
+                safeSetVal('market-search', '');
+                safeSetVal('header-search', '');
+                App.setCategory('barchasi');
+            },
+
+            setCategory: (cat) => {
+                App.state.category = cat;
+                ['barchasi', 'IT', 'IELTS', 'Aniq Fanlar'].forEach(k => {
+                    const btn = $('cat-' + k);
+                    if (btn) btn.className = k === cat ? 'px-4 py-2 rounded-xl btn-emerald text-xs' : 'px-4 py-2 rounded-xl glass text-xs font-bold text-slate-200 hover:border-emerald-500';
+                });
+                App.renderMarketplace();
+            },
+
+            renderMarketplace: () => {
+                const q = App.state.searchQuery || '';
+                let totalStudents = 0, totalTeachers = 0, totalTop = 0;
+
+                App.db.centers.forEach(c => {
+                    totalStudents += c.oquvchilar.length;
+                    totalTeachers += c.ustozlar.length;
+                    totalTop += c.oquvchilar.filter(o => (Number(o.ball) || 0) >= 80).length;
+                });
+
+                safeSetTxt('stat-total-centers', App.db.centers.length);
+                safeSetTxt('stat-total-students', totalStudents);
+                safeSetTxt('stat-total-teachers', totalTeachers);
+                safeSetTxt('stat-total-top', totalTop);
+
+                const filtered = App.db.centers.filter(c => {
+                    const matchCat = App.state.category === 'barchasi' || String(c.kategoriya).toLowerCase() === App.state.category.toLowerCase();
+                    if (!q) return matchCat;
+                    const text = [c.nomi, c.manzil, c.kategoriya, c.sharoitlar, c.fanlar.join(' ')].join(' ').toLowerCase();
+                    return matchCat && text.includes(q);
+                });
+
+                safeSetHTML('marketplace-grid', filtered.map(c => {
+                    const tags = c.fanlar.map(f => `<span class="px-2.5 py-0.5 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-bold">${f}</span>`).join('');
+                    const topAchievers = c.oquvchilar.filter(o => (Number(o.ball) || 0) >= 80).length;
+                    return `
+                        <div class="glass overflow-hidden flex flex-col justify-between card-hover">
+                            <div>
+                                <div class="h-40 w-full relative bg-slate-900">
+                                    <img src="${c.binoRasm || c.logo}" class="w-full h-full object-cover opacity-85">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent"></div>
+                                    <span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-emerald-500 text-white text-[10px] font-black uppercase">${c.kategoriya}</span>
+                                    <div class="absolute bottom-3 left-4 right-4 flex items-center gap-3">
+                                        <img src="${c.logo}" class="w-12 h-12 rounded-xl object-cover border-2 border-emerald-400 bg-slate-900 shrink-0">
+                                        <div class="overflow-hidden">
+                                            <h3 class="font-black text-base text-white truncate">${c.nomi}</h3>
+                                            <p class="text-xs text-slate-300 truncate"><i class="fa-solid fa-location-dot text-emerald-400 mr-1"></i>${c.manzil}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-5 space-y-3.5">
+                                    <div class="flex flex-wrap gap-1.5">${tags}</div>
+                                    <div class="grid grid-cols-2 gap-2 text-xs">
+                                        <div class="p-2 rounded-xl bg-slate-900/60 border border-slate-800 text-center">
+                                            <p class="text-[10px] text-slate-400 font-bold">Faol O'quvchilar</p>
+                                            <p class="text-base font-black text-emerald-400">${c.oquvchilar.length} ta</p>
+                                        </div>
+                                        <div class="p-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-center">
+                                            <p class="text-[10px] text-amber-400 font-bold">🏆 Yuqori Natija</p>
+                                            <p class="text-base font-black text-amber-400">${topAchievers} ta (80+ ball)</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-xs text-slate-300 leading-relaxed">${c.sharoitlar}</p>
+                                </div>
+                            </div>
+                            <div class="px-5 pb-5 pt-1 flex gap-2">
+                                <button type="button" onclick="App.openLeadModal(${c.id})" class="flex-1 btn-emerald py-2.5 text-xs">Kursga yozilish</button>
+                                <button type="button" onclick="Router.go('auth')" class="px-3.5 py-2.5 rounded-xl glass text-xs font-bold text-slate-200 hover:border-emerald-500">Kirish</button>
+                            </div>
+                        </div>
+                    `;
+                }).join(''));
+            },
+
+            openLeadModal: (cid) => {
+                const c = App.db.centers.find(x => Number(x.id) === Number(cid));
+                if (!c) return;
+                safeSetVal('lead-center-id', c.id);
+                safeSetTxt('lead-center-name', c.nomi);
+                safeSetHTML('lead-subject', c.fanlar.map(f => `<option value="${f}">${f}</option>`).join(''));
+                UI.openModal('modal-lead');
+            },
+
+            submitLead: async () => {
+                const cid = Number(safeGetVal('lead-center-id'));
+                const c = App.db.centers.find(x => Number(x.id) === cid);
+                if (!c) return;
+                c.arizalar.unshift({
+                    ism: safeGetVal('lead-name').trim(),
+                    tel: safeGetVal('lead-phone').trim(),
+                    fan: safeGetVal('lead-subject'),
+                    sana: Utils.today()
+                });
+                await App.saveDatabase();
+                UI.closeModal('modal-lead');
+                UI.toast("Arizangiz yuborildi!");
             },
 
             syncTelegramUpdates: async (notify = false) => {

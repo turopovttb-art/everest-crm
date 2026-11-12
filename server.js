@@ -2,20 +2,23 @@ const http = require('http');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const { startBot } = require('./bot.js');
 
 let PORT = Number(process.env.PORT) || 3000;
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "8952625874:AAGdtnmNZ_CIB7jvNEAuHggdmAcMsTL5cUc";
-const CLOUD_URL = "https://everestcrm-5b705-default-rtdb.firebaseio.com/everest_v3.json";
+const CLOUD_URL = "https://everestcrm-5b705-default-rtdb.firebaseio.com/everest_saas_prod.json";
 const LOCAL_DB_FILE = path.join(__dirname, 'database.json');
 
 const MIME_TYPES = {
     '.html': 'text/html; charset=utf-8',
     '.css': 'text/css; charset=utf-8',
     '.js': 'application/javascript; charset=utf-8',
-    '.json': 'application/json; charset=utf-8'
+    '.json': 'application/json; charset=utf-8',
+    '.png': 'image/png',
+    '.jpg': 'image/jpeg',
+    '.svg': 'image/svg+xml'
 };
 
-function httpsReq(urlStr, method = 'GET', data = null) {
+function cloudRequest(urlStr, method = 'GET', data = null) {
     return new Promise((resolve) => {
         try {
             const u = new URL(urlStr);
@@ -39,21 +42,6 @@ function httpsReq(urlStr, method = 'GET', data = null) {
     });
 }
 
-function readLocalDB() {
-    try {
-        if (fs.existsSync(LOCAL_DB_FILE)) {
-            return JSON.parse(fs.readFileSync(LOCAL_DB_FILE, 'utf8'));
-        }
-    } catch (e) {}
-    return null;
-}
-
-function writeLocalDB(data) {
-    try {
-        fs.writeFileSync(LOCAL_DB_FILE, JSON.stringify(data, null, 2), 'utf8');
-    } catch (e) {}
-}
-
 const server = http.createServer(async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, OPTIONS');
@@ -66,26 +54,27 @@ const server = http.createServer(async (req, res) => {
 
     const reqUrl = req.url.split('?')[0];
 
-    // REST API: GET DB
+    // API: Bazani o'qish
     if (reqUrl === '/api/db' && req.method === 'GET') {
-        let db = readLocalDB();
-        if (!db) {
-            db = await httpsReq(`${CLOUD_URL}?t=${Date.now()}`);
-            if (db) writeLocalDB(db);
+        let db = await cloudRequest(`${CLOUD_URL}?t=${Date.now()}`);
+        if (db) {
+            try { fs.writeFileSync(LOCAL_DB_FILE, JSON.stringify(db, null, 2)); } catch (e) {}
+        } else if (fs.existsSync(LOCAL_DB_FILE)) {
+            try { db = JSON.parse(fs.readFileSync(LOCAL_DB_FILE, 'utf8')); } catch (e) {}
         }
         res.writeHead(200, { 'Content-Type': 'application/json' });
         return res.end(JSON.stringify(db || {}));
     }
 
-    // REST API: SAVE DB
-    if (reqUrl === '/api/db' && req.method === 'POST') {
+    // API: Bazani saqlash
+    if (reqUrl === '/api/db' && (req.method === 'POST' || req.method === 'PUT')) {
         let body = '';
         req.on('data', chunk => body += chunk);
         req.on('end', async () => {
             try {
                 const parsed = JSON.parse(body);
-                writeLocalDB(parsed);
-                await httpsReq(CLOUD_URL, 'PUT', parsed);
+                fs.writeFileSync(LOCAL_DB_FILE, JSON.stringify(parsed, null, 2));
+                await cloudRequest(CLOUD_URL, 'PUT', parsed);
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ ok: true }));
             } catch (e) {
@@ -96,7 +85,7 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // STATIC FILES (index.html, style.css, app.js)
+    // Statik fayllar (index.html, ota-ona.html va boshqalar)
     let safePath = path.normalize(reqUrl).replace(/^(\.\.[\/\\])+/, '');
     let filePath = path.join(__dirname, (safePath === '/' || safePath === '\\') ? 'index.html' : safePath);
     if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
@@ -107,7 +96,7 @@ const server = http.createServer(async (req, res) => {
     fs.readFile(filePath, (err, content) => {
         if (err) {
             res.writeHead(404);
-            res.end('Not found');
+            res.end('Fayl topilmadi');
         } else {
             res.writeHead(200, { 'Content-Type': MIME_TYPES[ext] || 'text/html; charset=utf-8' });
             res.end(content);
@@ -123,5 +112,8 @@ server.on('error', (e) => {
 });
 
 server.listen(PORT, () => {
-    console.log(`🚀 Everest OS Server ishga tushdi: http://localhost:${PORT}`);
+    console.log("======================================================");
+    console.log(`🚀 EVEREST OS SERVER ISHGA TUSHDI: http://localhost:${PORT}`);
+    console.log("======================================================");
+    startBot();
 });

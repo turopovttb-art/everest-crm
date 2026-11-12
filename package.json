@@ -1,13 +1,16 @@
 {
-  "name": "crm",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "everest-crm",
+  "version": "2.0.0",
+  "description": "Everest CRM — O'quv Markazlari CRM va Telegram Bot tizimi",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "bot": "node bot.js",
+    "dev": "node server.js & node bot.js",
+    "test": "echo \"Testlar yo'q\" && exit 0"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["crm", "telegram", "bot", "education", "uzbekistan"],
+  "author": "Everest CRM",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

@@ -194,12 +194,11 @@
 
         <!-- ASYMMETRIC BENTO GRID HERO -->
         <section class="grid grid-cols-1 lg:grid-cols-12 gap-4">
-            <!-- BENTO MAIN PITCH (8 COLS) -->
             <div class="lg:col-span-8 surface p-6 sm:p-9 flex flex-col justify-between space-y-6">
                 <div class="space-y-4">
                     <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md surface-muted text-[11px] font-semibold text-emerald-500">
                         <span class="status-dot bg-emerald-500"></span>
-                        <span>Multi-Tenant EdTech CRM & Telegram Ekotizimi</span>
+                        <span>Multi-Tenant EdTech CRM & Telegram Bot ID Ekotizimi</span>
                     </div>
                     <h1 class="text-3xl sm:text-5xl font-black tracking-tight leading-[1.1]">
                         Ta'lim markazlari boshqaruvi va ochiq natijadorlik standarti
@@ -229,7 +228,6 @@
                 </div>
             </div>
 
-            <!-- BENTO METRICS COLUMN (4 COLS) -->
             <div class="lg:col-span-4 grid grid-cols-2 lg:grid-cols-1 gap-4">
                 <div class="surface p-5 flex flex-col justify-between">
                     <div class="flex justify-between items-center">
@@ -269,14 +267,21 @@
             </div>
         </section>
 
-        <!-- BENTO ARCHITECTURE ADVANTAGES (4 PILLARS) -->
+        <!-- BENTO ARCHITECTURE ADVANTAGES -->
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="surface p-4 space-y-1.5">
+                <div class="flex items-center gap-2 text-xs font-bold">
+                    <i class="fa-solid fa-id-badge text-emerald-500"></i>
+                    <span>5 Xonali Bot ID & Deep-Link</span>
+                </div>
+                <p class="text-[11px] text-zinc-400 leading-relaxed">Har bir o'quvchiga maxsus Bot ID beriladi — ota-ona to'g'ri botga kirib yoki 1-bosishda ulanadi.</p>
+            </div>
             <div class="surface p-4 space-y-1.5">
                 <div class="flex items-center gap-2 text-xs font-bold">
                     <i class="fa-solid fa-radar text-rose-500"></i>
                     <span>Xavf Ostidagi O'quvchilar Radari</span>
                 </div>
-                <p class="text-[11px] text-zinc-400 leading-relaxed">Ketma-ket dars qoldirgan o'quvchilarni avto-aniqlash va ota-onasiga 1-bosishda ogohlantirish yuborish.</p>
+                <p class="text-[11px] text-zinc-400 leading-relaxed">Dars qoldirgan o'quvchilarni avto-aniqlash va ota-onasiga 1-bosishda ogohlantirish yuborish.</p>
             </div>
             <div class="surface p-4 space-y-1.5">
                 <div class="flex items-center gap-2 text-xs font-bold">
@@ -292,22 +297,13 @@
                 </div>
                 <p class="text-[11px] text-zinc-400 leading-relaxed">O'quvchilar davomatdan yig'gan Coin'larini markaz sovg'alari va chegirmalariga almashtiradi.</p>
             </div>
-            <div class="surface p-4 space-y-1.5">
-                <div class="flex items-center gap-2 text-xs font-bold">
-                    <i class="fa-solid fa-file-invoice-dollar text-emerald-500"></i>
-                    <span>Avto-Qarzdorlik Invoysi</span>
-                </div>
-                <p class="text-[11px] text-zinc-400 leading-relaxed">Ustozni uyaltirmasdan, to'lov kvitansiyasini karta rekvizitlari bilan Telegram bot orqali yuborish.</p>
-            </div>
         </section>
 
         <!-- TASDIQLANGAN MARKAZLAR VITRINASI -->
         <section id="catalog-section" class="space-y-5">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-4">
                 <div>
-                    <h2 class="text-xl font-black tracking-tight flex items-center gap-2">
-                        <span>Tasdiqlangan O'quv Markazlar</span>
-                    </h2>
+                    <h2 class="text-xl font-black tracking-tight">Tasdiqlangan O'quv Markazlar</h2>
                     <p id="search-status-text" class="text-xs text-zinc-400 mt-0.5">Faol o'quvchilar soni, 80+ ball olgan natijadorlar va davomat ko'rsatkichi</p>
                 </div>
                 <div class="flex flex-wrap gap-1.5">
@@ -408,12 +404,12 @@
                         <input type="text" id="reg-user-subject" placeholder="Fan yoki guruh (Masalan: IELTS) *" class="input-ui" required>
                         <input type="text" id="reg-user-phone" oninput="Utils.strictPhone(this)" placeholder="+998 (__) ___-__-__ *" class="input-ui font-mono" required>
                     </div>
-                    <input type="text" id="reg-user-tg" autocapitalize="none" placeholder="Telegram @username (Davomat xabari uchun)" class="input-ui font-mono text-xs">
+                    <input type="text" id="reg-user-tg" autocapitalize="none" placeholder="Telegram @username (Ixtiyoriy)" class="input-ui font-mono text-xs">
                     <div class="grid grid-cols-2 gap-2.5">
                         <input type="text" id="reg-user-login" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Yangi Login *" class="input-ui font-mono" required>
                         <input type="text" id="reg-user-pass" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Yangi Parol *" class="input-ui font-mono" required>
                     </div>
-                    <button type="submit" id="btn-reg-submit" class="w-full btn-primary py-3 text-xs">Ro'yxatdan o'tish va kirish</button>
+                    <button type="submit" id="btn-reg-submit" class="w-full btn-primary py-3 text-xs">Ro'yxatdan o'tish va Bot ID olish</button>
                 </form>
             </div>
 
@@ -514,7 +510,6 @@
     <!-- 3-SAHIFA: MARKAZ ADMIN BOSHQARUV TIZIMI (/markaz)                 -->
     <!-- ================================================================= -->
     <section id="page-markaz" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 flex flex-col lg:flex-row gap-6">
-        <!-- SIDEBAR -->
         <aside class="w-full lg:w-64 surface p-4 flex flex-col justify-between h-fit lg:sticky lg:top-20">
             <div class="space-y-4">
                 <div class="flex items-center gap-3 pb-4 border-b border-zinc-200 dark:border-zinc-800">
@@ -537,7 +532,7 @@
                         <span id="ma-leads-badge" class="px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-500 text-[10px] font-mono font-bold">0</span>
                     </button>
                     <button type="button" onclick="UI.markazTab('oquvchilar')" id="mtab-oquvchilar" class="w-full text-left px-3 py-2.5 rounded-lg text-zinc-400 hover:bg-zinc-500/10 flex items-center justify-between">
-                        <span><i class="fa-solid fa-user-graduate w-5 text-emerald-500"></i> O'quvchilar & To'lov</span>
+                        <span><i class="fa-solid fa-user-graduate w-5 text-emerald-500"></i> O'quvchilar & Bot ID</span>
                     </button>
                     <button type="button" onclick="UI.markazTab('dokon')" id="mtab-dokon" class="w-full text-left px-3 py-2.5 rounded-lg text-zinc-400 hover:bg-zinc-500/10 flex items-center justify-between">
                         <span><i class="fa-solid fa-store w-5 text-amber-500"></i> Coin Do'koni</span>
@@ -562,7 +557,6 @@
             </button>
         </aside>
 
-        <!-- MAIN WORKSPACE -->
         <div class="flex-1 space-y-6">
             <!-- TOP KPI STRIP -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
@@ -593,7 +587,7 @@
                                 <h3 class="text-base font-black">Smart Davomat Jurnali</h3>
                                 <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-500 text-[10px] font-mono font-semibold">@everest_crmbot</span>
                             </div>
-                            <p class="text-xs text-zinc-400 mt-0.5">Belgilangan davomat shu soniyada o'quvchi kundaligiga, ota-onaga va Telegram botga boradi</p>
+                            <p class="text-xs text-zinc-400 mt-0.5">Davomat belgilanganda o'quvchining Bot ID orqali ulangan Telegramiga lahzada xabar boradi</p>
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
                             <input type="date" id="att-date-picker" onchange="App.onAttendanceDateChange(this.value)" class="input-ui !w-auto py-1.5 px-3 text-xs font-mono">
@@ -647,15 +641,15 @@
                         </div>
                     </div>
 
-                    <!-- DAVOMAT JADVALI -->
+                    <!-- DAVOMAT JADVALI (BOT ID + CHİPTA NUSXALASH BILAN) -->
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs">
                             <thead class="surface-muted text-zinc-400 font-semibold uppercase text-[10px]">
                                 <tr>
-                                    <th class="p-3">O'quvchi & Login</th>
-                                    <th class="p-3">Guruh & Ko'rsatkich</th>
+                                    <th class="p-3">O'quvchi & Bot ID</th>
+                                    <th class="p-3">Guruh & Holat</th>
                                     <th class="p-3">Sabab / Izoh</th>
-                                    <th class="p-3 text-center">Holat</th>
+                                    <th class="p-3 text-center">Joriy Holat</th>
                                     <th class="p-3 text-center">Davomat Belgilash</th>
                                 </tr>
                             </thead>
@@ -670,21 +664,19 @@
                 </div>
             </div>
 
-            <!-- 2. XAVF OSTIDAGI O'QUVCHILAR RADARI (CHURN RADAR) -->
+            <!-- 2. XAVF RADARI -->
             <div id="mblock-radar" class="hidden surface p-5 sm:p-6 space-y-4">
-                <div class="flex flex-wrap justify-between items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-4">
-                    <div>
-                        <h3 class="text-base font-black flex items-center gap-2">
-                            <span class="status-dot bg-rose-500"></span>
-                            <span>Xavf Ostidagi O'quvchilar Radari (Retention Radar)</span>
-                        </h3>
-                        <p class="text-xs text-zinc-400 mt-0.5">Dars qoldirgan yoki davomati 75% dan pastga tushgan o'quvchilar ro'yxati — kursni tashlab ketishning oldini olish uchun</p>
-                    </div>
+                <div class="border-b border-zinc-200 dark:border-zinc-800 pb-4">
+                    <h3 class="text-base font-black flex items-center gap-2">
+                        <span class="status-dot bg-rose-500"></span>
+                        <span>Xavf Ostidagi O'quvchilar Radari (Retention Radar)</span>
+                    </h3>
+                    <p class="text-xs text-zinc-400 mt-0.5">Dars qoldirgan yoki davomati 75% dan pastga tushgan o'quvchilar</p>
                 </div>
                 <div id="ma-radar-list" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
             </div>
 
-            <!-- 3. LIDLAR VORONKASI (KANBAN BOARD) -->
+            <!-- 3. LIDLAR VORONKASI (KANBAN) -->
             <div id="mblock-arizalar" class="hidden surface p-5 sm:p-6 space-y-4">
                 <div class="flex flex-wrap justify-between items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-4">
                     <div>
@@ -696,16 +688,16 @@
                 <div id="ma-kanban-board" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5"></div>
             </div>
 
-            <!-- 4. O'QUVCHILAR, MOCK BAHOLASH VA AVTO-QARZDORlik -->
+            <!-- 4. O'QUVCHILAR, BOT ID CHIPTA VA AVTO-QARZDORLIK -->
             <div id="mblock-oquvchilar" class="hidden surface p-5 sm:p-6 space-y-4">
                 <div class="flex flex-wrap justify-between items-center gap-3 border-b border-zinc-200 dark:border-zinc-800 pb-4">
                     <div>
-                        <h3 class="text-base font-black">O'quvchilar, Mock Imtihon va Avto-Qarzdorlik</h3>
-                        <p class="text-xs text-zinc-400 mt-0.5">Ustozni uyaltirmasdan qarzdor o'quvchilarga Telegram orqali rasmiy to'lov invoysini yuboring</p>
+                        <h3 class="text-base font-black">O'quvchilar, Maxsus Bot ID va Avto-Qarzdorlik</h3>
+                        <p class="text-xs text-zinc-400 mt-0.5">Har bir o'quvchining 5 xonali Bot ID raqamini nusxalab ota-onasiga yuboring</p>
                     </div>
                     <div class="flex flex-wrap gap-2">
                         <button type="button" onclick="App.sendAllDebtReminders()" class="px-3.5 py-1.5 rounded-lg bg-amber-500/15 text-amber-500 border border-amber-500/30 text-xs font-bold hover:bg-amber-500 hover:text-zinc-950 transition">
-                            <i class="fa-solid fa-paper-plane mr-1"></i> Qarzdorlarga Avto-Invoys (TG)
+                            <i class="fa-solid fa-paper-plane mr-1"></i> Qarzdorlarga Avto-Invoys
                         </button>
                         <button type="button" onclick="UI.openModal('modal-add-student')" class="btn-primary px-3.5 py-1.5 text-xs">+ O'quvchi Qo'shish</button>
                     </div>
@@ -716,10 +708,10 @@
                             <tr>
                                 <th class="p-3">O'quvchi</th>
                                 <th class="p-3">Guruh</th>
-                                <th class="p-3">Coin & Mock Imtihon (%)</th>
-                                <th class="p-3">Login / Parol</th>
-                                <th class="p-3 text-center">To'lov & TG Invoys</th>
-                                <th class="p-3 text-center">Amal</th>
+                                <th class="p-3">Coin & Mock (%)</th>
+                                <th class="p-3">Login / Parol & Bot ID</th>
+                                <th class="p-3 text-center">To'lov & Chipta</th>
+                                <th class="p-3 text-center">O'chirish</th>
                             </tr>
                         </thead>
                         <tbody id="ma-students-tbody" class="divide-y divide-zinc-200 dark:divide-zinc-800"></tbody>
@@ -727,7 +719,7 @@
                 </div>
             </div>
 
-            <!-- 5. EVEREST COIN DO'KONI BOSHQARUVI -->
+            <!-- 5. COIN DO'KONI -->
             <div id="mblock-dokon" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-5">
                 <div class="lg:col-span-5 surface p-5 space-y-4">
                     <h3 class="text-sm font-black">Do'konga Yangi Sovg'a / Vaucher Qo'shish</h3>
@@ -901,7 +893,7 @@
     </section>
 
     <!-- ================================================================= -->
-    <!-- 4-SAHIFA: USTOZ DAVOMAT VA MOCK BAHOLASH KABINETI (/ustoz)        -->
+    <!-- 4-SAHIFA: USTOZ DAVOMAT KABINETI (/ustoz)                         -->
     <!-- ================================================================= -->
     <section id="page-ustoz" class="hidden flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 space-y-6">
         <div class="surface p-5 flex flex-wrap justify-between items-center gap-4">
@@ -925,7 +917,7 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left text-xs">
                     <thead class="surface-muted text-zinc-400 font-semibold uppercase text-[10px]">
-                        <tr><th class="p-3">O'quvchi</th><th class="p-3">Fan & Coin</th><th class="p-3">Mock Ball</th><th class="p-3">Sabab / Izoh</th><th class="p-3 text-center">Holat</th><th class="p-3 text-center">Davomat Belgilash</th></tr>
+                        <tr><th class="p-3">O'quvchi & Bot ID</th><th class="p-3">Fan & Coin</th><th class="p-3">Mock Ball</th><th class="p-3">Sabab / Izoh</th><th class="p-3 text-center">Holat</th><th class="p-3 text-center">Davomat Belgilash</th></tr>
                     </thead>
                     <tbody id="teacher-students-tbody" class="divide-y divide-zinc-200 dark:divide-zinc-800"></tbody>
                 </table>
@@ -944,20 +936,28 @@
 
         <div id="student-live-att-alert" class="p-4 rounded-xl border flex flex-wrap justify-between items-center gap-3"></div>
 
-        <div class="surface p-5 flex flex-wrap justify-between items-center gap-4">
+        <!-- TELEGRAM BOT ID & 1-CLICK DEEP-LINK CONNECTION CARD -->
+        <div class="surface p-5 flex flex-wrap justify-between items-center gap-4 border-l-4 border-l-sky-500">
             <div class="flex items-center gap-3.5">
                 <img id="student-avatar" src="" class="w-12 h-12 rounded-lg object-cover border border-emerald-500">
                 <div>
-                    <h2 id="student-name" class="text-base font-black">O'quvchi</h2>
-                    <p id="student-meta" class="text-xs text-emerald-500 font-semibold">Markaz</p>
+                    <div class="flex items-center gap-2">
+                        <h2 id="student-name" class="text-base font-black">O'quvchi</h2>
+                        <span id="student-bot-id-badge" class="px-2 py-0.5 rounded bg-sky-500/15 text-sky-500 border border-sky-500/30 font-mono text-[11px] font-bold">Bot ID: 00000</span>
+                    </div>
+                    <p id="student-meta" class="text-xs text-emerald-500 font-semibold mt-0.5">Markaz</p>
+                    <p id="student-tg-status" class="text-[11px] text-zinc-400 font-medium mt-0.5"></p>
                 </div>
             </div>
             <div class="flex flex-wrap gap-2">
-                <a id="student-bot-link" href="https://t.me/everest_crmbot" target="_blank" class="px-3.5 py-2 rounded-lg bg-sky-500 text-zinc-950 font-bold text-xs flex items-center gap-1.5">
-                    <i class="fa-brands fa-telegram"></i> <span>Telegram Botga ulash</span>
+                <a id="student-bot-link" href="https://t.me/everest_crmbot" target="_blank" class="px-4 py-2 rounded-lg bg-sky-500 hover:bg-sky-400 text-zinc-950 font-bold text-xs flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-brands fa-telegram"></i> <span>1-Bosishda Botga Ulash</span>
                 </a>
+                <button type="button" onclick="App.copyStudentBotTicket()" class="px-3.5 py-2 rounded-lg surface-muted font-semibold text-xs hover:border-emerald-500">
+                    <i class="fa-regular fa-copy mr-1"></i> Bot ID Nusxalash
+                </button>
                 <button type="button" onclick="App.bindStudentTelegram()" class="px-3.5 py-2 rounded-lg surface-muted font-semibold text-xs hover:border-emerald-500">
-                    TG Hisobot Olish
+                    TG Hisobot
                 </button>
                 <button type="button" onclick="App.logout()" class="px-4 py-2 rounded-lg bg-rose-500/10 text-rose-500 font-semibold text-xs">Chiqish</button>
             </div>
@@ -993,7 +993,6 @@
 
         <!-- O'SISH DINAMIKASI VA MOCK IMTIHON TAHLILI + EVEREST COIN DO'KONI -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
-            <!-- MOCK ANALYTICS CHART (7 COLS) -->
             <div class="lg:col-span-7 surface p-5 space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
@@ -1005,7 +1004,6 @@
                 <div id="student-mock-chart" class="h-44 flex items-end gap-3 pt-6 px-2 border-b border-zinc-200 dark:border-zinc-800"></div>
             </div>
 
-            <!-- EVEREST COIN REWARD STORE (5 COLS) -->
             <div class="lg:col-span-5 surface p-5 space-y-3">
                 <div class="flex justify-between items-center">
                     <div>
@@ -1097,15 +1095,15 @@
                     <div class="w-6 h-6 rounded-md bg-emerald-500/15 text-emerald-500 flex items-center justify-center text-[10px] shrink-0 mt-0.5">AI</div>
                     <div class="p-3 rounded-xl surface-muted text-xs leading-relaxed space-y-1.5">
                         <p>Assalomu alaykum! Men <b>Everest OS</b> sun'iy intellekt konsultantiman.</p>
-                        <p class="text-zinc-400">Smart Davomat, Xavf Radari, Kanban Lidlar, Coin Do'koni va markaz ulash bo'yicha savollaringizga javob beraman.</p>
+                        <p class="text-zinc-400">5 xonali Bot ID orqali Telegram ulash, Smart Davomat, Xavf Radari, Kanban Lidlar va Markaz Anketasi bo'yicha savollaringizga javob beraman.</p>
                     </div>
                 </div>
             </div>
 
             <div class="px-3 py-2 border-t border-zinc-200 dark:border-zinc-800 flex items-center gap-1.5 overflow-x-auto custom-scroll text-[11px] whitespace-nowrap">
+                <button type="button" onclick="EverestAI.askPreset('Bot ID orqali Telegramga qanday ulanadi?')" class="px-2.5 py-1 rounded-md surface-muted hover:border-emerald-500">Bot ID qanday ishlaydi?</button>
                 <button type="button" onclick="EverestAI.askPreset('Sayt qanday ishlaydi va nima qila olaman?')" class="px-2.5 py-1 rounded-md surface-muted hover:border-emerald-500">Sayt imkoniyatlari</button>
                 <button type="button" onclick="EverestAI.askPreset('Xavf radari va Kanban qanday ishlaydi?')" class="px-2.5 py-1 rounded-md surface-muted hover:border-emerald-500">Xavf Radari & Kanban</button>
-                <button type="button" onclick="EverestAI.askPreset('Coin dokon va Avto-Qarzdorlik nima?')" class="px-2.5 py-1 rounded-md surface-muted hover:border-emerald-500">Coin Do'kon & Invoys</button>
             </div>
 
             <form onsubmit="event.preventDefault(); EverestAI.submitUserQuery();" class="p-3 border-t border-zinc-200 dark:border-zinc-800 flex gap-2">
@@ -1120,6 +1118,7 @@
         <div class="surface p-6 w-full max-w-md space-y-3 relative">
             <button type="button" onclick="UI.closeModal('modal-add-student')" class="absolute top-4 right-4 text-zinc-400 hover:text-rose-500 text-lg">&times;</button>
             <h3 class="text-sm font-black">Yangi O'quvchi Qo'shish</h3>
+            <p class="text-[11px] text-zinc-400">Saqlangan zahoti o'quvchiga avtomatik <b>5 xonali Maxsus Bot ID</b> yaratiladi.</p>
             <div class="flex items-center gap-3 p-2.5 rounded-lg surface-muted">
                 <img id="preview-mas-photo" src="https://ui-avatars.com/api/?name=Oq&background=10b981&color=fff" class="w-10 h-10 rounded-lg object-cover shrink-0">
                 <div>
@@ -1129,12 +1128,12 @@
             </div>
             <input type="text" id="mas-name" placeholder="O'quvchining F.I.SH *" class="input-ui">
             <input type="text" id="mas-subject" placeholder="Guruh / Fan (Masalan: IELTS) *" class="input-ui">
-            <input type="text" id="mas-chatid" autocapitalize="none" placeholder="Telegram @username yoki Chat ID" class="input-ui font-mono text-xs">
+            <input type="text" id="mas-chatid" autocapitalize="none" placeholder="Telegram @username (Ixtiyoriy)" class="input-ui font-mono text-xs">
             <div class="grid grid-cols-2 gap-2.5">
                 <input type="text" id="mas-login" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Login *" class="input-ui font-mono font-bold">
                 <input type="text" id="mas-pass" autocapitalize="none" autocorrect="off" spellcheck="false" placeholder="Parol *" class="input-ui font-mono font-bold">
             </div>
-            <button type="button" id="btn-mas-save" onclick="App.adminAddStudent()" class="w-full btn-primary py-2.5 text-xs">Saqlash</button>
+            <button type="button" id="btn-mas-save" onclick="App.adminAddStudent()" class="w-full btn-primary py-2.5 text-xs">Saqlash va Bot ID Yaratish</button>
         </div>
     </div>
 
@@ -1201,9 +1200,9 @@
             BOT_USER: "everest_crmbot",
             SA_LOGIN: "nvmtrpv",
             SA_PASS: "123",
-            SESS_KEY: "everest_prod_sess_v2",
-            APP_KEY: "everest_prod_app_v2",
-            BACKUP_KEY: "everest_prod_backup_v2"
+            SESS_KEY: "everest_prod_sess_v3",
+            APP_KEY: "everest_prod_app_v3",
+            BACKUP_KEY: "everest_prod_backup_v3"
         };
 
         const $ = id => document.getElementById(id);
@@ -1233,6 +1232,24 @@
             timeNow: () => {
                 const d = new Date();
                 return String(d.getHours()).padStart(2, '0') + ":" + String(d.getMinutes()).padStart(2, '0');
+            },
+            generateBotId: () => {
+                return String(Math.floor(10000 + Math.random() * 90000));
+            },
+            copyText: async (txt) => {
+                try {
+                    if (navigator.clipboard) {
+                        await navigator.clipboard.writeText(txt);
+                        return true;
+                    }
+                } catch (e) {}
+                const ta = document.createElement('textarea');
+                ta.value = txt;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                return true;
             },
             strictPhone: (inp) => {
                 let d = inp.value.replace(/\D/g, '');
@@ -1338,7 +1355,7 @@
                 box.className = `surface px-4 py-3 text-xs font-semibold shadow-xl border-l-4 ${borderCol} flex items-center gap-2.5`;
                 box.innerHTML = `<i class="fa-solid ${iconCol}"></i><span>${msg}</span>`;
                 root.appendChild(box);
-                setTimeout(() => box.remove(), 4000);
+                setTimeout(() => box.remove(), 4500);
             },
             toggleTheme: () => {
                 document.documentElement.classList.toggle('dark');
@@ -1449,20 +1466,20 @@
                 const keywords = [
                     'everest', 'sayt', 'platforma', 'ishlaydi', 'qanday', 'nima', 'qila',
                     'markaz', 'anketa', 'ochish', 'ruxsat', 'admin', 'ustoz', 'o\'quvchi',
-                    'davomat', 'keldi', 'kelmadi', 'telegram', 'bot', 'coin', 'do\'kon',
+                    'davomat', 'keldi', 'kelmadi', 'telegram', 'bot', 'bot id', 'id', 'coin', 'do\'kon',
                     'dokon', 'ball', 'ota-ona', 'kundalik', 'sertifikat', 'login', 'parol',
                     'sozlamalar', 'karta', 'to\'lov', 'radar', 'xavf', 'kanban', 'lid', 'invoys', 'mock'
                 ];
                 if (!keywords.some(kw => q.includes(kw))) {
-                    return `<b>Men faqat Everest OS ta'lim platformasi doirasidagi savollarga javob bera olaman.</b><br><br>Platforma modullari (Smart Davomat, Xavf Radari, Kanban Lidlar, Coin Do'koni yoki Markaz Anketasi) bo'yicha savolingizni bering.`;
+                    return `<b>Men faqat Everest OS ta'lim platformasi doirasidagi savollarga javob bera olaman.</b><br><br>Platforma modullari (5 xonali Bot ID ulash, Smart Davomat, Xavf Radari, Kanban Lidlar yoki Markaz Anketasi) bo'yicha savolingizni bering.`;
+                }
+                if (q.includes('bot id') || q.includes('telegram') || q.includes('ulanadi')) {
+                    return `<b>Telegram Botga 2 xil usulda ulanish mumkin:</b><br><br>1. <b>1-bosishda Avto-Tanish:</b> O'quvchi sayt kabinetidagi <i>«1-Bosishda Botga Ulash»</i> tugmasini bossa, <code>t.me/everest_crmbot?start=BotID</code> havolasi bilan botga o'tadi va bot uni avtomatik taniydi.<br>2. <b>To'g'ridan-to'g'ri Botdan kirish:</b> Ota-ona yoki o'quvchi <b>@everest_crmbot</b> ga kirib, markaz bergan <b>Login</b> va <b>5 xonali Bot ID</b> raqamini yozsa bas — bot profilni bog'laydi va davomat xabarlarini yuborishni boshlaydi!`;
                 }
                 if (q.includes('radar') || q.includes('xavf') || q.includes('kanban')) {
-                    return `<b>Xavf Radari va Kanban Voronkasi:</b><br><br>• <b>Xavf Radari:</b> Dars qoldirgan yoki davomati 75% dan tushgan o'quvchilarni avto-aniqlab, ota-onasiga 1-bosishda ogohlantirish yuboradi.<br>• <b>Kanban Lidlar:</b> Vitrinadan tushgan arizalarni <i>Yangi $\rightarrow$ Qo'ng'iroq qilindi $\rightarrow$ Sinov darsida $\rightarrow$ Guruhga qo'shildi</i> bosqichlarida boshqaradi.`;
+                    return `<b>Xavf Radari va Kanban Voronkasi:</b><br><br>• <b>Xavf Radari:</b> Dars qoldirgan yoki davomati 75% dan tushgan o'quvchilarni avto-aniqlab, ota-onasiga 1-bosishda ogohlantirish yuboradi.<br>• <b>Kanban Lidlar:</b> Vitrinadan tushgan arizalarni <i>Yangi → Qo'ng'iroq qilindi → Sinov darsida → Guruhga qo'shildi</i> bosqichlarida boshqaradi.`;
                 }
-                if (q.includes('dokon') || q.includes('do\'kon') || q.includes('invoys') || q.includes('coin')) {
-                    return `<b>Coin Do'koni va Avto-Invoys:</b><br><br>• <b>Coin Do'koni:</b> O'quvchilar darsga qatnashib yig'gan Coin'lariga markaz qo'ygan sovg'alar va chegirma vaucherlarini xarid qilishadi.<br>• <b>Avto-Qarzdorlik Invoysi:</b> Ustoz darsda pul so'rab uyalmaydi — tizim 1-bosishda qarzdor o'quvchilarning Telegramiga karta rekvizitlari bilan rasmiy eslatma yuboradi.`;
-                }
-                return `<b>Everest OS Enterprise CRM imkoniyatlari:</b><br>1. Ochiq Vitrina va Natijadorlik (80+ ball olganlar hisobi)<br>2. Smart Davomat + @everest_crmbot sinxronizatsiyasi<br>3. Xavf ostidagi o'quvchilar radari<br>4. 4 bosqichli Kanban Lidlar voronkasi<br>5. Everest Coin ichki do'koni va Ota-onalar uchun Mock imtihon tahlili.`;
+                return `<b>Everest OS Enterprise CRM imkoniyatlari:</b><br>1. 5 xonali Bot ID + @everest_crmbot real vaqtdagi davomat xabarnomalari<br>2. Ochiq Vitrina va Natijadorlik (80+ ball olganlar hisobi)<br>3. Xavf ostidagi o'quvchilar radari<br>4. 4 bosqichli Kanban Lidlar voronkasi<br>5. Everest Coin ichki do'koni va Ota-onalar uchun Mock imtihon tahlili.`;
             }
         };
 
@@ -1502,6 +1519,18 @@
                 return c.oquvchilar.find(o => String(o.login).trim().toLowerCase() === lk) || null;
             },
 
+            generateUniqueBotId: () => {
+                let candidate = Utils.generateBotId();
+                const used = new Set();
+                App.db.centers.forEach(c => {
+                    c.oquvchilar.forEach(o => { if (o.botId) used.add(String(o.botId)); });
+                });
+                while (used.has(candidate)) {
+                    candidate = Utils.generateBotId();
+                }
+                return candidate;
+            },
+
             calcAttendancePercent: (student) => {
                 const hist = Utils.toArray(student.tarix);
                 if (hist.length === 0) return student.davomat === 'kelmadi' ? 0 : 100;
@@ -1526,12 +1555,15 @@
                 const login = String(o.login || ism.toLowerCase().replace(/[^a-z0-9]/g, '')).trim();
                 const davomat = ['keldi', 'kechikdi', 'sababli', 'kelmadi'].includes(o.davomat) ? o.davomat : 'keldi';
                 const mockBallar = Utils.toArray(o.mockBallar);
+                // Deterministic 5-digit botId if missing
+                const fallbackId = String(10000 + (login.split('').reduce((a, b) => a + b.charCodeAt(0), 0) * 137) % 89999);
                 return {
                     ism,
                     fan: String(o.fan || "Umumiy").trim(),
                     tel: o.tel || "+998",
                     tg: o.tg || "",
                     chatId: o.chatId || null,
+                    botId: String(o.botId || fallbackId),
                     login,
                     parol: String(o.parol || "12345").trim(),
                     ball: Number(o.ball ?? 40),
@@ -1632,6 +1664,7 @@
                                 tel: "+998 (90) 999-88-77",
                                 login: "alisher",
                                 parol: "12345",
+                                botId: "48291",
                                 ball: 95,
                                 davomat: "keldi",
                                 izoh: "Vaqtida keldi (+5 Coin)",
@@ -1644,6 +1677,7 @@
                                 tel: "+998 (93) 555-44-33",
                                 login: "malika",
                                 parol: "12345",
+                                botId: "73914",
                                 ball: 85,
                                 davomat: "keldi",
                                 izoh: "Amaliy vazifani a'lo bajardi",
@@ -1685,7 +1719,9 @@
                 setInterval(async () => {
                     if (!App.isSaving) {
                         await App.fetchDatabase();
+                        await App.syncTelegramUpdates(false);
                         if (App.state.role === 'oquvchi') App.renderStudentCabinet();
+                        if (App.state.role === 'markaz') App.renderMarkazAdmin();
                         if (!$('page-chat').classList.contains('hidden')) App.renderCenterChat();
                     }
                 }, 4000);
@@ -1840,7 +1876,7 @@
                             if (tgU && tgU.id && o.chatId !== tgU.id) {
                                 o.chatId = tgU.id;
                                 await App.saveDatabase();
-                                await Utils.sendTelegram(o.chatId, `<b>EVEREST BOT ULANDI</b>\nHurmatli <b>${o.ism}</b> (${c.nomi}), davomat xabarnomalari shu yerga yuboriladi.`);
+                                await Utils.sendTelegram(o.chatId, `<b>EVEREST BOT ULANDI</b>\nHurmatli <b>${o.ism}</b> (${c.nomi}), Bot ID: <code>${o.botId}</code> orqali davomat xabarnomalari ulandi.`);
                             }
                             App.state.role = 'oquvchi';
                             App.state.activeCenterId = c.id;
@@ -2165,6 +2201,25 @@
                 UI.toast("Markaz o'chirildi");
             },
 
+            /* ================= BOT ID INVITE TICKET COPY ================= */
+            copyStudentInvite: async (studentIdx) => {
+                const c = App.activeCenter;
+                const s = c?.oquvchilar[studentIdx];
+                if (!c || !s) return;
+                const ticket = `🎓 ${c.nomi} — Smart Davomat va Ota-Ona Nazorati\n\n👤 O'quvchi: ${s.ism}\n📚 Guruh: ${s.fan}\n🔐 Login: ${s.login}\n🔑 Parol: ${s.parol}\n🆔 Maxsus Bot ID: ${s.botId}\n\n📲 Telegram botga 1-bosishda ulanish:\nhttps://t.me/${ENV.BOT_USER}?start=${s.botId}\n\n(Yoki @${ENV.BOT_USER} botiga kirib, Login va Bot ID raqamingizni kiriting)`;
+                await Utils.copyText(ticket);
+                UI.toast(`"${s.ism}" uchun tayyor Bot ID chiptasi nusxalandi!`);
+            },
+
+            copyStudentBotTicket: async () => {
+                const c = App.activeCenter;
+                const o = App.activeUser;
+                if (!c || !o) return;
+                const ticket = `🎓 ${c.nomi}\n👤 O'quvchi: ${o.ism}\n🔐 Login: ${o.login}\n🆔 Bot ID: ${o.botId}\n📲 Bot havolasi: https://t.me/${ENV.BOT_USER}?start=${o.botId}`;
+                await Utils.copyText(ticket);
+                UI.toast(`Bot ID (${o.botId}) va havola nusxalandi!`);
+            },
+
             /* ================= MARKAZ ADMIN & 5 NEW MODULES ================= */
             onAttendanceDateChange: (val) => {
                 App.state.selectedDate = val || Utils.today();
@@ -2240,13 +2295,13 @@
                 safeSetTxt('att-kpi-rate', rate + '%');
                 if ($('att-progress-bar')) $('att-progress-bar').style.width = rate + '%';
 
-                // 1. Attendance Table
+                // 1. Attendance Table with Bot ID & Copy Ticket
                 safeSetHTML('ma-attendance-tbody', c.oquvchilar.length === 0
                     ? `<tr><td colspan="5" class="p-6 text-center text-zinc-400">O'quvchilar yo'q. Tepadagi "+ O'quvchi" tugmasini bosing.</td></tr>`
                     : c.oquvchilar.map((o, i) => {
                         if (currentFilter !== 'all' && o.fan !== currentFilter) return '';
                         const pct = App.calcAttendancePercent(o);
-                        const isTop = (Number(o.ball) || 0) >= 80;
+                        const isLinked = Boolean(o.chatId);
                         const dotCol = o.davomat === 'keldi' ? 'bg-emerald-500' : o.davomat === 'kechikdi' ? 'bg-amber-500' : o.davomat === 'sababli' ? 'bg-sky-500' : 'bg-rose-500';
                         const statusTxt = o.davomat.toUpperCase();
 
@@ -2257,9 +2312,10 @@
                                     <div>
                                         <p class="font-bold flex items-center gap-1.5">
                                             <span>${o.ism}</span>
-                                            ${isTop ? '<span class="px-1.5 py-0.5 rounded bg-amber-500/15 text-amber-500 text-[9px] font-mono">80+</span>' : ''}
+                                            <span class="px-1.5 py-0.5 rounded bg-sky-500/15 text-sky-500 font-mono text-[10px] font-bold">ID: ${o.botId}</span>
+                                            <button type="button" onclick="App.copyStudentInvite(${i})" class="text-zinc-400 hover:text-emerald-500 text-[11px]" title="Ota-ona uchun chiptani nusxalash"><i class="fa-regular fa-copy"></i></button>
                                         </p>
-                                        <p class="text-[10px] font-mono text-zinc-400">${o.login} / ${o.parol}</p>
+                                        <p class="text-[10px] font-mono text-zinc-400">Login: ${o.login} • ${isLinked ? '<span class="text-emerald-500 font-bold">Bot ulangan</span>' : '<span class="text-amber-500">Bot kutilmoqda</span>'}</p>
                                     </div>
                                 </td>
                                 <td class="p-3">
@@ -2295,9 +2351,9 @@
                         </div>
                     `).join(''));
 
-                // 2. Xavf Radari (At-Risk Students)
+                // 2. Xavf Radari
                 safeSetHTML('ma-radar-list', atRiskStudents.length === 0
-                    ? `<div class="col-span-full p-6 rounded-xl surface-muted text-center text-xs text-zinc-400">Hozirda xavf ostidagi (dars qoldirgan yoki past ko'rsatkichli) o'quvchilar yo'q. Barcha o'quvchilar faol!</div>`
+                    ? `<div class="col-span-full p-6 rounded-xl surface-muted text-center text-xs text-zinc-400">Hozirda xavf ostidagi o'quvchilar yo'q. Barcha o'quvchilar faol!</div>`
                     : c.oquvchilar.map((o, idx) => {
                         if (!App.isStudentAtRisk(o)) return '';
                         const pct = App.calcAttendancePercent(o);
@@ -2326,7 +2382,7 @@
                         `;
                     }).join(''));
 
-                // 3. Kanban Board (4 Columns)
+                // 3. Kanban Board
                 const stages = [
                     { key: 'yangi', title: '1. Yangi ariza', color: 'border-t-cyan-500', next: 'aloqa', nextLabel: 'Qo\'ng\'iroq qilindi →' },
                     { key: 'aloqa', title: '2. Qo\'ng\'iroq qilindi', color: 'border-t-amber-500', next: 'sinov', nextLabel: 'Sinov darsiga →' },
@@ -2366,7 +2422,7 @@
                     `;
                 }).join(''));
 
-                // 4. Students & Billing + Mock Score Entry
+                // 4. Students Table with Bot ID & Copy Ticket
                 safeSetHTML('ma-students-tbody', c.oquvchilar.map((o, i) => {
                     const lastMock = Utils.toArray(o.mockBallar).slice(-1)[0]?.foiz || 80;
                     return `
@@ -2375,13 +2431,19 @@
                             <td class="p-3">${o.fan}</td>
                             <td class="p-3 space-x-1">
                                 <span class="font-mono font-bold text-amber-500">${o.ball} Coin</span>
-                                <button type="button" onclick="App.addStudentBonus(${i}, 10)" class="px-2 py-0.5 rounded surface-muted text-[10px] font-bold hover:border-emerald-500">+10 Coin</button>
-                                <button type="button" onclick="App.addMockScore(${i})" class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-500 text-[10px] font-bold">Mock: ${lastMock}% (+)</button>
+                                <button type="button" onclick="App.addStudentBonus(${i}, 10)" class="px-2 py-0.5 rounded surface-muted text-[10px] font-bold hover:border-emerald-500">+10</button>
+                                <button type="button" onclick="App.addMockScore(${i})" class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-500 text-[10px] font-bold">Mock: ${lastMock}%</button>
                             </td>
-                            <td class="p-3 font-mono">${o.login} / ${o.parol}</td>
+                            <td class="p-3 font-mono">
+                                <p>${o.login} / ${o.parol}</p>
+                                <span class="px-1.5 py-0.5 rounded bg-sky-500/15 text-sky-500 text-[10px] font-bold">Bot ID: ${o.botId}</span>
+                            </td>
                             <td class="p-3 text-center space-x-1">
+                                <button type="button" onclick="App.copyStudentInvite(${i})" class="px-2.5 py-1 rounded surface-muted text-[10px] font-bold hover:border-emerald-500" title="Bot ID va Login chiptasini nusxalash">
+                                    <i class="fa-regular fa-copy mr-1"></i> Chipta
+                                </button>
                                 <button type="button" onclick="App.togglePayment(${i})" class="px-2.5 py-1 rounded text-[10px] font-mono font-bold uppercase ${o.tolov === 'tasdiqlangan' ? 'bg-emerald-500/15 text-emerald-500' : 'bg-amber-500/15 text-amber-500'}">${o.tolov}</button>
-                                ${o.tolov !== 'tasdiqlangan' ? `<button type="button" onclick="App.sendSingleDebtInvoice(${i})" class="px-2 py-1 rounded surface-muted text-[10px] font-bold text-sky-500" title="TG Invoys yuborish"><i class="fa-brands fa-telegram"></i> Invoys</button>` : ''}
+                                ${o.tolov !== 'tasdiqlangan' ? `<button type="button" onclick="App.sendSingleDebtInvoice(${i})" class="px-2 py-1 rounded surface-muted text-[10px] font-bold text-sky-500"><i class="fa-brands fa-telegram"></i></button>` : ''}
                             </td>
                             <td class="p-3 text-center"><button type="button" onclick="App.deleteStudent(${i})" class="text-rose-500"><i class="fa-solid fa-trash"></i></button></td>
                         </tr>
@@ -2438,7 +2500,7 @@
                 `).join(''));
             },
 
-            /* ================= NEW KILLER FEATURES LOGIC ================= */
+            /* ================= RETENTION, KANBAN, SHOP & BILLING ================= */
             sendRetentionAlert: async (studentIdx) => {
                 await App.syncTelegramUpdates(false);
                 const c = App.activeCenter;
@@ -2446,12 +2508,12 @@
                 if (!s) return;
                 const pct = App.calcAttendancePercent(s);
                 const targetId = s.chatId || App.db.settings?.lastActiveTgId;
-                const msg = `<b>MUHIM OGOHLANTIRISH (${c.nomi})</b>\n\nHurmatli ota-ona! Farzandingiz <b>${s.ism}</b> (${s.fan} guruhi) dars qoldirganligi sababli umumiy davomat ko'rsatkichi <b>${pct}%</b> ga tushdi.\n\nO'zlashtirish pasayib ketmasligi uchun keyingi darsga o'z vaqtida qatnashishini ta'minlashingizni so'raymiz.\nAloqa: ${c.tel}`;
+                const msg = `<b>MUHIM OGOHLANTIRISH (${c.nomi})</b>\n\nHurmatli ota-ona! Farzandingiz <b>${s.ism}</b> (${s.fan} guruhi) dars qoldirganligi sababli umumiy davomat ko'rsatkichi <b>${pct}%</b> ga tushdi.\n\nKeyingi darsga o'z vaqtida qatnashishini ta'minlashingizni so'raymiz.\nAloqa: ${c.tel}`;
                 if (targetId) {
                     await Utils.sendTelegram(targetId, msg);
                     UI.toast(`${s.ism}ning ota-onasiga Telegram ogohlantirish yuborildi!`);
                 } else {
-                    UI.toast("Ogohlantirish tayyor! (O'quvchi @everest_crmbot ga ulanmagan)", "warning");
+                    UI.toast("Ogohlantirish tayyor! (O'quvchi Bot ID orqali ulanmagan)", "warning");
                 }
             },
 
@@ -2464,18 +2526,20 @@
                 if (nextStage === 'qabul') {
                     const baseLogin = lead.ism.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 10) || 'student';
                     const uniqueLogin = App.isLoginTaken(baseLogin) ? `${baseLogin}${Math.floor(10 + Math.random() * 89)}` : baseLogin;
+                    const newBotId = App.generateUniqueBotId();
                     c.oquvchilar.unshift(App.normalizeStudent({
                         ism: lead.ism,
                         fan: lead.fan,
                         tel: lead.tel,
                         login: uniqueLogin,
                         parol: "12345",
+                        botId: newBotId,
                         ball: 25,
                         davomat: "keldi",
                         izoh: "Kanban orqali guruhga qabul qilindi",
                         tarix: [{ sana: Utils.today(), vaqt: Utils.timeNow(), fan: lead.fan, holat: "keldi", izoh: "Sinov darsidan muvaffaqiyatli o'tdi", kim: c.nomi }]
                     }));
-                    UI.toast(`${lead.ism} avtomatik ravishda o'quvchilar ro'yxatiga qo'shildi! (Login: ${uniqueLogin})`);
+                    UI.toast(`${lead.ism} o'quvchilar ro'yxatiga qo'shildi! Login: ${uniqueLogin} | Bot ID: ${newBotId}`);
                 }
 
                 await App.saveDatabase();
@@ -2489,12 +2553,12 @@
                 if (!s) return;
                 const targetId = s.chatId || App.db.settings?.lastActiveTgId;
                 const fee = (Number(c.kursNarxi) || 450000).toLocaleString();
-                const msg = `<b>TO'LOV ESLATMASI (${c.nomi})</b>\n\n👤 <b>O'quvchi:</b> ${s.ism}\n📚 <b>Kurs:</b> ${s.fan}\n💳 <b>Oylik to'lov summasi:</b> ${fee} UZS\n\n<b>To'lov uchun karta rekvizitlari:</b>\n<code>${c.karta || '8600 0000 0000 0000'}</code>\n<b>Karta egasi:</b> ${c.kartaEgasi || c.nomi}\n\n<i>To'lov amalga oshirilgach, chekni ma'muriyatga (${c.tg || c.tel}) yuborishingizni so'raymiz. Rahmat!</i>`;
+                const msg = `<b>TO'LOV ESLATMASI (${c.nomi})</b>\n\nO'quvchi: <b>${s.ism}</b> (Bot ID: <code>${s.botId}</code>)\nKurs: ${s.fan}\nOylik to'lov summasi: <b>${fee} UZS</b>\n\n<b>To'lov uchun karta:</b>\n<code>${c.karta || '8600 0000 0000 0000'}</code>\n<b>Karta egasi:</b> ${c.kartaEgasi || c.nomi}`;
                 if (targetId) {
                     await Utils.sendTelegram(targetId, msg);
-                    UI.toast(`${s.ism}ga rasmiy to'lov invoysi yuborildi!`);
+                    UI.toast(`${s.ism}ga to'lov invoysi yuborildi!`);
                 } else {
-                    UI.toast("Invoys shakllantirildi (@everest_crmbot ga ulanmagan)", "warning");
+                    UI.toast("O'quvchi hali Bot ID orqali ulanmagan", "warning");
                 }
             },
 
@@ -2504,18 +2568,11 @@
                 if (!c) return;
                 const unpaid = c.oquvchilar.filter(o => o.tolov !== 'tasdiqlangan');
                 if (unpaid.length === 0) return UI.toast("Barcha o'quvchilarning to'lovi tasdiqlangan!");
-
-                let sentCount = 0;
                 for (let i = 0; i < c.oquvchilar.length; i++) {
                     if (c.oquvchilar[i].tolov !== 'tasdiqlangan') {
-                        const tId = c.oquvchilar[i].chatId || App.db.settings?.lastActiveTgId;
-                        if (tId) {
-                            await App.sendSingleDebtInvoice(i);
-                            sentCount++;
-                        }
+                        await App.sendSingleDebtInvoice(i);
                     }
                 }
-                UI.toast(`${unpaid.length} ta qarzdor o'quvchiga rasmiy to'lov eslatmasi yuborildi!`);
             },
 
             addMockScore: async (studentIdx) => {
@@ -2530,7 +2587,7 @@
                 if (score >= 80) s.ball = (Number(s.ball) || 0) + 10;
                 await App.saveDatabase();
                 App.renderMarkazAdmin();
-                UI.toast(`${s.ism}: Mock natijasi (${score}%) ota-ona grafikiga qo'shildi!`);
+                UI.toast(`${s.ism}: Mock natijasi (${score}%) qo'shildi!`);
             },
 
             addShopItem: async () => {
@@ -2576,24 +2633,23 @@
 
                 await App.saveDatabase();
                 App.renderStudentCabinet();
-                UI.toast(`"${item.nom}" xarid qilindi! Markaz ma'muriyatidan olishingiz mumkin.`);
+                UI.toast(`"${item.nom}" xarid qilindi!`);
             },
 
             completeShopOrder: async (ordIdx) => {
                 App.activeCenter.shopOrders.splice(ordIdx, 1);
                 await App.saveDatabase();
                 App.renderMarkazAdmin();
-                UI.toast("Sovg'a o'quvchiga topshirildi!");
+                UI.toast("Sovg'a topshirildi!");
             },
 
-            /* ================= STANDARD CRM FUNCTIONS ================= */
             addStudentBonus: async (idx, pts) => {
                 const c = App.activeCenter;
                 if (!c || !c.oquvchilar[idx]) return;
                 c.oquvchilar[idx].ball = (Number(c.oquvchilar[idx].ball) || 0) + pts;
                 await App.saveDatabase();
                 App.renderMarkazAdmin();
-                UI.toast(`${c.oquvchilar[idx].ism}ga +${pts} Coin qo'shildi!`);
+                UI.toast(`+${pts} Coin qo'shildi!`);
             },
 
             togglePayment: async (idx) => {
@@ -2710,7 +2766,7 @@
 
                 if (targetChatId) {
                     const tgMsg = status === 'keldi'
-                        ? `<b>DAVOMAT: DARSGA QATNASHDI</b>\n\nO'quvchi: <b>${s.ism}</b>\nMarkaz: ${c.nomi}\nFan: ${s.fan}\nVaqt: ${sana} (${vaqt})\nIzoh: ${customNote}\nBalans: ${s.ball} Coin`
+                        ? `<b>DAVOMAT: DARSGA QATNASHDI</b>\n\nO'quvchi: <b>${s.ism}</b> (ID: <code>${s.botId}</code>)\nMarkaz: ${c.nomi}\nFan: ${s.fan}\nVaqt: ${sana} (${vaqt})\nIzoh: ${customNote}\nBalans: ${s.ball} Coin`
                         : status === 'kechikdi'
                             ? `<b>DAVOMAT: DARSGA KECHIKDI</b>\n\nO'quvchi: <b>${s.ism}</b>\nMarkaz: ${c.nomi}\nFan: ${s.fan}\nVaqt: ${sana} (${vaqt})\nIzoh: ${customNote}`
                             : status === 'sababli'
@@ -2785,12 +2841,13 @@
                 const c = App.activeCenter;
                 if (!c) return;
                 const rows = [
-                    ["O'quvchi F.I.SH", "Login", "Guruh / Fan", "Bugungi Holat", "Davomat Foizi (%)", "Everest Coin", "Izoh", "Sana"]
+                    ["O'quvchi F.I.SH", "Login", "Bot ID", "Guruh / Fan", "Bugungi Holat", "Davomat Foizi (%)", "Everest Coin", "Izoh", "Sana"]
                 ];
                 c.oquvchilar.forEach(o => {
                     rows.push([
                         `"${o.ism}"`,
                         `"${o.login}"`,
+                        `"${o.botId}"`,
                         `"${o.fan}"`,
                         `"${o.davomat.toUpperCase()}"`,
                         `"${App.calcAttendancePercent(o)}%"`,
@@ -2824,7 +2881,7 @@
                     const lastMock = Utils.toArray(o.mockBallar).slice(-1)[0]?.foiz || 80;
                     return `
                         <tr>
-                            <td class="p-3 font-bold">${o.ism} <span class="text-[10px] font-mono text-zinc-400">(${o.login})</span></td>
+                            <td class="p-3 font-bold">${o.ism} <span class="text-[10px] font-mono text-sky-500">(ID: ${o.botId})</span></td>
                             <td class="p-3">${o.fan} • <b class="text-amber-500 font-mono">${o.ball} Coin</b></td>
                             <td class="p-3"><button type="button" onclick="App.addMockScore(${i})" class="px-2 py-1 rounded surface-muted text-[10px] font-mono font-bold text-cyan-500">${lastMock}% (+)</button></td>
                             <td class="p-3"><input type="text" id="tch-note-${i}" value="${o.izoh || ''}" class="input-ui !py-1 !px-2 !text-xs max-w-[140px]"></td>
@@ -2848,9 +2905,13 @@
                 $('parent-mode-banner')?.classList.toggle('hidden', !App.state.isParent);
                 if ($('student-avatar')) $('student-avatar').src = o.rasm;
                 safeSetTxt('student-name', o.ism);
+                safeSetTxt('student-bot-id-badge', `Bot ID: ${o.botId}`);
                 safeSetTxt('student-meta', `${c.nomi} • ${o.fan} (Login: ${o.login})`);
+                safeSetTxt('student-tg-status', o.chatId ? `Telegram holati: Ulangan (ID: ${o.chatId})` : `Telegram holati: Ulanmagan — "1-Bosishda Botga Ulash" tugmasini bosing`);
                 safeSetTxt('student-score', `${o.ball || 0} Coin`);
-                if ($('student-bot-link')) $('student-bot-link').href = `https://t.me/${ENV.BOT_USER}?start=${encodeURIComponent(o.login)}`;
+
+                // Direct Deep-Link using 5-digit Bot ID!
+                if ($('student-bot-link')) $('student-bot-link').href = `https://t.me/${ENV.BOT_USER}?start=${encodeURIComponent(o.botId)}`;
 
                 const pct = App.calcAttendancePercent(o);
                 safeSetTxt('student-att-percent', pct + '%');
@@ -2954,11 +3015,11 @@
                 if (targetId) {
                     o.chatId = targetId;
                     await App.saveDatabase();
-                    await Utils.sendTelegram(targetId, `<b>SHAXSIY DAVOMAT HISOBOTI</b>\n\nO'quvchi: <b>${o.ism}</b>\nFan: ${o.fan}\nDavomat foizi: ${App.calcAttendancePercent(o)}%\nOxirgi holat: ${o.davomat.toUpperCase()} (${o.izoh})\nBall: ${o.ball} Coin`);
+                    await Utils.sendTelegram(targetId, `<b>SHAXSIY DAVOMAT HISOBOTI</b>\n\nO'quvchi: <b>${o.ism}</b> (Bot ID: <code>${o.botId}</code>)\nFan: ${o.fan}\nDavomat foizi: ${App.calcAttendancePercent(o)}%\nOxirgi holat: ${o.davomat.toUpperCase()} (${o.izoh})\nBall: ${o.ball} Coin`);
                     return UI.toast("Telegramingizga jonli davomat hisoboti yuborildi!");
                 }
-                window.open(`https://t.me/${ENV.BOT_USER}?start=${encodeURIComponent(o.login)}`, '_blank');
-                UI.toast("@everest_crmbot ochildi! Botda START tugmasini bosing.");
+                window.open(`https://t.me/${ENV.BOT_USER}?start=${encodeURIComponent(o.botId)}`, '_blank');
+                UI.toast(`@everest_crmbot ochildi! Botda START tugmasini bosing (Bot ID: ${o.botId}).`);
             },
 
             /* ================= ADD USERS & MARKETPLACE ================= */
@@ -2975,8 +3036,10 @@
                 if (App.isLoginTaken(login)) return UI.toast("Bu login band!", "error");
 
                 const rasm = await Utils.toBase64($('mas-photo')?.files[0], ism);
+                const botId = App.generateUniqueBotId();
+
                 c.oquvchilar.unshift(App.normalizeStudent({
-                    ism, fan, tg: rawTg, rasm,
+                    ism, fan, tg: rawTg, rasm, botId,
                     chatId: /^-?\d+$/.test(rawTg) ? rawTg : null,
                     login, parol, ball: 25, davomat: 'keldi', izoh: 'Vaqtida keldi (+5 Coin)',
                     tarix: [{ sana: Utils.today(), vaqt: Utils.timeNow(), fan, holat: 'keldi', izoh: "Markazga qabul qilindi", kim: c.nomi }]
@@ -2990,7 +3053,7 @@
                 safeSetVal('mas-pass', '');
                 UI.closeModal('modal-add-student');
                 App.renderMarkazAdmin();
-                UI.toast(`"${ism}" (${login}) markazingizga qo'shildi!`);
+                UI.toast(`"${ism}" qo'shildi! Login: ${login} | Maxsus Bot ID: ${botId}`);
             },
 
             adminAddTeacher: async () => {
@@ -3034,10 +3097,11 @@
                 if (App.isLoginTaken(login)) return UI.toast("Bu login band!", "error");
                 const rasm = await Utils.toBase64($('reg-user-photo')?.files[0], ism);
                 const tgU = Utils.getTelegramUser();
+                const botId = App.generateUniqueBotId();
 
                 if (App.state.regRole === 'oquvchi') {
                     center.oquvchilar.unshift(App.normalizeStudent({
-                        ism, fan, tel, tg: rawTg, rasm,
+                        ism, fan, tel, tg: rawTg, rasm, botId,
                         chatId: tgU?.id || null,
                         login, parol, ball: 25, davomat: 'keldi', izoh: "Ro'yxatdan o'tdi",
                         tarix: [{ sana: Utils.today(), vaqt: Utils.timeNow(), fan, holat: 'keldi', izoh: "Ro'yxatdan o'tdi", kim: center.nomi }]
@@ -3046,7 +3110,7 @@
                     center.ustozlar.unshift({ ism, fan, tel, login, parol, rasm });
                 }
                 await App.saveDatabase();
-                UI.toast(`"${center.nomi}" markazidan ro'yxatdan o'tdingiz!`);
+                UI.toast(`Ro'yxatdan o'tdingiz! Sizning Bot ID: ${botId}`);
                 await App.authenticateUser(login, parol, false);
             },
 
@@ -3212,6 +3276,7 @@
                 UI.toast("Ariza markazning Kanban doskasiga tushdi!");
             },
 
+            /* ================= SYNC TELEGRAM BOT ID & LOGIN ================= */
             syncTelegramUpdates: async (notify = false) => {
                 let changed = false;
                 try {
@@ -3233,7 +3298,7 @@
                     }
 
                     if (json && json.ok && Array.isArray(json.result)) {
-                        const uMap = {}, startMap = {};
+                        const uMap = {}, tokenMap = {};
                         json.result.forEach(u => {
                             const m = u.message || u.edited_message;
                             const from = m?.from;
@@ -3242,11 +3307,15 @@
                                 App.db.settings = App.db.settings || {};
                                 App.db.settings.lastActiveTgId = cid;
                                 if (from?.username) uMap[from.username.toLowerCase()] = cid;
-                                const text = String(m?.text || '').trim();
-                                if (text.toLowerCase().startsWith('/start ')) {
-                                    startMap[text.substring(7).trim().toLowerCase()] = cid;
+                                const text = String(m?.text || '').trim().toLowerCase();
+                                if (text.startsWith('/start ')) {
+                                    const param = text.substring(7).trim();
+                                    tokenMap[param] = cid;
                                 } else if (text && !text.startsWith('/')) {
-                                    startMap[text.toLowerCase()] = cid;
+                                    // Match login, 5-digit botId, or "login botId"
+                                    text.split(/\s+/).forEach(part => {
+                                        if (part) tokenMap[part] = cid;
+                                    });
                                 }
                             }
                         });
@@ -3256,8 +3325,10 @@
                             if (ck && uMap[ck] && c.chatId !== uMap[ck]) { c.chatId = uMap[ck]; changed = true; }
                             c.oquvchilar.forEach(o => {
                                 const lk = o.login.toLowerCase();
+                                const bid = String(o.botId || '').toLowerCase();
                                 const ok = String(o.tg || '').replace('@', '').trim().toLowerCase();
-                                if (startMap[lk] && o.chatId !== startMap[lk]) { o.chatId = startMap[lk]; changed = true; }
+                                if (bid && tokenMap[bid] && o.chatId !== tokenMap[bid]) { o.chatId = tokenMap[bid]; changed = true; }
+                                else if (tokenMap[lk] && o.chatId !== tokenMap[lk]) { o.chatId = tokenMap[lk]; changed = true; }
                                 else if (ok && uMap[ok] && o.chatId !== uMap[ok]) { o.chatId = uMap[ok]; changed = true; }
                             });
                         });

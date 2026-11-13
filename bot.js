@@ -2,11 +2,10 @@ const https = require('https');
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || "8952625874:AAGdtnmNZ_CIB7jvNEAuHggdmAcMsTL5cUc";
 const DB_URL = "https://everestcrm-5b705-default-rtdb.firebaseio.com/everest_saas_prod.json";
-const WEB_APP_URL = "https://turopovttb-art.github.io/";
+const WEB_APP_URL = "https://turopovttb-art.github.io/everest-crm/";
 
 let lastUpdateId = 0;
 let isPolling = false;
-// Har bir foydalanuvchining joriy kirish bosqichini saqlash: { [chatId]: { step: 'await_bot_id', login: '...' } }
 const authSessions = {};
 
 function apiRequest(urlStr, method = 'GET', payload = null) {
@@ -49,6 +48,8 @@ async function getDB() {
 }
 
 async function saveDB(db) {
+    db.settings = db.settings || {};
+    db.settings.botActiveAt = Date.now();
     return await apiRequest(DB_URL, 'PUT', db);
 }
 
@@ -57,6 +58,12 @@ function toArray(val) {
     if (Array.isArray(val)) return val.filter(Boolean);
     if (typeof val === 'object') return Object.values(val).filter(Boolean);
     return [];
+}
+
+function getStudentBotId(s) {
+    if (s.botId) return String(s.botId).trim();
+    const login = String(s.login || '').trim();
+    return String(10000 + (login.split('').reduce((a, b) => a + b.charCodeAt(0), 0) * 137) % 89999);
 }
 
 function calcAttendancePercent(student) {
@@ -71,8 +78,12 @@ function findStudent(db, query) {
     if (!q) return null;
     for (const c of toArray(db.centers)) {
         for (const s of toArray(c.oquvchilar)) {
-            if (String(s.botId || '').trim().toLowerCase() === q) return { center: c, student: s };
-            if (String(s.login || '').trim().toLowerCase() === q) return { center: c, student: s };
+            const bid = getStudentBotId(s).toLowerCase();
+            const login = String(s.login || '').trim().toLowerCase();
+            if (bid === q || login === q) {
+                s.botId = getStudentBotId(s);
+                return { center: c, student: s };
+            }
         }
     }
     return null;
@@ -81,7 +92,10 @@ function findStudent(db, query) {
 function findStudentByChat(db, chatId) {
     for (const c of toArray(db.centers)) {
         for (const s of toArray(c.oquvchilar)) {
-            if (String(s.chatId || '') === String(chatId)) return { center: c, student: s };
+            if (String(s.chatId || '') === String(chatId)) {
+                s.botId = getStudentBotId(s);
+                return { center: c, student: s };
+            }
         }
     }
     return null;
@@ -101,6 +115,7 @@ function getMainKeyboard() {
 async function completeStudentLogin(db, chatId, username, match) {
     delete authSessions[chatId];
     match.student.chatId = chatId;
+    match.student.botId = getStudentBotId(match.student);
     if (username) match.student.tg = '@' + username;
     await saveDB(db);
 
@@ -123,7 +138,7 @@ async function handleMessage(msg) {
     db.settings = db.settings || {};
     db.settings.lastActiveTgId = chatId;
 
-    // 1. /start komandasi (Saytdan 1-bosishda Deep-Link orqali kelganda)
+    // 1. /start komandasi
     if (text.toLowerCase().startsWith('/start')) {
         const parts = text.split(' ');
         const startParam = parts[1] ? parts[1].trim() : '';
@@ -152,24 +167,24 @@ async function handleMessage(msg) {
         await tgCall('sendMessage', {
             chat_id: chatId,
             parse_mode: 'HTML',
-            text: `<b>👋 Assalomu alaykum! Everest OS Smart Davomat botiga xush kelibsiz.</b>\n\nHisobingizni ulash uchun markaz tomonidan berilgan <b>Login</b> yoki <b>5 xonali Bot ID</b> raqamingizni kiriting:`
+            text: `<b>👋 Assalomu alaykum! Everest OS Smart Davomat botiga xush kelibsiz.</b>\n\nHisobingizni ulash uchun markaz tomonidan berilgan <b>5 xonali Bot ID</b> raqamingizni yoki <b>Loginingizni</b> kiriting:`
         });
         await saveDB(db);
         return;
     }
 
-    // 2. Boshqa hisob ulash tugmasi
+    // 2. Boshqa hisob ulash
     if (text === "🔄 Boshqa hisob ulash") {
         authSessions[chatId] = { step: 'await_login' };
         await tgCall('sendMessage', {
             chat_id: chatId,
             parse_mode: 'HTML',
-            text: `🔐 Yangi o'quvchi <b>Loginini</b> yoki <b>5 xonali Bot ID</b> raqamini kiriting:`
+            text: `🔐 Yangi o'quvchi <b>5 xonali Bot ID</b> raqamini yoki <b>Loginini</b> kiriting:`
         });
         return;
     }
 
-    // 3. Menyudagi tugmalar (ulangan foydalanuvchi uchun)
+    // 3. Menyudagi tugmalar
     const linked = findStudentByChat(db, chatId);
     if (linked && !authSessions[chatId]) {
         if (text === "📊 Davomatim") {
@@ -227,37 +242,25 @@ async function handleMessage(msg) {
         }
     }
 
-    // 4. Bosqichma-bosqich Login + 5 xonali Bot ID orqali kirish
+    // 4. Bot ID yoki Login orqali kirish
     const session = authSessions[chatId];
-
-    // Agar foydalanuvchi 2-bosqichda (Bot ID kiritish bosqichida) bo'lsa
     if (session && session.step === 'await_bot_id') {
         const match = findStudent(db, session.login);
-        if (match && String(match.student.botId).trim() === text.trim()) {
+        if (match && getStudentBotId(match.student) === text.trim()) {
             await completeStudentLogin(db, chatId, username, match);
             return;
         } else {
+            delete authSessions[chatId];
             await tgCall('sendMessage', {
                 chat_id: chatId,
                 parse_mode: 'HTML',
-                text: `❌ <b>Bot ID noto'g'ri kiritildi!</b>\n\nIltimos, <b>${session.login}</b> hisobi uchun markaz bergan 5 xonali <b>Bot ID</b> raqamini qayta kiriting (yoki yangi login yozing):`
+                text: `❌ <b>Bot ID noto'g'ri kiritildi!</b>\n\nIltimos, markaz bergan <b>5 xonali Bot ID</b> raqamingizni qayta yozing:`
             });
-            delete authSessions[chatId];
             return;
         }
     }
 
-    // Agar foydalanuvchi "login 48291" ko'rinishida ikkalasini birdan yozsa yoki to'g'ridan-to'g'ri 5 xonali Bot ID yozsa
-    const parts = text.split(/\s+/);
-    if (parts.length === 2) {
-        const match = findStudent(db, parts[0]);
-        if (match && String(match.student.botId).trim() === parts[1].trim()) {
-            await completeStudentLogin(db, chatId, username, match);
-            return;
-        }
-    }
-
-    // To'g'ridan-to'g'ri 5 xonali Bot ID yozilgan bo'lsa
+    // To'g'ridan-to'g'ri 5 xonali Bot ID yozilgan bo'lsa — darhol ulaydi
     if (/^\d{5}$/.test(text.trim())) {
         const matchById = findStudent(db, text.trim());
         if (matchById) {
@@ -266,23 +269,22 @@ async function handleMessage(msg) {
         }
     }
 
-    // Agar foydalanuvchi Login yozgan bo'lsa — uni topib 5 xonali Bot ID so'raymiz!
+    // Login yozilgan bo'lsa — 5 xonali Bot ID so'raydi
     const matchByLogin = findStudent(db, text.trim());
     if (matchByLogin) {
         authSessions[chatId] = { step: 'await_bot_id', login: matchByLogin.student.login };
         await tgCall('sendMessage', {
             chat_id: chatId,
             parse_mode: 'HTML',
-            text: `✅ O'quvchi topildi: <b>${matchByLogin.student.ism}</b> (${matchByLogin.center.nomi})\n\n🔐 Hisobni tasdiqlash uchun <b>5 xonali Maxsus Bot ID</b> raqamingizni kiriting:`
+            text: `✅ O'quvchi topildi: <b>${matchByLogin.student.ism}</b> (${matchByLogin.center.nomi})\n\n🔐 Tasdiqlash uchun <b>5 xonali Maxsus Bot ID</b> raqamingizni kiriting:`
         });
         return;
     }
 
-    // Topilmasa
     await tgCall('sendMessage', {
         chat_id: chatId,
         parse_mode: 'HTML',
-        text: `⚠️ <b>"${text}"</b> bo'yicha o'quvchi topilmadi.\n\nMarkaz admini bergan <b>Login</b> yoki <b>5 xonali Bot ID</b> raqamini kiriting.`
+        text: `⚠️ <b>"${text}"</b> bo'yicha o'quvchi topilmadi.\n\nMarkaz admini bergan <b>5 xonali Bot ID</b> raqamingizni yoki <b>Loginingizni</b> kiriting:`
     });
 }
 
@@ -302,7 +304,7 @@ async function pollUpdates() {
         }
     } catch (e) {} finally {
         isPolling = false;
-        setTimeout(pollUpdates, 1500);
+        setTimeout(pollUpdates, 1200);
     }
 }
 
